@@ -28,9 +28,11 @@ func _init(x_pos, y_pos, path_type):
 	
 func move_to_pos(x_pos, y_pos):
 	translation = Vector3(x_pos*2, 0, y_pos*2)
+	self.x = x_pos
+	self.y = y_pos
 
-func get_type(type):
-	match type:
+func get_type(path_type):
+	match path_type:
 		"cross_n_e_s_w":
 			return cross_n_e_s_w
 		"straight_n_s":
