@@ -1,14 +1,13 @@
 extends Node
 
-var start = Vector2(0,0)
 var current_path = []
 var paths_arr = []
 var visited_tiles = {}
 var junction_arr = []
 
 
-func find_all_paths(grid):
-	var current_tile = start
+func find_all_paths(start_pos, grid):
+	var current_tile = start_pos
 	
 	for row in grid:
 		for tile in row:
@@ -38,15 +37,15 @@ func find_all_paths(grid):
 		elif neighbour_arr.size() > 1:
 			junction_arr.append(current_tile)
 			current_tile = neighbour_arr[0]
-	var amount_of_paths = 0
-	for key in visited_tiles.keys():
-		if visited_tiles[key]:
-			print(key)
-			amount_of_paths += 1
-	print(amount_of_paths)
-	for path in paths_arr:
-		print(path)
-	return paths_arr[0]
+#	var amount_of_paths = 0
+#	for key in visited_tiles.keys():
+#		if visited_tiles[key]:
+#			print(key)
+#			amount_of_paths += 1
+#	print(amount_of_paths)
+#	for path in paths_arr:
+#		print(path)
+	return paths_arr
 		
 func find_all_neighbours(x, y, grid):
 	var valid_neighbour_arr = []

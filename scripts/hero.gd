@@ -18,8 +18,8 @@ func _physics_process(delta):
 	
 	if hero_move:
 		self.translation = lerp(self.translation, new_pos, 0.03)
-		if self.translation.x > new_pos.x-0.1 && self.translation.x <= new_pos.x && \
-		   self.translation.z > new_pos.z-0.1 && self.translation.z <= new_pos.z:
+		if self.translation.x > new_pos.x-0.1 && self.translation.x < new_pos.x + 0.1 && \
+		   self.translation.z > new_pos.z-0.1 && self.translation.z < new_pos.z + 0.1:
 			if remaining_path:
 				move_to_pos(remaining_path)
 			else:

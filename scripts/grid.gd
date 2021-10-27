@@ -9,6 +9,11 @@ var static_pos_arr = [[-1, 6], [-1, 5], [-1, 4], [-1, 3], [-1, 2], [-1, 1], [-1,
 var indicator_index = 0
 var indicator_tile
 
+var treasure_amount = 4
+
+# TEMP
+var treasure_scene = preload("res://scenes/treasure.tscn")
+
 func _ready():
 	type_arr = ["cross_n_e_s_w", "straight_n_s", "straight_e_w", "corner_n_w", "corner_n_e", "corner_s_w", "corner_s_e", "t_n_e_s", "t_n_e_w", "t_n_w_s", "t_s_e_w"]
 	initialize_grid()
@@ -25,9 +30,9 @@ func _ready():
 	var indicator_pos = static_pos_arr[indicator_index]
 	indicator_tile = Tile.new(indicator_pos[0], indicator_pos[1], null)
 	add_child(indicator_tile)
-	
-	var path = Pathfinder.find_all_paths(grid)
-	$hero.move_to_pos(path)
+		
+	var paths = Pathfinder.find_all_paths(Vector2(0,0), grid)
+	$hero.move_to_pos(paths[2])
 
 func initialize_grid():
 	for y in range(GRID_HEIGHT):
