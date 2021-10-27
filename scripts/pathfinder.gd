@@ -1,9 +1,11 @@
 extends Node
 
 var start = Vector2(0,0)
+var current_path = []
 var paths_arr = []
 var visited_tiles = {}
 var junction_arr = []
+
 
 func find_all_paths(grid):
 	var current_tile = start
@@ -16,14 +18,20 @@ func find_all_paths(grid):
 		# If current tile is null, revisit a junction
 		if current_tile == null:
 			current_tile = junction_arr.pop_back()
+			var junction_index = current_path.find(current_tile)
+			for i in range(junction_index+1, current_path.size()):
+				current_path.remove(junction_index+1)
+		else:
+			current_path.append(current_tile)
 		
 		# Mark current path as visited
 		visited_tiles[current_tile] = true
 		
 		# Find all tiles we can move towards
 		var neighbour_arr = find_all_neighbours(current_tile.x, current_tile.y, grid)
+		# Save current path
 		if neighbour_arr.size() == 0:
-			# either stop or move on to open junctions
+			paths_arr.append(current_path.duplicate())
 			current_tile = null
 		elif neighbour_arr.size() == 1:
 			current_tile = neighbour_arr[0]
@@ -36,6 +44,8 @@ func find_all_paths(grid):
 			print(key)
 			amount_of_paths += 1
 	print(amount_of_paths)
+	for path in paths_arr:
+		print(path)
 		
 func find_all_neighbours(x, y, grid):
 	var valid_neighbour_arr = []

@@ -15,7 +15,6 @@ func _ready():
 	
 	for y in range(GRID_HEIGHT):
 		for x in range(GRID_WIDTH):
-			#randomize()
 			type_arr.shuffle()
 			var tile = Tile.new(x,y, type_arr[0])
 			add_child(tile)
