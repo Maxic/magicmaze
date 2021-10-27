@@ -19,7 +19,7 @@ func move_to_pos(x_pos, y_pos):
 func set_goal(x_pos, y_pos):
 	var goal_x = x_pos
 	
-func set_intention()
-	
-	var goal_y = y_pos
+func set_intention():
+	pass
+	#var goal_y = y_pos
 

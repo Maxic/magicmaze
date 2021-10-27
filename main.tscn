@@ -14,7 +14,7 @@ environment = SubResource( 1 )
 [node name="Camera" type="Camera" parent="."]
 transform = Transform( 0.707107, -0.5, 0.5, 0, 0.707107, 0.707107, -0.707107, -0.5, 0.5, 13.4197, 10.4736, 14.2925 )
 projection = 1
-size = 15.0
+size = 18.0
 
 [node name="DirectionalLight" type="DirectionalLight" parent="."]
 transform = Transform( -0.767109, 0, -0.641517, -0.30703, 0.878033, 0.367138, 0.563273, 0.4786, -0.673547, -0.0756321, 3.41526, 0 )
