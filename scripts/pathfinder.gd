@@ -46,6 +46,7 @@ func find_all_paths(grid):
 	print(amount_of_paths)
 	for path in paths_arr:
 		print(path)
+	return paths_arr[0]
 		
 func find_all_neighbours(x, y, grid):
 	var valid_neighbour_arr = []

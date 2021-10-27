@@ -26,8 +26,8 @@ func _ready():
 	indicator_tile = Tile.new(indicator_pos[0], indicator_pos[1], null)
 	add_child(indicator_tile)
 	
-	Pathfinder.find_all_paths(grid)
-	
+	var path = Pathfinder.find_all_paths(grid)
+	$hero.move_to_pos(path)
 
 func initialize_grid():
 	for y in range(GRID_HEIGHT):

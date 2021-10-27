@@ -99,3 +99,8 @@ func get_type(path_type):
 			return t_s_e_w
 		_:
 			return def_block
+
+func highlight_tile():
+	var defblock_inst = def_block.instance()
+	defblock_inst.translation.y += 1
+	add_child(defblock_inst)
