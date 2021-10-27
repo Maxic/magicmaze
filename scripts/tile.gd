@@ -16,14 +16,22 @@ var t_n_e_s = preload("res://scenes/t_n_e_s.tscn")
 var t_n_e_w = preload("res://scenes/t_n_e_w.tscn")
 var t_n_w_s = preload("res://scenes/t_n_w_s.tscn")
 var t_s_e_w = preload("res://scenes/t_s_w_e.tscn")
+var def_block = preload("res://scenes/default_cube.tscn")
 
 func _init(x_pos, y_pos, path_type):
 	self.x = x_pos
 	self.y = y_pos
 	self.type = get_type(path_type)
+	self.scale = Vector3(.97,.97,.97)
 	
+	# Add to correct group
+	add_to_group("tiles")
+	
+	# Move to correct position
 	move_to_pos(x, y)
 	var mesh = self.type.instance()
+	
+	# Initialize self in world
 	add_child(mesh)
 	
 func move_to_pos(x_pos, y_pos):
@@ -55,3 +63,5 @@ func get_type(path_type):
 			return t_n_w_s
 		"t_s_e_w":
 			return t_s_e_w
+		_:
+			return def_block
