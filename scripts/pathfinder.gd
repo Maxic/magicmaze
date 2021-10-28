@@ -37,14 +37,6 @@ func find_all_paths(start_pos, grid):
 		elif neighbour_arr.size() > 1:
 			junction_arr.append(current_tile)
 			current_tile = neighbour_arr[0]
-#	var amount_of_paths = 0
-#	for key in visited_tiles.keys():
-#		if visited_tiles[key]:
-#			print(key)
-#			amount_of_paths += 1
-#	print(amount_of_paths)
-#	for path in paths_arr:
-#		print(path)
 	return paths_arr
 		
 func find_all_neighbours(x, y, grid):
