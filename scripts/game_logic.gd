@@ -54,8 +54,8 @@ func _physics_process(delta):
 					hero.current_phase = hero.phase.MOVING
 				elif i == 0:
 					hero.current_phase = hero.phase.MOVING
-				
-		
+			if hero.current_phase == hero.phase.DONE && i == hero_array.size()-1:
+				end_enemy_action_phase = true
 		if end_enemy_action_phase:
 			current_phase = phase.ENEMY_INTENTION
 			return
