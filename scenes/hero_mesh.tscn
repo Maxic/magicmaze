@@ -1,8 +1,0 @@
-[gd_scene load_steps=2 format=2]
-
-[ext_resource path="res://assets/models/hero/hero.tres" type="CylinderMesh" id=1]
-
-[node name="hero_mesh" type="MeshInstance"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.3, 1, 0.3 )
-mesh = ExtResource( 1 )
-material/0 = null

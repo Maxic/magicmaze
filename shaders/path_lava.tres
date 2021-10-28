@@ -1,0 +1,77 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=2]
+
+[sub_resource type="Shader" id=1]
+code = "shader_type spatial;
+// Gonkee's lava shader for Godot 3 - full tutorial https://youtu.be/Iv7QlvPaBWo
+// If you use this shader, I would prefer it if you gave credit to me and my channel
+
+uniform int OCTAVES = 4;
+
+uniform vec4 red : hint_color;
+uniform vec4 yellow : hint_color;
+uniform vec4 grey : hint_color;
+uniform vec4 black : hint_color;
+
+float rand(vec2 coord){
+	return fract(sin(dot(coord, vec2(56.0934483, 78.3674596)) * 1000.0) * 1000.0);
+}
+
+float noise(vec2 coord){
+	vec2 i = floor(coord);
+	vec2 f = fract(coord);
+
+	// 4 corners of a rectangle surrounding our point
+	float a = rand(i);
+	float b = rand(i + vec2(1.0, 0.0));
+	float c = rand(i + vec2(0.0, 1.0));
+	float d = rand(i + vec2(1.0, 1.0));
+
+	vec2 cubic = f * f * (3.0 - 2.0 * f);
+
+	return mix(a, b, cubic.x) + (c - a) * cubic.y * (1.0 - cubic.x) + (d - b) * cubic.x * cubic.y;
+}
+
+float fbm(vec2 coord){
+	float value = 0.0;
+	float scale = 0.5;
+
+	for(int i = 0; i < OCTAVES; i++){
+		value += noise(coord) * scale;
+		coord *= 2.0;
+		scale *= 0.5;
+	}
+	return value;
+}
+
+void fragment() {
+	vec2 coord = UV * 5.0;
+	
+	float noise1 = fbm(coord + vec2(TIME * -0.5, TIME * 0.5));
+	float noise2 = fbm(coord + vec2(0, TIME * -0.5));
+	
+	float combined = noise1 * noise2;
+	
+	vec3 red_albedo = vec3(red.r,red.g,red.b);
+	vec3 yellow_albedo = vec3(yellow.r,yellow.g,yellow.b);
+	vec3 grey_albedo = vec3(grey.r,grey.g,grey.b);
+	vec3 black_albedo = vec3(black.r,black.g,black.b);
+	
+	if (combined > 0.05)
+	{
+		ALBEDO = mix(red_albedo, yellow_albedo, combined);	
+	} else {
+		ALBEDO = mix(grey_albedo, black_albedo, combined);
+	}
+	
+	if (UV.y > 0.6) {
+		ALBEDO = COLOR.rgb;
+	}
+}"
+
+[resource]
+shader = SubResource( 1 )
+shader_param/OCTAVES = 4
+shader_param/red = Color( 1, 0, 0, 1 )
+shader_param/yellow = Color( 1, 0.866667, 0.368627, 1 )
+shader_param/grey = Color( 0.760784, 0, 0, 1 )
+shader_param/black = Color( 0.67451, 0, 0.862745, 1 )

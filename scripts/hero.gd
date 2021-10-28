@@ -11,7 +11,7 @@ var hero_move = false
 var current_pos
 var new_pos
 
-var hero_mesh = preload("res://scenes/hero_mesh.tscn")
+var hero_sprite = preload("res://scenes/hero_sprite.tscn")
 
 func _init(x_pos, y_pos):
 	self.x = x_pos
@@ -23,10 +23,10 @@ func _init(x_pos, y_pos):
 	
 	# Move to correct position
 	move_to_pos(x, y)
-	var mesh = hero_mesh.instance()
+	var sprite = hero_sprite.instance()
 	
 	# Initialize self in world
-	add_child(mesh)
+	add_child(sprite)
 
 func _physics_process(delta):
 	if hero_move:
