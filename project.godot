@@ -33,6 +33,7 @@ config/icon="res://icon.png"
 [autoload]
 
 Pathfinder="*res://scripts/pathfinder.gd"
+GameLogic="*res://scripts/game_logic.gd"
 
 [physics]
 

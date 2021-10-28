@@ -14,12 +14,13 @@ var treasure_amount = 4
 # TEMP
 var treasure_scene = preload("res://scenes/treasure.tscn")
 
-func _ready():
+func create_grid():
 	type_arr = ["cross_n_e_s_w", "straight_n_s", "straight_e_w", "corner_n_w", "corner_n_e", "corner_s_w", "corner_s_e", "t_n_e_s", "t_n_e_w", "t_n_w_s", "t_s_e_w"]
 	initialize_grid()
 	
 	for y in range(GRID_HEIGHT):
 		for x in range(GRID_WIDTH):
+			randomize()
 			type_arr.shuffle()
 			var tile = Tile.new(x,y, type_arr[0])
 			add_child(tile)
@@ -30,9 +31,10 @@ func _ready():
 	var indicator_pos = static_pos_arr[indicator_index]
 	indicator_tile = Tile.new(indicator_pos[0], indicator_pos[1], null)
 	add_child(indicator_tile)
-		
-	var paths = Pathfinder.find_all_paths(Vector2(0,0), grid)
-	$hero.move_to_pos(paths[2])
+	
+	return grid
+#	var paths = Pathfinder.find_all_paths(Vector2(0,0), grid)
+#	$hero.move_to_pos(paths[2])
 
 func initialize_grid():
 	for y in range(GRID_HEIGHT):
