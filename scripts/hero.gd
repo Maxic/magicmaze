@@ -53,16 +53,40 @@ func move_along_path(path_arr):
 		if self.translation.x > new_pos.x-0.1 && self.translation.x < new_pos.x + 0.1 && \
 		self.translation.z > new_pos.z-0.1 && self.translation.z < new_pos.z + 0.1:
 			remaining_path.pop_front()
-		
+	
 func pick_best_path(paths):
-	var treasures = GameLogic.treasure_array
+	var best_path = find_best_treasure_path(paths)
+	
+	self.remaining_path = best_path
+		
+func find_all_treasure_paths(paths):
+	var treasure_paths = []
+	var treasure_pos_arr = []
+	for treasure in GameLogic.treasure_array:
+		treasure_pos_arr.append(treasure.vec_pos)
 	for path in paths:
 		for pos in path:
-			if treasures.has(pos):
-				var best_path = path
-			else:
-				var best_path = paths[0]
-	self.remaining_path = best_path
+			var obtainable_treasure_index = treasure_pos_arr.find(pos)
+			if obtainable_treasure_index >= 0:
+				var end_path_index = path.find(treasure_pos_arr[obtainable_treasure_index])
+				for i in range(end_path_index+1, path.size()):
+					path.remove(end_path_index+1)
+				treasure_paths.append(path)
+	return treasure_paths
+
+	
+func find_best_treasure_path(paths):
+	var treasure_paths = find_all_treasure_paths(paths)
+	var shortest_path_size = Grid.GRID_DIMENSION * Grid.GRID_DIMENSION
+	if treasure_paths:
+		for path in treasure_paths:
+			if path.size() < shortest_path_size:
+				best_path = path	
+				shortest_path_size = path.size()
+		return best_path
+	else:
+		return paths[0]
+		
 				
 			
 	

@@ -17,7 +17,7 @@ onready var main = get_node("/root/main")
 func _ready():
 	Grid.create_grid()
 	for i in hero_amount:
-		i = Hero.new(i+3,0)
+		i = Hero.new(randi() % 7,randi() % 7 )
 		hero_array.append(i)
 		main.add_child(i)
 	
@@ -39,7 +39,7 @@ func _physics_process(delta):
 		if end_player_phase:
 			# setup next phase
 			for hero in hero_array:
-				var paths = Pathfinder.find_all_paths(hero.vec_pos, Grid.grid).duplicate()
+				var paths = Pathfinder.find_all_paths(hero.vec_pos, Grid.grid)
 				hero.pick_best_path(paths)
 				hero.current_phase = hero.phase.WAITING
 			
