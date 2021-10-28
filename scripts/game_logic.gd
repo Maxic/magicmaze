@@ -7,7 +7,9 @@ var current_phase
 var end_player_phase = false
 var end_enemy_action_phase = false
 var hero_amount = 3
+var treasure_amount = 5
 var hero_array = []
+var treasure_array = []
 
 # Nodes
 onready var main = get_node("/root/main")
@@ -17,6 +19,11 @@ func _ready():
 	for i in hero_amount:
 		i = Hero.new(i+3,0)
 		hero_array.append(i)
+		main.add_child(i)
+	
+	for i in treasure_amount:
+		i = Treasure.new(randi() % 7,randi() % 7 )
+		treasure_array.append(i)
 		main.add_child(i)
 	
 	current_phase = phase.ENEMY_INTENTION
@@ -33,7 +40,7 @@ func _physics_process(delta):
 			# setup next phase
 			for hero in hero_array:
 				var paths = Pathfinder.find_all_paths(hero.vec_pos, Grid.grid).duplicate()
-				hero.remaining_path = paths[0].duplicate()
+				hero.pick_best_path(paths)
 				hero.current_phase = hero.phase.WAITING
 			
 			end_enemy_action_phase = false	

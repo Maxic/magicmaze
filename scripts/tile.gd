@@ -9,6 +9,7 @@ var north_open = false
 var east_open = false
 var west_open = false
 var south_open = false
+var objects = []
 
 var cross_n_e_s_w = preload("res://scenes/cross_n_e_s_w.tscn")
 var straight_n_s = preload("res://scenes/straight_n_s.tscn")

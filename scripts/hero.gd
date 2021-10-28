@@ -10,6 +10,7 @@ enum phase {WAITING, MOVING, DONE}
 var current_phase
 var current_pos
 var new_pos
+var best_path
 
 var hero_sprite = preload("res://scenes/hero_sprite.tscn")
 
@@ -53,3 +54,15 @@ func move_along_path(path_arr):
 		self.translation.z > new_pos.z-0.1 && self.translation.z < new_pos.z + 0.1:
 			remaining_path.pop_front()
 		
+func pick_best_path(paths):
+	var treasures = GameLogic.treasure_array
+	for path in paths:
+		for pos in path:
+			if treasures.has(pos):
+				var best_path = path
+			else:
+				var best_path = paths[0]
+	self.remaining_path = best_path
+				
+			
+	
