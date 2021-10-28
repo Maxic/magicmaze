@@ -7,6 +7,7 @@ var junction_arr = []
 
 
 func find_all_paths(start_pos, grid):
+	reset()
 	var current_tile = start_pos
 	
 	for row in grid:
@@ -65,3 +66,9 @@ func find_all_neighbours(x, y, grid):
 			valid_neighbour_arr.append(Vector2(neighbour_tile.x, neighbour_tile.y))
 	
 	return valid_neighbour_arr
+
+func reset():
+	current_path = []
+	paths_arr = []
+	visited_tiles = {}
+	junction_arr = []
