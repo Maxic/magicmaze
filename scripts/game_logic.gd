@@ -18,17 +18,13 @@ func _ready():
 	current_phase = phase.ENEMY_INTENTION
 	
 func _physics_process(delta):
-	if Input.is_action_just_pressed("test"):
-		end_player_phase = true
-	
+
 	if current_phase == phase.ENEMY_INTENTION:
-		# do stuff
 		if true: # Skip tis for now
 			current_phase = phase.PLAYER_PHASE
 			return
 	if current_phase == phase.PLAYER_PHASE:
-		# enable movement of indicator tile.
-		if end_player_phase: # TODO: Add correct condition
+		if end_player_phase:
 			# setup next phase
 			var paths = Pathfinder.find_all_paths(hero.vec_pos, Grid.grid)
 			hero.remaining_path = paths[0]

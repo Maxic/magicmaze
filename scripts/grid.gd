@@ -60,6 +60,7 @@ func _physics_process(_delta):
 				move_row_horizontal(indicator_tile.y, indicator_tile.x == -1)
 			if indicator_tile.y == -1 || indicator_tile.y == GRID_HEIGHT:
 				move_row_vertical(indicator_tile.x, indicator_tile.y == GRID_HEIGHT)
+			GameLogic.end_player_phase = true
 		if Input.is_action_just_pressed("move_indicator_right"):
 			indicator_index += 1
 			var indicator_pos = static_pos_arr[indicator_index % (GRID_WIDTH*4)]
