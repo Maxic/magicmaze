@@ -3,7 +3,6 @@ extends Node
 enum phase {ENEMY_INTENTION, PLAYER_PHASE, ENEMY_ACTION}
 
 # state vars
-var grid
 var current_phase
 var end_player_phase = false
 
@@ -11,7 +10,7 @@ var end_player_phase = false
 onready var main = get_node("/root/main")
 
 func _ready():
-	grid = Grid.create_grid()
+	Grid.create_grid()
 	current_phase = phase.ENEMY_INTENTION
 	
 func _physics_process(delta):
@@ -26,13 +25,12 @@ func _physics_process(delta):
 	if current_phase == phase.PLAYER_PHASE:
 		# enable movement of indicator tile.
 		if end_player_phase: # TODO: Add correct condition
-			grid = Grid.grid
 			current_phase = phase.ENEMY_ACTION
 			return
 	if current_phase == phase.ENEMY_ACTION:
 		var hero = Hero.new(0,0)
 		main.add_child(hero)
-		var paths = Pathfinder.find_all_paths(hero.vec_pos, grid)
+		var paths = Pathfinder.find_all_paths(hero.vec_pos, Grid.grid)
 		hero.move_along_path(paths[0])
 		end_player_phase = false
 		current_phase = phase.PLAYER_PHASE

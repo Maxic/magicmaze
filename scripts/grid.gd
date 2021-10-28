@@ -31,7 +31,7 @@ func create_grid():
 	# Fill grid with actual tiles
 	for y in range(GRID_HEIGHT):
 		for x in range(GRID_WIDTH):
-			randomize()
+			#randomize()
 			type_arr.shuffle()
 			var tile = Tile.new(x,y, type_arr[0])
 			add_child(tile)
@@ -46,7 +46,6 @@ func create_grid():
 	type_arr.shuffle()
 	indicator_tile = Tile.new(indicator_pos.x, indicator_pos.y, type_arr[0])
 	add_child(indicator_tile)
-	return grid
 
 func initialize_grid():
 	for y in range(GRID_HEIGHT):
@@ -105,6 +104,7 @@ func update_grid():
 	for tile in get_tree().get_nodes_in_group("tiles"):
 		if tile.x < GRID_WIDTH && tile.y < GRID_HEIGHT && tile.x >= 0 && tile.y >= 0:
 			grid[tile.y][tile.x] = tile
+			
 		else:
 			indicator_tile = tile
 			indicator_index = static_pos_arr.find(Vector2(indicator_tile.x, indicator_tile.y))
