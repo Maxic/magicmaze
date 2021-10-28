@@ -52,6 +52,7 @@ func move_along_path(path_arr):
 		self.translation = lerp(self.translation, new_pos, 0.3)
 		if self.translation.x > new_pos.x-0.1 && self.translation.x < new_pos.x + 0.1 && \
 		self.translation.z > new_pos.z-0.1 && self.translation.z < new_pos.z + 0.1:
+			move_to_pos(pos.x,pos.y)
 			remaining_path.pop_front()
 	
 func pick_best_path(paths):
