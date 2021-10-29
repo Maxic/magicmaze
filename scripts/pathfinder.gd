@@ -10,6 +10,11 @@ func find_all_paths(start_pos, grid):
 	reset()
 	var current_tile = start_pos
 	
+	if current_tile.x < 0 or current_tile.x >= Grid.GRID_DIMENSION or \
+		current_tile.y < 0 or current_tile.y >= Grid.GRID_DIMENSION:
+			return [[current_tile]]
+		
+	
 	for row in grid:
 		for tile in row:
 			visited_tiles[tile.vec_pos] = false

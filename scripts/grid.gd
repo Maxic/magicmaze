@@ -1,7 +1,7 @@
 extends Node
 
 # Grid must be square
-var GRID_DIMENSION = 2
+var GRID_DIMENSION = 4
 var GRID_HEIGHT = GRID_DIMENSION
 var GRID_WIDTH = GRID_DIMENSION
 
@@ -72,10 +72,12 @@ func _physics_process(_delta):
 				indicator_index += 1
 				var indicator_pos = static_pos_arr[indicator_index % (GRID_WIDTH*4)]
 				indicator_tile.move_to_pos(indicator_pos.x, indicator_pos.y)
+				indicator_tile.update_object_positions()
 			if Input.is_action_just_pressed("move_indicator_left"):
 				indicator_index -= 1
 				var indicator_pos = static_pos_arr[indicator_index % (GRID_WIDTH*4)]
 				indicator_tile.move_to_pos(indicator_pos.x, indicator_pos.y)
+				indicator_tile.update_object_positions()
 			if Input.is_action_just_pressed("turn_indicator_clockwise"):
 				indicator_tile.rotate_clockwise()
 			if Input.is_action_just_pressed("turn_indicator_counterclockwise"):
@@ -122,6 +124,7 @@ func update_grid():
 		else:
 			indicator_tile = tile
 			indicator_index = static_pos_arr.find(Vector2(indicator_tile.x, indicator_tile.y))
+			indicator_tile.update_object_positions()
 	grid_states.append([grid, indicator_tile])
 
 func create_indicator_pos_arr():
