@@ -7,13 +7,12 @@ var current_phase
 var end_player_phase = false
 var end_enemy_action_phase = false
 var hero_amount = 1
-var treasure_amount = 0
+var treasure_amount = 1
 var hero_array = []
 var treasure_array = []
 
 # Nodes
 onready var main = get_node("/root/main")
-
 
 func _ready():
 	Grid.create_grid()

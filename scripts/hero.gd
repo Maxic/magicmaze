@@ -93,7 +93,9 @@ func find_best_treasure_path(paths):
 				best_path = path	
 				shortest_path_size = path.size()
 		return best_path
-	else:
+	elif paths:
 		return paths[0]
+	else:
+		return []
 		
 	

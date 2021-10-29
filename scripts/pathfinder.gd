@@ -12,8 +12,7 @@ func find_all_paths(start_pos, grid):
 	
 	if current_tile.x < 0 or current_tile.x >= Grid.GRID_DIMENSION or \
 		current_tile.y < 0 or current_tile.y >= Grid.GRID_DIMENSION:
-			return [[current_tile]]
-		
+			return []
 	
 	for row in grid:
 		for tile in row:
