@@ -6,7 +6,6 @@ background_color = Color( 0.247059, 0.184314, 0.247059, 1 )
 ambient_light_color = Color( 0.0862745, 0.0745098, 0.027451, 1 )
 auto_exposure_scale = 0.3
 auto_exposure_max_luma = 1.0
-glow_enabled = true
 
 [node name="main" type="Spatial"]
 
@@ -20,3 +19,5 @@ size = 15.0
 
 [node name="DirectionalLight" type="DirectionalLight" parent="."]
 transform = Transform( -0.767109, 0, -0.641517, -0.30703, 0.878033, 0.367138, 0.563273, 0.4786, -0.673547, -0.0756321, 3.41526, 0 )
+light_energy = 1.5
+directional_shadow_mode = 0
