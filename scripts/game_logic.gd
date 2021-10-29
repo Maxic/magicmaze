@@ -6,8 +6,8 @@ enum phase {ENEMY_INTENTION, PLAYER_PHASE, ENEMY_ACTION}
 var current_phase
 var end_player_phase = false
 var end_enemy_action_phase = false
-var hero_amount = 3
-var treasure_amount = 2
+var hero_amount = 1
+var treasure_amount = 0
 var hero_array = []
 var treasure_array = []
 
@@ -39,7 +39,7 @@ func _physics_process(delta):
 			return
 	if current_phase == phase.PLAYER_PHASE:
 		if end_player_phase:
-			# setup next phase
+			# setup next phase. Provide each hero with the best 
 			for hero in hero_array:
 				var paths = Pathfinder.find_all_paths(hero.vec_pos, Grid.grid)
 				hero.pick_best_path(paths)
@@ -49,6 +49,10 @@ func _physics_process(delta):
 			current_phase = phase.ENEMY_ACTION
 			return
 	if current_phase == phase.ENEMY_ACTION:
+		# If there are no heroes, stop this phase.
+		if !hero_array:
+			end_enemy_action_phase = true
+		# For each hero, do movement one at a time
 		for i in range(hero_array.size()):
 			var hero = hero_array[i]
 			if hero.current_phase == hero.phase.WAITING:
@@ -56,6 +60,7 @@ func _physics_process(delta):
 					hero.current_phase = hero.phase.MOVING
 				elif i == 0:
 					hero.current_phase = hero.phase.MOVING
+			# If the last hero is done, move on to the next phase
 			if hero.current_phase == hero.phase.DONE && i == hero_array.size()-1:
 				end_enemy_action_phase = true
 		if end_enemy_action_phase:

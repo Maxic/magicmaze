@@ -17,21 +17,20 @@ func _init(x_pos, y_pos):
 	add_to_group("treasures")
 	
 	# Move to correct position
-	move_to_pos(x, y)
+	update_pos(x, y)
 	var sprite = treasure_sprite.instance()
 	
 	# Initialize self in world
 	add_child(sprite)
+	GameLogic.add_object_to_tile(self, x, y)
 
 func _physics_process(delta):
 	pass
 	
-func move_to_pos(x_pos, y_pos):
-	GameLogic.remove_object_from_tile(self, x, y)
+func update_pos(x_pos, y_pos):
 	translation = Vector3(x_pos*2, translation.y, y_pos*2)
 	self.x = x_pos
 	self.y = y_pos
 	self.vec_pos = Vector2(x,y)
-	GameLogic.add_object_to_tile(self, x, y)
 	
 

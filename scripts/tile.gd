@@ -42,9 +42,6 @@ func move_to_pos(x_pos, y_pos):
 	self.x = x_pos
 	self.y = y_pos
 	self.vec_pos = Vector2(x_pos, y_pos)
-	if objects:
-		for object in objects:
-			object.move_to_pos(x_pos,y_pos)
 
 func set_type(path_type):
 	match path_type:
@@ -162,18 +159,23 @@ func remove_object(object):
 	var object_index = objects.find(object)
 	if object_index != -1:
 		objects.remove(object_index)
-		remove_indicator()
+		#remove_indicator()
 
 func add_object(object):
 	objects.append(object)
-	set_indicator()
+	#set_indicator()
+	
+func update_object_positions():
+	if objects:
+		for object in objects:
+			object.update_pos(x, y)
 
-func set_indicator():
-	var indicator_inst = indicator.instance()
-	indicator_inst.name = "indicator"
-	add_child(indicator_inst)
-
-func remove_indicator():
-	if $indicator:
-		$indicator.queue_free()
+#func set_indicator():
+#	var indicator_inst = indicator.instance()
+#	indicator_inst.name = "indicator"
+#	add_child(indicator_inst)
+#
+#func remove_indicator():
+#	if $indicator:
+#		$indicator.queue_free()
 

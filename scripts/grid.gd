@@ -1,7 +1,7 @@
 extends Node
 
 # Grid must be square
-var GRID_DIMENSION = 7
+var GRID_DIMENSION = 2
 var GRID_HEIGHT = GRID_DIMENSION
 var GRID_WIDTH = GRID_DIMENSION
 
@@ -118,6 +118,7 @@ func update_grid():
 	for tile in get_tree().get_nodes_in_group("tiles"):
 		if tile.x < GRID_WIDTH && tile.y < GRID_HEIGHT && tile.x >= 0 && tile.y >= 0:
 			grid[tile.y][tile.x] = tile
+			tile.update_object_positions()
 		else:
 			indicator_tile = tile
 			indicator_index = static_pos_arr.find(Vector2(indicator_tile.x, indicator_tile.y))
