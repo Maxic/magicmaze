@@ -63,7 +63,7 @@ void fragment() {
 		ALBEDO = mix(grey_albedo, black_albedo, combined);
 	}
 	
-	if (UV.y > 0.6) {
+	if (UV.y > 0.3) {
 		ALBEDO = COLOR.rgb;
 	}
 }"

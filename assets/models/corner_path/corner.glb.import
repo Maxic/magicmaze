@@ -2,12 +2,12 @@
 
 importer="scene"
 type="PackedScene"
-path="res://.import/corner_path.glb-2878194ef04a708df0c52a0475550e81.scn"
+path="res://.import/corner.glb-459e1e9414614975897efce0609f22ed.scn"
 
 [deps]
 
-source_file="res://assets/models/corner_path/corner_path.glb"
-dest_files=[ "res://.import/corner_path.glb-2878194ef04a708df0c52a0475550e81.scn" ]
+source_file="res://assets/models/corner_path/corner.glb"
+dest_files=[ "res://.import/corner.glb-459e1e9414614975897efce0609f22ed.scn" ]
 
 [params]
 

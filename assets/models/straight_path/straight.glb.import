@@ -2,12 +2,12 @@
 
 importer="scene"
 type="PackedScene"
-path="res://.import/cross_path.glb-4a39ccd5cc22078d0927e026c592134b.scn"
+path="res://.import/straight.glb-39d360e5286443373281424dc1654817.scn"
 
 [deps]
 
-source_file="res://assets/models/cross_path/cross_path.glb"
-dest_files=[ "res://.import/cross_path.glb-4a39ccd5cc22078d0927e026c592134b.scn" ]
+source_file="res://assets/models/straight_path/straight.glb"
+dest_files=[ "res://.import/straight.glb-39d360e5286443373281424dc1654817.scn" ]
 
 [params]
 
