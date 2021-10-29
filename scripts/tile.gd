@@ -72,82 +72,75 @@ func rotate_clockwise():
 		cross:
 			pass
 		straight:
-			if facing == 0:
-				reset_openings()
-				east_open = true
-				west_open = true
-				self.rotation_degrees.y = -90
-				facing = 1
-				return
-			else:
-				reset_openings()
-				north_open = true
-				south_open = true
-				self.rotation_degrees.y = 0
-				facing = 0
-				return
+			match facing:
+				0, 2:
+					reset_openings()
+					east_open = true
+					west_open = true
+					self.rotation_degrees.y = -90
+					facing = 1
+				1, 3:
+					reset_openings()
+					north_open = true
+					south_open = true
+					self.rotation_degrees.y = 0
+					facing = 0
 		corner:
-			if facing == 0:
-				reset_openings()
-				east_open = true
-				south_open = true
-				self.rotation_degrees.y = -90
-				facing = 1
-				return
-			if facing == 1:
-				reset_openings()
-				south_open = true
-				west_open = true
-				self.rotation_degrees.y = -180
-				facing = 2
-				return
-			if facing == 2:
-				reset_openings()
-				west_open = true
-				north_open = true
-				self.rotation_degrees.y = -270
-				facing = 3
-				return
-			if facing == 3:
-				reset_openings()
-				north_open = true
-				east_open = true
-				self.rotation_degrees.y = 0
-				facing = 0
-				return
+			match facing:
+				0:
+					reset_openings()
+					east_open = true
+					south_open = true
+					self.rotation_degrees.y = -90
+					facing = 1
+				1:
+					reset_openings()
+					south_open = true
+					west_open = true
+					self.rotation_degrees.y = -180
+					facing = 2
+				2:
+					reset_openings()
+					west_open = true
+					north_open = true
+					self.rotation_degrees.y = -270
+					facing = 3
+				3:
+					reset_openings()
+					north_open = true
+					east_open = true
+					self.rotation_degrees.y = 0
+					facing = 0
 		t_path:
-			if facing == 0:
-				reset_openings()
-				east_open = true
-				south_open = true
-				west_open = true
-				self.rotation_degrees.y = -90
-				facing = 1
-				return
-			if facing == 1:
-				reset_openings()
-				south_open = true
-				west_open = true
-				north_open = true
-				self.rotation_degrees.y = -180
-				facing = 2
-				return
-			if facing == 2:
-				reset_openings()
-				west_open = true
-				north_open = true
-				east_open = true
-				self.rotation_degrees.y = -270
-				facing = 3
-				return
-			if facing == 3:
-				reset_openings()
-				north_open = true
-				east_open = true
-				south_open = true
-				self.rotation_degrees.y = 0
-				facing = 0
-				return
+			match facing:
+				0:
+					reset_openings()
+					east_open = true
+					south_open = true
+					west_open = true
+					self.rotation_degrees.y = -90
+					facing = 1
+				1:
+					reset_openings()
+					south_open = true
+					west_open = true
+					north_open = true
+					self.rotation_degrees.y = -180
+					facing = 2
+				2:
+					reset_openings()
+					west_open = true
+					north_open = true
+					east_open = true
+					self.rotation_degrees.y = -270
+					facing = 3
+				3:
+					reset_openings()
+					north_open = true
+					east_open = true
+					south_open = true
+					self.rotation_degrees.y = 0
+					facing = 0
 
 func reset_openings():
 	north_open = false

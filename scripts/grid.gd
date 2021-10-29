@@ -31,13 +31,18 @@ func create_grid():
 	# Fill grid with actual tiles
 	for y in range(GRID_HEIGHT):
 		for x in range(GRID_WIDTH):
-			#randomize()
+			randomize()
 			type_arr.shuffle()
 			var tile = Tile.new(x,y, type_arr[0])
 			# apply random rotation to tiles
 			for i in randi()%4:
 				tile.rotate_clockwise()
 			add_child(tile)
+			if type_arr[0] == "corner":
+				var move_ind = load("res://scenes/move_indicator.tscn").instance()
+				move_ind.translation.x = tile.translation.x
+				move_ind.translation.z = tile.translation.z
+				add_child(move_ind)
 			grid[y][x] = tile
 		# TODO: Yoink weight system from seagull to distribute tiles
 	
