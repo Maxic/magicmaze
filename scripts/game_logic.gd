@@ -17,12 +17,12 @@ onready var main = get_node("/root/main")
 func _ready():
 	Grid.create_grid()
 	for i in hero_amount:
-		i = Hero.new(randi() % 7,randi() % 7 )
+		i = Hero.new(randi() % Grid.GRID_DIMENSION,randi() % Grid.GRID_DIMENSION)
 		hero_array.append(i)
 		main.add_child(i)
 	
 	for i in treasure_amount:
-		i = Treasure.new(randi() % 7,randi() % 7 )
+		i = Treasure.new(randi() % Grid.GRID_DIMENSION, randi() % Grid.GRID_DIMENSION)
 		treasure_array.append(i)
 		main.add_child(i)
 	
