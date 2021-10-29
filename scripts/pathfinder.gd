@@ -31,6 +31,7 @@ func find_all_paths(start_pos, grid):
 		var neighbour_arr = find_all_neighbours(current_tile.x, current_tile.y, grid)
 		# Save current path
 		if neighbour_arr.size() == 0:
+			current_path.pop_front()
 			paths_arr.append(current_path.duplicate())
 			current_tile = null
 		elif neighbour_arr.size() == 1:

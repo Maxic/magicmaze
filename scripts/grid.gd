@@ -31,7 +31,7 @@ func create_grid():
 	# Fill grid with actual tiles
 	for y in range(GRID_HEIGHT):
 		for x in range(GRID_WIDTH):
-			randomize()
+			#randomize()
 			type_arr.shuffle()
 			var tile = Tile.new(x,y, type_arr[0])
 			# apply random rotation to tiles
@@ -66,7 +66,7 @@ func _physics_process(_delta):
 					move_row_horizontal(indicator_tile.y, indicator_tile.x == -1)
 				if indicator_tile.y == -1 || indicator_tile.y == GRID_HEIGHT:
 					move_row_vertical(indicator_tile.x, indicator_tile.y == GRID_HEIGHT)
-				preview = false
+				GameLogic.end_player_phase = true
 				return
 			if Input.is_action_just_pressed("move_indicator_right"):
 				indicator_index += 1
@@ -82,13 +82,6 @@ func _physics_process(_delta):
 				indicator_tile.rotate_clockwise()
 				indicator_tile.rotate_clockwise()
 				indicator_tile.rotate_clockwise()
-			if !preview:
-				if Input.is_action_just_pressed("test"):
-					pass
-				if Input.is_action_just_pressed("accept_indicator"):
-					preview = true
-					GameLogic.end_player_phase = true
-					return
 
 func move_row_horizontal(row, right):
 	# move all tiles in row

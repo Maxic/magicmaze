@@ -17,6 +17,7 @@ var straight = preload("res://scenes/straight.tscn")
 var corner = preload("res://scenes/corner.tscn")
 var t_path = preload("res://scenes/t_path.tscn")
 var def_block = preload("res://scenes/default_cube.tscn")
+var indicator = preload("res://scenes/indicator.tscn")
 
 func _init(x_pos, y_pos, path_type):
 	self.x = x_pos
@@ -41,6 +42,9 @@ func move_to_pos(x_pos, y_pos):
 	self.x = x_pos
 	self.y = y_pos
 	self.vec_pos = Vector2(x_pos, y_pos)
+	if objects:
+		for object in objects:
+			object.move_to_pos(x_pos,y_pos)
 
 func set_type(path_type):
 	match path_type:
@@ -154,7 +158,22 @@ func reset_openings():
 	south_open = false
 	west_open = false
 
-func highlight_tile():
-	var defblock_inst = def_block.instance()
-	defblock_inst.translation.y += 1
-	add_child(defblock_inst)
+func remove_object(object):
+	var object_index = objects.find(object)
+	if object_index != -1:
+		objects.remove(object_index)
+		remove_indicator()
+
+func add_object(object):
+	objects.append(object)
+	set_indicator()
+
+func set_indicator():
+	var indicator_inst = indicator.instance()
+	indicator_inst.name = "indicator"
+	add_child(indicator_inst)
+
+func remove_indicator():
+	if $indicator:
+		$indicator.queue_free()
+

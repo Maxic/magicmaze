@@ -2,20 +2,22 @@ extends Node
 
 enum phase {ENEMY_INTENTION, PLAYER_PHASE, ENEMY_ACTION}
 
-# state vars
+# State vars
 var current_phase
 var end_player_phase = false
 var end_enemy_action_phase = false
 var hero_amount = 3
-var treasure_amount = 5
+var treasure_amount = 2
 var hero_array = []
 var treasure_array = []
 
 # Nodes
 onready var main = get_node("/root/main")
 
+
 func _ready():
 	Grid.create_grid()
+	
 	for i in hero_amount:
 		i = Hero.new(randi() % Grid.GRID_DIMENSION,randi() % Grid.GRID_DIMENSION)
 		hero_array.append(i)
@@ -59,3 +61,14 @@ func _physics_process(delta):
 		if end_enemy_action_phase:
 			current_phase = phase.ENEMY_INTENTION
 			return
+			
+func remove_object_from_tile(object,object_x,object_y):
+	var tile = Grid.grid[object_y][object_x]
+	tile.remove_object(object)
+		
+		
+func add_object_to_tile(object,object_x,object_y):
+	var tile = Grid.grid[object_y][object_x]
+	tile.add_object(object)
+	
+

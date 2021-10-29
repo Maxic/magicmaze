@@ -15,19 +15,19 @@ var best_path
 var hero_sprite = preload("res://scenes/hero_sprite.tscn")
 
 func _init(x_pos, y_pos):
+	# Move to correct position and set position params
 	self.x = x_pos
 	self.y = y_pos
 	self.vec_pos = Vector2(x,y)
-	
+	move_to_pos(x_pos, y_pos)
+		
 	# Add to correct group
 	add_to_group("heroes")
 	
-	# Move to correct position
-	move_to_pos(x, y)
-	var sprite = hero_sprite.instance()
-	
 	# Initialize self in world
+	var sprite = hero_sprite.instance()
 	add_child(sprite)
+
 
 func _physics_process(delta):
 	if GameLogic.current_phase == GameLogic.phase.ENEMY_ACTION:
@@ -36,14 +36,16 @@ func _physics_process(delta):
 				move_along_path(remaining_path)
 			else:
 				self.current_phase = phase.DONE
-
-		
-	
+				
+				
 func move_to_pos(x_pos, y_pos):
+	GameLogic.remove_object_from_tile(self,x,y)
 	translation = Vector3(x_pos*2, translation.y, y_pos*2)
 	self.x = x_pos
 	self.y = y_pos
 	self.vec_pos = Vector2(x,y)
+	GameLogic.add_object_to_tile(self,x,y)
+	
 	
 func move_along_path(path_arr):
 		remaining_path = path_arr

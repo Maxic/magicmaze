@@ -27,8 +27,11 @@ func _physics_process(delta):
 	pass
 	
 func move_to_pos(x_pos, y_pos):
+	GameLogic.remove_object_from_tile(self, x, y)
 	translation = Vector3(x_pos*2, translation.y, y_pos*2)
 	self.x = x_pos
 	self.y = y_pos
 	self.vec_pos = Vector2(x,y)
+	GameLogic.add_object_to_tile(self, x, y)
+	
 
