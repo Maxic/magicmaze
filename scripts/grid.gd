@@ -7,17 +7,10 @@ var GRID_WIDTH = GRID_DIMENSION
 
 var grid = []
 var type_arr = [
-	"cross_n_e_s_w", 
-	"straight_n_s", 
-	"straight_e_w", 
-	"corner_n_w", 
-	"corner_n_e", 
-	"corner_s_w", 
-	"corner_s_e", 
-	"t_n_e_s", 
-	"t_n_e_w", 
-	"t_n_w_s", 
-	"t_s_e_w"
+	"cross", 
+	"straight", 
+	"corner", 
+	"t_path"
 	]
 
 var static_pos_arr = []
@@ -34,6 +27,9 @@ func create_grid():
 			randomize()
 			type_arr.shuffle()
 			var tile = Tile.new(x,y, type_arr[0])
+			# apply random rotation to tiles
+			for i in randi()%4:
+				tile.rotate_clockwise()
 			add_child(tile)
 			grid[y][x] = tile
 		# TODO: Yoink weight system from seagull to distribute tiles

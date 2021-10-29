@@ -5,31 +5,26 @@ var x
 var y
 var vec_pos
 var type
+var facing
 var north_open = false
 var east_open = false
 var west_open = false
 var south_open = false
 var objects = []
 
-var cross_n_e_s_w = preload("res://scenes/cross_n_e_s_w.tscn")
-var straight_n_s = preload("res://scenes/straight_n_s.tscn")
-var straight_e_w = preload("res://scenes/straight_e_w.tscn")
-var corner_n_w = preload("res://scenes/corner_n_w.tscn")
-var corner_n_e = preload("res://scenes/corner_n_e.tscn")
-var corner_s_w = preload("res://scenes/corner_s_w.tscn")
-var corner_s_e = preload("res://scenes/corner_s_e.tscn")
-var t_n_e_s = preload("res://scenes/t_n_e_s.tscn")
-var t_n_e_w = preload("res://scenes/t_n_e_w.tscn")
-var t_n_w_s = preload("res://scenes/t_n_w_s.tscn")
-var t_s_e_w = preload("res://scenes/t_s_w_e.tscn")
+var cross = preload("res://scenes/cross.tscn")
+var straight = preload("res://scenes/straight.tscn")
+var corner = preload("res://scenes/corner.tscn")
+var t_path = preload("res://scenes/t_path.tscn")
 var def_block = preload("res://scenes/default_cube.tscn")
 
 func _init(x_pos, y_pos, path_type):
 	self.x = x_pos
 	self.y = y_pos
 	self.vec_pos = Vector2(x,y)
-	self.type = get_type(path_type)
+	self.type = set_type(path_type)
 	self.scale = Vector3(.97,.97,.97)
+	self.facing = 0
 	
 	# Add to correct group
 	add_to_group("tiles")
@@ -47,60 +42,117 @@ func move_to_pos(x_pos, y_pos):
 	self.y = y_pos
 	self.vec_pos = Vector2(x_pos, y_pos)
 
-func get_type(path_type):
+func set_type(path_type):
 	match path_type:
-		"cross_n_e_s_w":
+		"cross":
 			north_open = true
 			east_open = true
 			west_open = true
 			south_open = true
-			return cross_n_e_s_w
-		"straight_n_s":
+			return cross
+		"straight":
 			north_open = true
 			south_open = true
-			return straight_n_s
-		"straight_e_w":
-			east_open = true
-			west_open = true
-			return straight_e_w
-		"corner_n_w":
-			north_open = true
-			west_open = true
-			return corner_n_w
-		"corner_n_e":
+			return straight
+		"corner":
 			north_open = true
 			east_open = true
-			return corner_n_e
-		"corner_s_w":
-			west_open = true
-			south_open = true
-			return corner_s_w
-		"corner_s_e":
-			east_open = true
-			south_open = true
-			return corner_s_e
-		"t_n_e_s":
+			return corner
+		"t_path":
 			north_open = true
 			east_open = true
 			south_open = true
-			return t_n_e_s
-		"t_n_e_w":
-			north_open = true
-			east_open = true
-			west_open = true
-			return t_n_e_w
-		"t_n_w_s":
-			north_open = true
-			west_open = true
-			south_open = true
-			return t_n_w_s
-		"t_s_e_w":
-			east_open = true
-			west_open = true
-			south_open = true
-			return t_s_e_w
+			return t_path
 		_:
 			return def_block
+
+func rotate_clockwise():
+	match self.type:
+		cross:
+			pass
+		straight:
+			if facing == 0:
+				reset_openings()
+				east_open = true
+				west_open = true
+				self.rotation_degrees.y = -90
+				facing = 1
+				return
+			else:
+				reset_openings()
+				north_open = true
+				south_open = true
+				self.rotation_degrees.y = 0
+				facing = 0
+				return
+		corner:
+			if facing == 0:
+				reset_openings()
+				east_open = true
+				south_open = true
+				self.rotation_degrees.y = -90
+				facing = 1
+				return
+			if facing == 1:
+				reset_openings()
+				south_open = true
+				west_open = true
+				self.rotation_degrees.y = -180
+				facing = 2
+				return
+			if facing == 2:
+				reset_openings()
+				west_open = true
+				north_open = true
+				self.rotation_degrees.y = -270
+				facing = 3
+				return
+			if facing == 3:
+				reset_openings()
+				north_open = true
+				east_open = true
+				self.rotation_degrees.y = 0
+				facing = 0
+				return
+		t_path:
+			if facing == 0:
+				reset_openings()
+				east_open = true
+				south_open = true
+				west_open = true
+				self.rotation_degrees.y = -90
+				facing = 1
+				return
+			if facing == 1:
+				reset_openings()
+				south_open = true
+				west_open = true
+				north_open = true
+				self.rotation_degrees.y = -180
+				facing = 2
+				return
+			if facing == 2:
+				reset_openings()
+				west_open = true
+				north_open = true
+				east_open = true
+				self.rotation_degrees.y = -270
+				facing = 3
+				return
+			if facing == 3:
+				reset_openings()
+				north_open = true
+				east_open = true
+				south_open = true
+				self.rotation_degrees.y = 0
+				facing = 0
+				return
+
+func reset_openings():
+	north_open = false
+	east_open = false
+	south_open = false
+	west_open = false
 
 func highlight_tile():
 	var defblock_inst = def_block.instance()
