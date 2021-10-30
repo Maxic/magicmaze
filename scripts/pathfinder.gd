@@ -24,10 +24,8 @@ func find_all_paths(start_pos, grid):
 		# If current tile is null, revisit a junction
 		if current_tile == null:			
 			current_tile = junction_dict.keys()[0]
-			visited_tiles = junction_dict.get(current_tile)
-			var junction_index = current_path.find(current_tile)
-			for i in range(junction_index+1, current_path.size()):
-				current_path.remove(junction_index+1)
+			visited_tiles = junction_dict.get(current_tile)["visited_tiles"]
+			current_path = junction_dict.get(current_tile)["current_path"]
 		else:
 			current_path.append(current_tile)
 		
@@ -56,7 +54,10 @@ func find_all_paths(start_pos, grid):
 			
 			# then add this point as a junction.
 			# We add the current visited tiles dict here so we can load it later
-			junction_dict[current_tile] =  visited_tiles.duplicate()
+			junction_dict[current_tile] =  {
+				"visited_tiles" : visited_tiles.duplicate(), 
+				"current_path" : current_path.duplicate() 
+			}
 			
 			# Finally, set current tile to the next tile
 			current_tile = neighbour_arr[0]
