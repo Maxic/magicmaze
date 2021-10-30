@@ -15,6 +15,11 @@ _global_script_classes=[ {
 "path": "res://scripts/hero.gd"
 }, {
 "base": "Spatial",
+"class": "Monster",
+"language": "GDScript",
+"path": "res://scripts/monster.gd"
+}, {
+"base": "Spatial",
 "class": "Tile",
 "language": "GDScript",
 "path": "res://scripts/tile.gd"
@@ -26,6 +31,7 @@ _global_script_classes=[ {
 } ]
 _global_script_class_icons={
 "Hero": "",
+"Monster": "",
 "Tile": "",
 "Treasure": ""
 }

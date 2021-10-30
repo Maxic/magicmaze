@@ -8,8 +8,10 @@ var end_player_phase = false
 var end_enemy_action_phase = false
 var hero_amount = 1
 var treasure_amount = 1
+var monster_amount = 3
 var hero_array = []
 var treasure_array = []
+var monster_array = []
 
 # Nodes
 onready var main = get_node("/root/main")
@@ -25,6 +27,11 @@ func _ready():
 	for i in treasure_amount:
 		i = Treasure.new(randi() % Grid.GRID_DIMENSION, randi() % Grid.GRID_DIMENSION)
 		treasure_array.append(i)
+		main.add_child(i)
+	
+	for i in monster_amount:
+		i = Monster.new(randi() % Grid.GRID_DIMENSION, randi() % Grid.GRID_DIMENSION, "goblin")
+		monster_array.append(i)
 		main.add_child(i)
 	
 	current_phase = phase.ENEMY_INTENTION
