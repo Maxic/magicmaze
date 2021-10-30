@@ -1,7 +1,7 @@
 extends Node
 
 # Grid must be square
-var GRID_DIMENSION = 3
+var GRID_DIMENSION = 5
 var GRID_HEIGHT = GRID_DIMENSION
 var GRID_WIDTH = GRID_DIMENSION
 
@@ -15,9 +15,9 @@ var grid_states = []
 # These are the types of tiles the grid consists of, in various rotations
 var type_arr = [
 	"cross", 
-	"straight", 
-	"corner", 
-	"t_path"
+#	"straight", 
+#	"corner", 
+#	"t_path"
 	]
 
 var static_pos_arr = []
@@ -37,12 +37,7 @@ func create_grid():
 			# apply random rotation to tiles
 			for i in randi()%4:
 				tile.rotate_clockwise()
-			add_child(tile)
-			if type_arr[0] == "corner":
-				var move_ind = load("res://scenes/move_indicator.tscn").instance()
-				move_ind.translation.x = tile.translation.x
-				move_ind.translation.z = tile.translation.z
-				add_child(move_ind)
+			add_child(tile)				
 			grid[y][x] = tile
 		# TODO: Yoink weight system from seagull to distribute tiles
 	

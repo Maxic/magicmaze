@@ -3,25 +3,28 @@ extends Node
 var current_path = []
 var paths_arr = []
 var visited_tiles = {}
-var junction_arr = []
+var junction_dict = {}
 
 
 func find_all_paths(start_pos, grid):
 	reset()
 	var current_tile = start_pos
 	
+	# A hero might be on the indicator tile, in that case, don't look for paths
 	if current_tile.x < 0 or current_tile.x >= Grid.GRID_DIMENSION or \
 		current_tile.y < 0 or current_tile.y >= Grid.GRID_DIMENSION:
 			return []
 	
+	# initial fill of the dict
 	for row in grid:
 		for tile in row:
 			visited_tiles[tile.vec_pos] = false
 	
-	while current_tile != null or junction_arr.size() > 0:
+	while current_tile != null or junction_dict.size() > 0:
 		# If current tile is null, revisit a junction
-		if current_tile == null:
-			current_tile = junction_arr.pop_back()
+		if current_tile == null:			
+			current_tile = junction_dict.keys()[0]
+			visited_tiles = junction_dict.get(current_tile)
 			var junction_index = current_path.find(current_tile)
 			for i in range(junction_index+1, current_path.size()):
 				current_path.remove(junction_index+1)
@@ -35,19 +38,38 @@ func find_all_paths(start_pos, grid):
 		var neighbour_arr = find_all_neighbours(current_tile.x, current_tile.y, grid)
 		# Save current path
 		if neighbour_arr.size() == 0:
-			current_path.pop_front()
 			paths_arr.append(current_path.duplicate())
 			current_tile = null
+		# If we only have 1 choice, go that way
 		elif neighbour_arr.size() == 1:
+			# if this was a junction, it should be removed now
+			if junction_dict.get(current_tile) != null:
+				junction_dict.erase(current_tile)
+				
+			# Update current tile to next tile
 			current_tile = neighbour_arr[0]
+		# If we arrive at a junction, save that spot to revisit later.
 		elif neighbour_arr.size() > 1:
-			junction_arr.append(current_tile)
+			# first pick a path and mark it as visited already
+			neighbour_arr.shuffle()
+			visited_tiles[neighbour_arr[0]] = true
+			
+			# then add this point as a junction.
+			# We add the current visited tiles dict here so we can load it later
+			junction_dict[current_tile] =  visited_tiles.duplicate()
+			
+			# Finally, set current tile to the next tile
 			current_tile = neighbour_arr[0]
 	return paths_arr
 		
 func find_all_neighbours(x, y, grid):
 	var valid_neighbour_arr = []
 	var tile = grid[y][x]
+	
+	# TODO: There is a bug in this piece of code. If an earlier junction is chosen,
+	# the visited_tiles dict, from that point in time should be loaded
+	# Otherwise, too many paths that should still be explored aren't
+	# This is not necessary to find A path, but it is to find the shortest path.
 	
 	# north
 	if not y-1 < 0 and tile.north_open:
@@ -76,4 +98,4 @@ func reset():
 	current_path = []
 	paths_arr = []
 	visited_tiles = {}
-	junction_arr = []
+	junction_dict = {}

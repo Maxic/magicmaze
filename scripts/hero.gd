@@ -98,4 +98,12 @@ func find_best_treasure_path(paths):
 	else:
 		return []
 		
-	
+func display_path():
+	if remaining_path:
+		for step in remaining_path:
+			var move_ind = load("res://scenes/move_indicator.tscn").instance()
+			move_ind.translation.x = step.x*2
+			move_ind.translation.z = step.y*2
+			get_parent().add_child(move_ind)
+	else:
+		return

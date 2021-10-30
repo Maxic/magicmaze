@@ -32,6 +32,13 @@ func _ready():
 func _physics_process(delta):
 
 	if current_phase == phase.ENEMY_INTENTION:
+		# calculate paths, and display intention
+		for hero in hero_array:
+			var paths = Pathfinder.find_all_paths(hero.vec_pos, Grid.grid)
+			hero.pick_best_path(paths)
+			hero.display_path()
+			hero.current_phase = hero.phase.WAITING
+		
 		if true: # Skip tis for now
 			end_player_phase = false
 			current_phase = phase.PLAYER_PHASE
@@ -39,10 +46,7 @@ func _physics_process(delta):
 	if current_phase == phase.PLAYER_PHASE:
 		if end_player_phase:
 			# setup next phase. Provide each hero with the best path to take
-			for hero in hero_array:
-				var paths = Pathfinder.find_all_paths(hero.vec_pos, Grid.grid)
-				hero.pick_best_path(paths)
-				hero.current_phase = hero.phase.WAITING
+
 			
 			end_enemy_action_phase = false
 			current_phase = phase.ENEMY_ACTION
