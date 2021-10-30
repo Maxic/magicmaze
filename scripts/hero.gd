@@ -10,7 +10,6 @@ enum phase {WAITING, MOVING, DONE}
 var current_phase
 var current_pos
 var new_pos
-var best_path
 
 var hero_sprite = preload("res://scenes/hero_sprite.tscn")
 
@@ -30,8 +29,8 @@ func _init(x_pos, y_pos):
 	GameLogic.add_object_to_tile(self, x, y)
 
 
-func _physics_process(delta):
-	if GameLogic.current_phase == GameLogic.phase.ENEMY_ACTION:
+func _physics_process(_delta):
+	if GameLogic.current_phase == GameLogic.phase.HERO_ACTION:
 		if current_phase == phase.MOVING:
 			if remaining_path:
 				move_along_path(remaining_path)
@@ -65,7 +64,6 @@ func move_along_path(path_arr):
 	
 func pick_best_path(paths):
 	var best_path = find_best_treasure_path(paths)
-	
 	self.remaining_path = best_path
 		
 func find_all_treasure_paths(paths):
@@ -78,13 +76,14 @@ func find_all_treasure_paths(paths):
 			var obtainable_treasure_index = treasure_pos_arr.find(pos)
 			if obtainable_treasure_index >= 0:
 				var end_path_index = path.find(treasure_pos_arr[obtainable_treasure_index])
-				for i in range(end_path_index+1, path.size()):
+				for _i in range(end_path_index+1, path.size()):
 					path.remove(end_path_index+1)
 				treasure_paths.append(path)
 	return treasure_paths
 
 	
 func find_best_treasure_path(paths):
+	var best_path
 	var treasure_paths = find_all_treasure_paths(paths)
 	var shortest_path_size = Grid.GRID_DIMENSION * Grid.GRID_DIMENSION
 	if treasure_paths:
@@ -104,6 +103,5 @@ func display_path():
 			var move_ind = load("res://scenes/move_indicator.tscn").instance()
 			move_ind.translation.x = step.x*2
 			move_ind.translation.z = step.y*2
+			move_ind.add_to_group("move_indicators")
 			get_parent().add_child(move_ind)
-	else:
-		return

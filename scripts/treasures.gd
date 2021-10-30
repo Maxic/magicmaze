@@ -24,9 +24,6 @@ func _init(x_pos, y_pos):
 	add_child(sprite)
 	GameLogic.add_object_to_tile(self, x, y)
 
-func _physics_process(delta):
-	pass
-	
 func update_pos(x_pos, y_pos):
 	translation = Vector3(x_pos*2, translation.y, y_pos*2)
 	self.x = x_pos

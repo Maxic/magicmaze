@@ -1,7 +1,7 @@
 extends Node
 
 # Grid must be square
-var GRID_DIMENSION = 5
+var GRID_DIMENSION = 7
 var GRID_HEIGHT = GRID_DIMENSION
 var GRID_WIDTH = GRID_DIMENSION
 
@@ -15,9 +15,9 @@ var grid_states = []
 # These are the types of tiles the grid consists of, in various rotations
 var type_arr = [
 	"cross", 
-#	"straight", 
-#	"corner", 
-#	"t_path"
+	"straight", 
+	"corner", 
+	"t_path"
 	]
 
 var static_pos_arr = []
@@ -130,15 +130,11 @@ func update_grid():
 func create_indicator_pos_arr():
 	var pos_arr = []
 	for i in range(GRID_HEIGHT-1,-1,-1):
-		var block = Tile.new(-1, i, null)
 		pos_arr.append(Vector2(-1, i))
 	for i in range(GRID_WIDTH):
-		var block = Tile.new(i, -1, null)
 		pos_arr.append(Vector2(i, -1))
 	for i in range(GRID_HEIGHT):
-		var block = Tile.new(GRID_HEIGHT, i, null)
 		pos_arr.append(Vector2(GRID_HEIGHT, i))
 	for i in range(GRID_WIDTH-1,-1,-1):
-		var block = Tile.new(i, GRID_WIDTH, null)
 		pos_arr.append(Vector2(i, GRID_WIDTH))
 	return pos_arr

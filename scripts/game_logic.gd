@@ -1,11 +1,11 @@
 extends Node
 
-enum phase {ENEMY_INTENTION, PLAYER_PHASE, ENEMY_ACTION}
+enum phase {HERO_INTENTION, PLAYER_PHASE, HERO_ACTION}
 
 # State vars
 var current_phase
 var end_player_phase = false
-var end_enemy_action_phase = false
+var end_hero_action_phase = false
 var hero_amount = 1
 var treasure_amount = 1
 var monster_amount = 3
@@ -34,11 +34,11 @@ func _ready():
 		monster_array.append(i)
 		main.add_child(i)
 	
-	current_phase = phase.ENEMY_INTENTION
+	current_phase = phase.HERO_INTENTION
 	
-func _physics_process(delta):
-
-	if current_phase == phase.ENEMY_INTENTION:
+func _physics_process(_delta):
+#####~~  FIRST PHASE, CALCULATE AND SHOW HERO INTENTION ~~#####
+	if current_phase == phase.HERO_INTENTION:
 		# calculate paths, and display intention
 		for hero in hero_array:
 			var paths = Pathfinder.find_all_paths(hero.vec_pos, Grid.grid)
@@ -46,22 +46,27 @@ func _physics_process(delta):
 			hero.display_path()
 			hero.current_phase = hero.phase.WAITING
 		
-		if true: # Skip tis for now
-			end_player_phase = false
-			current_phase = phase.PLAYER_PHASE
-			return
+		# No end condition needed here
+		# Just calculate, show paths and move on
+		end_player_phase = false
+		current_phase = phase.PLAYER_PHASE
+		return
+			
+#####~~  SECOND PHASE, PLAYER MOVEMENT ~~#####
 	if current_phase == phase.PLAYER_PHASE:
 		if end_player_phase:
 			# setup next phase. Provide each hero with the best path to take
-
+			remove_move_indicator_paths()
 			
-			end_enemy_action_phase = false
-			current_phase = phase.ENEMY_ACTION
+			end_hero_action_phase = false
+			current_phase = phase.HERO_ACTION
 			return
-	if current_phase == phase.ENEMY_ACTION:
+			
+#####~~  THIRD PHASE, ENEMY ACTION ~~#####	
+	if current_phase == phase.HERO_ACTION:
 		# If there are no heroes, stop this phase.
 		if !hero_array:
-			end_enemy_action_phase = true
+			end_hero_action_phase = true
 		# For each hero, do movement one at a time
 		for i in range(hero_array.size()):
 			var hero = hero_array[i]
@@ -72,9 +77,10 @@ func _physics_process(delta):
 					hero.current_phase = hero.phase.MOVING
 			# If the last hero is done, move on to the next phase
 			if hero.current_phase == hero.phase.DONE && i == hero_array.size()-1:
-				end_enemy_action_phase = true
-		if end_enemy_action_phase:
-			current_phase = phase.ENEMY_INTENTION
+				end_hero_action_phase = true
+		# Phase is over, setup stuff for next phase
+		if end_hero_action_phase:
+			current_phase = phase.HERO_INTENTION
 			return
 			
 func remove_object_from_tile(object,object_x,object_y):
@@ -86,4 +92,6 @@ func add_object_to_tile(object,object_x,object_y):
 	var tile = Grid.grid[object_y][object_x]
 	tile.add_object(object)
 	
-
+func remove_move_indicator_paths():
+	for move_indicator in get_tree().get_nodes_in_group("move_indicators"):
+		move_indicator.queue_free()
