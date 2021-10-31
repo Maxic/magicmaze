@@ -1,4 +1,6 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://UI.tscn" type="PackedScene" id=1]
 
 [sub_resource type="Environment" id=1]
 background_mode = 1
@@ -21,3 +23,5 @@ size = 15.0
 transform = Transform( -0.767109, 0, -0.641517, -0.30703, 0.878033, 0.367138, 0.563273, 0.4786, -0.673547, -0.0756321, 3.41526, 0 )
 light_energy = 1.5
 directional_shadow_mode = 0
+
+[node name="UI" parent="." instance=ExtResource( 1 )]
