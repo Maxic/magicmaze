@@ -4,7 +4,6 @@
 [ext_resource path="res://assets/models/move_indicator/move_indicator.material" type="Material" id=2]
 
 [node name="move_indicator" instance=ExtResource( 1 )]
-transform = Transform( 0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, 0, 0, 0 )
 
 [node name="move_indicator" parent="." index="0"]
 material/0 = ExtResource( 2 )

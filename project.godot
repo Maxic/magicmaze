@@ -27,7 +27,7 @@ _global_script_classes=[ {
 "base": "Spatial",
 "class": "Treasure",
 "language": "GDScript",
-"path": "res://scripts/treasures.gd"
+"path": "res://scripts/treasure.gd"
 } ]
 _global_script_class_icons={
 "Hero": "",

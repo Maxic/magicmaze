@@ -12,6 +12,8 @@ var current_pos
 var new_pos
 
 var hero_sprite = preload("res://scenes/hero_sprite.tscn")
+var move_indicator_scene = preload("res://scenes/move_indicator.tscn")
+var move_indicator_static_scene = preload("res://scenes/move_indicator_static.tscn")
 
 func _init(x_pos, y_pos):
 	# Move to correct position and set position params
@@ -28,7 +30,6 @@ func _init(x_pos, y_pos):
 	add_child(sprite)
 	GameLogic.add_object_to_tile(self, x, y)
 
-
 func _physics_process(_delta):
 	if GameLogic.current_phase == GameLogic.phase.HERO_ACTION:
 		if current_phase == phase.MOVING:
@@ -36,15 +37,20 @@ func _physics_process(_delta):
 				move_along_path(remaining_path)
 			else:
 				self.current_phase = phase.DONE
-				
-				
+	
 func move_to_pos(x_pos, y_pos):
 	GameLogic.remove_object_from_tile(self,x,y)
 	translation = Vector3(x_pos*2, translation.y, y_pos*2)
 	self.x = x_pos
 	self.y = y_pos
 	self.vec_pos = Vector2(x,y)
+	check_for_chests()
 	GameLogic.add_object_to_tile(self,x,y)
+	
+func check_for_chests():
+	for object in Grid.grid[y][x].objects:
+		if object.get_class() == "Treasure":
+			object.picked_up()
 	
 func update_pos(x_pos, y_pos):
 	translation = Vector3(x_pos*2, translation.y, y_pos*2)
@@ -65,7 +71,7 @@ func move_along_path(path_arr):
 func pick_best_path(paths):
 	var best_path = find_best_treasure_path(paths)
 	self.remaining_path = best_path
-		
+	
 func find_all_treasure_paths(paths):
 	var treasure_paths = []
 	var treasure_pos_arr = []
@@ -80,7 +86,6 @@ func find_all_treasure_paths(paths):
 					path.remove(end_path_index+1)
 				treasure_paths.append(path)
 	return treasure_paths
-
 	
 func find_best_treasure_path(paths):
 	var best_path
@@ -96,7 +101,7 @@ func find_best_treasure_path(paths):
 		return paths[0]
 	else:
 		return []
-		
+	
 func recalculate_best_path(paths):
 	var possible_path = []
 	var step_index = 0
@@ -114,12 +119,26 @@ func recalculate_best_path(paths):
 		else:
 			remaining_path = possible_path.duplicate()
 			return
-		
+	
 func display_path():
 	if remaining_path:
-		for step in remaining_path:
-			var move_ind = load("res://scenes/move_indicator.tscn").instance()
-			move_ind.translation.x = step.x*2
-			move_ind.translation.z = step.y*2
-			move_ind.add_to_group("move_indicators")
-			get_parent().add_child(move_ind)
+		for i in remaining_path.size():
+			var move_indicator
+			if i != remaining_path.size()-1:	
+				move_indicator = move_indicator_scene.instance()
+				# west
+				if remaining_path[i].x < remaining_path[i+1].x:
+					move_indicator.rotation_degrees.y = 270
+				# east
+				elif remaining_path[i].x > remaining_path[i+1].x:
+					move_indicator.rotation_degrees.y = 90
+				# south
+				elif remaining_path[i].y < remaining_path[i+1].y:
+					move_indicator.rotation_degrees.y = 180
+			else:
+				move_indicator = move_indicator_static_scene.instance()
+				move_indicator.scale *= .7
+			move_indicator.translation.x = remaining_path[i].x*2
+			move_indicator.translation.z = remaining_path[i].y*2
+			move_indicator.add_to_group("move_indicators")
+			get_parent().add_child(move_indicator)

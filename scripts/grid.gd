@@ -22,7 +22,6 @@ var type_arr = [
 
 var static_pos_arr = []
 var indicator_index = 0
-var preview = true
 
 func create_grid():
 	# Initialize grid with 0's
@@ -37,7 +36,7 @@ func create_grid():
 			# apply random rotation to tiles
 			for i in randi()%4:
 				tile.rotate_clockwise()
-			add_child(tile)				
+			add_child(tile)
 			grid[y][x] = tile
 		# TODO: Yoink weight system from seagull to distribute tiles
 	
@@ -60,7 +59,6 @@ func initialize_grid():
 
 func _physics_process(_delta):
 	if GameLogic.current_phase == GameLogic.phase.PLAYER_PHASE:
-		if preview: # Placement mode, move indicator around grid
 			if Input.is_action_just_pressed("accept_indicator"):
 				if indicator_tile.x == -1 || indicator_tile.x == GRID_WIDTH:
 					move_row_horizontal(indicator_tile.y, indicator_tile.x == -1)

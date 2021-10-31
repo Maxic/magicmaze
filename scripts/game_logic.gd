@@ -93,7 +93,6 @@ func remove_object_from_tile(object,object_x,object_y):
 	var tile = Grid.grid[object_y][object_x]
 	tile.remove_object(object)
 		
-		
 func add_object_to_tile(object,object_x,object_y):
 	var tile = Grid.grid[object_y][object_x]
 	tile.add_object(object)
@@ -101,3 +100,7 @@ func add_object_to_tile(object,object_x,object_y):
 func remove_move_indicator_paths():
 	for move_indicator in get_tree().get_nodes_in_group("move_indicators"):
 		move_indicator.queue_free()
+
+func remove_treasure(treasure):
+	var index = treasure_array.find(treasure)
+	treasure_array.remove(index)
