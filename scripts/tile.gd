@@ -17,7 +17,6 @@ var straight = preload("res://scenes/straight.tscn")
 var corner = preload("res://scenes/corner.tscn")
 var t_path = preload("res://scenes/t_path.tscn")
 var def_block = preload("res://scenes/default_cube.tscn")
-var indicator = preload("res://scenes/indicator.tscn")
 
 func _init(x_pos, y_pos, path_type):
 	self.x = x_pos

@@ -6,8 +6,8 @@ enum phase {HERO_INTENTION, PLAYER_PHASE, HERO_ACTION}
 var current_phase
 var end_player_phase = false
 var end_hero_action_phase = false
-var hero_amount = 1
-var treasure_amount = 1
+var hero_amount = 2
+var treasure_amount = 2
 var monster_amount = 0
 var hero_array = []
 var treasure_array = []
