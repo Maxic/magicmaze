@@ -8,7 +8,7 @@ var end_player_phase = false
 var end_hero_action_phase = false
 var hero_amount = 1
 var treasure_amount = 1
-var monster_amount = 3
+var monster_amount = 0
 var hero_array = []
 var treasure_array = []
 var monster_array = []
@@ -41,7 +41,7 @@ func _physics_process(_delta):
 	if current_phase == phase.HERO_INTENTION:
 		# calculate paths, and display intention
 		for hero in hero_array:
-			var paths = Pathfinder.find_all_paths(hero.vec_pos, Grid.grid)
+			var paths = Pathfinder.find_all_paths(hero.vec_pos, Grid.update_grid().duplicate())
 			hero.pick_best_path(paths)
 			hero.display_path()
 			hero.current_phase = hero.phase.WAITING
@@ -59,8 +59,9 @@ func _physics_process(_delta):
 			# Calculate new paths again with new grid
 			remove_move_indicator_paths()
 			for hero in hero_array:
-				var paths = Pathfinder.find_all_paths(hero.vec_pos, Grid.update_grid())
-				hero.pick_best_path(paths)
+				var paths = Pathfinder.find_all_paths(hero.vec_pos, Grid.update_grid()).duplicate()
+				#hero.pick_best_path(paths)
+				hero.recalculate_best_path(paths)
 				hero.display_path()
 			end_hero_action_phase = false
 			current_phase = phase.HERO_ACTION

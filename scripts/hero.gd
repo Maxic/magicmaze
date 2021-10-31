@@ -64,6 +64,10 @@ func move_along_path(path_arr):
 	
 func pick_best_path(paths):
 	var best_path = find_best_treasure_path(paths)
+#	for path in paths:
+#		print(path)
+#	print()
+#	print()
 	self.remaining_path = best_path
 		
 func find_all_treasure_paths(paths):
@@ -98,6 +102,11 @@ func find_best_treasure_path(paths):
 		return []
 		
 func recalculate_best_path(paths):
+	for path in paths:
+		print(path)
+	print()
+	print()
+	
 	var possible_path = []
 	var step_index = 0
 	var step_possible
@@ -105,12 +114,10 @@ func recalculate_best_path(paths):
 	while true:
 		step_possible = false
 		# Iterate backwards over the path array, that way we can remove elements
-		for i in range(paths.size()-1,-1,-1):
+		for i in range(paths.size()):
 			if step_index < paths[i].size() &&  step_index < remaining_path.size() && \
 			  paths[i][step_index] == remaining_path[step_index]:
 				step_possible = true
-			else:
-				paths.remove(i)
 		if step_possible:
 			possible_path.append(remaining_path[step_index])
 			step_index += 1
