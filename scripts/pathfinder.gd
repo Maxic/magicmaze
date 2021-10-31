@@ -67,11 +67,6 @@ func find_all_neighbours(x, y, grid):
 	var valid_neighbour_arr = []
 	var tile = grid[y][x]
 	
-	# TODO: There is a bug in this piece of code. If an earlier junction is chosen,
-	# the visited_tiles dict, from that point in time should be loaded
-	# Otherwise, too many paths that should still be explored aren't
-	# This is not necessary to find A path, but it is to find the shortest path.
-	
 	# north
 	if not y-1 < 0 and tile.north_open:
 		var neighbour_tile = grid[y-1][x]

@@ -54,10 +54,14 @@ func _physics_process(_delta):
 			
 #####~~  SECOND PHASE, PLAYER MOVEMENT ~~#####
 	if current_phase == phase.PLAYER_PHASE:
+		# movement is handled in grid code
 		if end_player_phase:
-			# setup next phase. Provide each hero with the best path to take
+			# Calculate new paths again with new grid
 			remove_move_indicator_paths()
-			
+			for hero in hero_array:
+				var paths = Pathfinder.find_all_paths(hero.vec_pos, Grid.update_grid())
+				hero.pick_best_path(paths)
+				hero.display_path()
 			end_hero_action_phase = false
 			current_phase = phase.HERO_ACTION
 			return
@@ -80,6 +84,7 @@ func _physics_process(_delta):
 				end_hero_action_phase = true
 		# Phase is over, setup stuff for next phase
 		if end_hero_action_phase:
+			remove_move_indicator_paths()
 			current_phase = phase.HERO_INTENTION
 			return
 			

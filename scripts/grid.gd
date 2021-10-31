@@ -126,6 +126,7 @@ func update_grid():
 			indicator_index = static_pos_arr.find(Vector2(indicator_tile.x, indicator_tile.y))
 			indicator_tile.update_object_positions()
 	grid_states.append([grid, indicator_tile])
+	return grid
 
 func create_indicator_pos_arr():
 	var pos_arr = []

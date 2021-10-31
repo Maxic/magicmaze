@@ -97,6 +97,27 @@ func find_best_treasure_path(paths):
 	else:
 		return []
 		
+func recalculate_best_path(paths):
+	var possible_path = []
+	var step_index = 0
+	var step_possible
+	
+	while true:
+		step_possible = false
+		# Iterate backwards over the path array, that way we can remove elements
+		for i in range(paths.size()-1,-1,-1):
+			if step_index < paths[i].size() &&  step_index < remaining_path.size() && \
+			  paths[i][step_index] == remaining_path[step_index]:
+				step_possible = true
+			else:
+				paths.remove(i)
+		if step_possible:
+			possible_path.append(remaining_path[step_index])
+			step_index += 1
+		else:
+			remaining_path = possible_path.duplicate()
+			return
+		
 func display_path():
 	if remaining_path:
 		for step in remaining_path:
