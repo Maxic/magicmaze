@@ -126,6 +126,7 @@ func display_path():
 			var move_indicator
 			if i != remaining_path.size()-1:	
 				move_indicator = move_indicator_scene.instance()
+				move_indicator.translation.y = -.2
 				# west
 				if remaining_path[i].x < remaining_path[i+1].x:
 					move_indicator.rotation_degrees.y = 270
@@ -140,5 +141,6 @@ func display_path():
 				move_indicator.scale *= .7
 			move_indicator.translation.x = remaining_path[i].x*2
 			move_indicator.translation.z = remaining_path[i].y*2
+
 			move_indicator.add_to_group("move_indicators")
 			get_parent().add_child(move_indicator)

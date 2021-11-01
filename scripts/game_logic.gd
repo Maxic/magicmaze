@@ -17,6 +17,12 @@ var monster_array = []
 onready var main = get_node("/root/main")
 
 func _ready():
+	randomize()
+	var rng = RandomNumberGenerator.new()
+	var seed_int = randi()
+	print("Seed: " + str(seed_int))
+	seed(seed_int)
+	
 	Grid.create_grid()
 	
 	for i in hero_amount:
@@ -45,7 +51,6 @@ func _physics_process(_delta):
 			hero.pick_best_path(paths)
 			hero.display_path()
 			hero.current_phase = hero.phase.WAITING
-		
 		# No end condition needed here
 		# Just calculate, show paths and move on
 		end_player_phase = false
