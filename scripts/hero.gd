@@ -74,6 +74,7 @@ func move_along_path(path_arr):
 	
 func pick_best_path(paths):
 	var best_path = find_best_treasure_path(paths)
+	# TODO: Find goblins, set path and set state to attack
 	self.remaining_path = best_path
 	
 func find_all_treasure_paths(paths):
