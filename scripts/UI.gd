@@ -68,6 +68,6 @@ func find_ui_element(ui_element_name):
 		
 		"phase_text":
 			match_element = phase_text_label
-		"victory_text":
+		"result_text":
 			match_element = result_text_label
 	return match_element

@@ -1,7 +1,7 @@
 extends Node
 
 # Grid must be square
-var GRID_DIMENSION = 7
+var GRID_DIMENSION
 var GRID_HEIGHT = GRID_DIMENSION
 var GRID_WIDTH = GRID_DIMENSION
 
@@ -23,7 +23,11 @@ var type_arr = [
 var static_pos_arr = []
 var indicator_index = 0
 
-func create_grid():
+func create_grid(dimension):
+	GRID_DIMENSION = dimension
+	GRID_HEIGHT = GRID_DIMENSION
+	GRID_WIDTH = GRID_DIMENSION
+	
 	# Initialize grid with 0's
 	initialize_grid()
 	
@@ -51,6 +55,7 @@ func create_grid():
 	grid_states.append([grid, indicator_tile])
 
 func initialize_grid():
+	grid = []
 	for y in range(GRID_HEIGHT):
 		grid.append([])
 		for _x in range(GRID_WIDTH):

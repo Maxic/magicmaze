@@ -19,7 +19,15 @@ func _ready():
 #	UI.fade_in_and_show_ui("name of UI node",alpha added per frame until the value is 1, total display time)
 #	UI.fade_out_and_hide_ui("name of UI node",alpha substracted per frame until value is 0)
 
+func victory_msg():
+	UI.set_ui_text("result_text","Victory!")
+	UI.fade_in_and_show_ui("result_text",0.01,3)
+	UI.fade_out_and_hide_ui("result_text",0.00005)
 
+func your_are_dead_msg():
+	UI.set_ui_text("result_text","You are dead")
+	UI.fade_in_and_show_ui("result_text",0.01,3)
+	UI.fade_out_and_hide_ui("result_text",0.00005)
 
 func hero_intention_phase_msg():
 	UI.set_ui_text("phase_text","The Heroes move!")

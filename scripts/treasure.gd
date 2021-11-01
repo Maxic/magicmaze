@@ -36,6 +36,7 @@ func picked_up():
 		if object.get_class() == CLASS_NAME:
 			Grid.grid[y][x].remove_object(object)
 	GameLogic.remove_treasure(self)
+	GameLogic.hp -= 1
 	queue_free()
 	
 func get_class(): return CLASS_NAME

@@ -1,5 +1,6 @@
 extends Spatial
 class_name Hero
+const CLASS_NAME = "Hero"
 
 var x
 var y
@@ -44,13 +45,16 @@ func move_to_pos(x_pos, y_pos):
 	self.x = x_pos
 	self.y = y_pos
 	self.vec_pos = Vector2(x,y)
-	check_for_chests()
 	GameLogic.add_object_to_tile(self,x,y)
+	check_for_objects()
 	
-func check_for_chests():
+func check_for_objects():
 	for object in Grid.grid[y][x].objects:
-		if object.get_class() == "Treasure":
+		var object_class = object.get_class()
+		if object_class == "Treasure":
 			object.picked_up()
+		if object_class == "Monster":
+			die()
 	
 func update_pos(x_pos, y_pos):
 	translation = Vector3(x_pos*2, translation.y, y_pos*2)
@@ -144,3 +148,13 @@ func display_path():
 
 			move_indicator.add_to_group("move_indicators")
 			get_parent().add_child(move_indicator)
+
+func die():
+	var objects = Grid.grid[y][x].objects
+	for object in objects:
+		if object.get_class() == CLASS_NAME:
+			Grid.grid[y][x].remove_object(object)
+	GameLogic.remove_hero(self)
+	queue_free()
+
+func get_class(): return CLASS_NAME

@@ -22,7 +22,7 @@ func _init(x_pos, y_pos, path_type):
 	self.x = x_pos
 	self.y = y_pos
 	self.vec_pos = Vector2(x,y)
-	self.type = set_type(path_type)
+	self.type = set_type_and_properties(path_type)
 	self.scale = Vector3(.97,.97,.97)
 	self.facing = 0
 	
@@ -42,7 +42,7 @@ func move_to_pos(x_pos, y_pos):
 	self.y = y_pos
 	self.vec_pos = Vector2(x_pos, y_pos)
 
-func set_type(path_type):
+func set_type_and_properties(path_type):
 	match path_type:
 		"cross":
 			north_open = true

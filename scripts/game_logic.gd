@@ -2,13 +2,21 @@ extends Node
 
 enum phase {HERO_INTENTION, PLAYER_PHASE, HERO_ACTION}
 
+# config
+var grid_dimension = 7
+var hero_amount = 2
+var treasure_amount = 2
+var monster_amount = 2
+var hp = 1
+
 # State vars
 var current_phase
 var end_player_phase = false
 var end_hero_action_phase = false
-var hero_amount = 2
-var treasure_amount = 2
-var monster_amount = 0
+var dead = false
+var victory = false
+
+# Keep track arrays
 var hero_array = []
 var treasure_array = []
 var monster_array = []
@@ -17,32 +25,28 @@ var monster_array = []
 onready var main = get_node("/root/main")
 
 func _ready():
-	randomize()
-	var rng = RandomNumberGenerator.new()
-	var seed_int = randi()
-	print("Seed: " + str(seed_int))
-	seed(seed_int)
+	# Randomize with specfic seed (found in output)
+	get_and_set_seed()
 	
-	Grid.create_grid()
+	# Create initial grid
+	Grid.create_grid(grid_dimension)
 	
-	for i in hero_amount:
-		i = Hero.new(randi() % Grid.GRID_DIMENSION,randi() % Grid.GRID_DIMENSION)
-		hero_array.append(i)
-		main.add_child(i)
+	# Populate grid with objects
+	spawn_heroes()
+	spawn_maze_objects()
 	
-	for i in treasure_amount:
-		i = Treasure.new(randi() % Grid.GRID_DIMENSION, randi() % Grid.GRID_DIMENSION)
-		treasure_array.append(i)
-		main.add_child(i)
-	
-	for i in monster_amount:
-		i = Monster.new(randi() % Grid.GRID_DIMENSION, randi() % Grid.GRID_DIMENSION, "goblin")
-		monster_array.append(i)
-		main.add_child(i)
-	
+	# Start phase loop with hero intention phase
 	current_phase = phase.HERO_INTENTION
 	
 func _physics_process(_delta):
+#####~~  UNRELATED TO PHASES, ACT IMMEDIATELY ~~#####
+	check_for_player_death()
+	if dead:
+		return
+	check_for_player_victory()
+	if victory:
+		return
+
 #####~~  FIRST PHASE, CALCULATE AND SHOW HERO INTENTION ~~#####
 	if current_phase == phase.HERO_INTENTION:
 		# calculate paths, and display intention
@@ -109,3 +113,69 @@ func remove_move_indicator_paths():
 func remove_treasure(treasure):
 	var index = treasure_array.find(treasure)
 	treasure_array.remove(index)
+
+func remove_hero(hero):
+	var index = hero_array.find(hero)
+	hero_array.remove(index)
+	
+func get_and_set_seed():
+	# Long path, treasures not on path: 4029905039
+	# fun get 3 treasures: 2486799252
+	# Both Heroes die on a single goblin: 183702472 (5 tiles, 2 heroes 2 goblins)
+	# Buggy seed: 2080584425 (7tiles, 2 heroes, 2 goblins, 2 treasures) FIXED
+	randomize()
+	var rng = RandomNumberGenerator.new()
+	var seed_int = randi()
+	print("Seed: " + str(seed_int))
+	seed(2080584425)
+	seed(seed_int)
+
+func check_for_player_death():
+	if hp == 0 and not dead:
+		EventManager.your_are_dead_msg()
+		dead = true
+
+func check_for_player_victory():
+	if hero_array.size() == 0 and not victory:
+		EventManager.victory_msg()
+		victory = true
+
+func spawn_heroes():
+	# Generate array of tiles on the edge of the grid
+	var edge_arr = []
+	for i in range(grid_dimension):
+		# TODO: Check if tiles have an entrance toward the edge
+		edge_arr.append(Vector2(0,i))
+		edge_arr.append(Vector2(grid_dimension-1,i))
+		edge_arr.append(Vector2(i,0))
+		edge_arr.append(Vector2(i,grid_dimension-1))
+
+	# spawn hero in one the remaining tiles
+	for i in hero_amount:
+		edge_arr.shuffle()
+		var hero = Hero.new(edge_arr[0].x,edge_arr[0].y)
+		edge_arr.remove(0)
+		hero_array.append(hero)
+		main.add_child(hero)
+	
+func spawn_maze_objects():
+	# Generate array of tiles _not_ on edge of grid
+	var inner_arr = []
+	for y in range(1, grid_dimension-1):
+		for x in range(1, grid_dimension-1):
+			inner_arr.append(Vector2(x,y))
+		
+	# for treasures and monsters
+	# spawn object on tile, and romove tile from array
+	inner_arr.shuffle()	
+	for i in monster_amount:
+		var monster = Monster.new(inner_arr[0].x,inner_arr[0].y, "goblin")
+		inner_arr.remove(0)
+		monster_array.append(monster)
+		main.add_child(monster)
+	for i in treasure_amount:
+		var treasure = Treasure.new(inner_arr[0].x,inner_arr[0].y)
+		inner_arr.remove(0)
+		treasure_array.append(treasure)
+		main.add_child(treasure)
+

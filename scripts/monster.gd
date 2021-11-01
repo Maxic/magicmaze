@@ -1,19 +1,21 @@
 extends Spatial
 class_name Monster
+const CLASS_NAME = "Monster"
 
 var x
 var y
 var vec_pos
 var type
-
+var sprite
 
 var goblin_sprite = preload("res://scenes/goblin_sprite.tscn")
 
 func _init(x_pos, y_pos, monster_type):
 	self.x = x_pos
 	self.y = y_pos
-	self.type = monster_type
 	self.vec_pos = Vector2(x,y)
+	self.type = monster_type
+
 	
 	# Add to correct group
 	add_to_group("monsters")
@@ -21,10 +23,9 @@ func _init(x_pos, y_pos, monster_type):
 	# Move to correct position
 	update_pos(x, y)
 	
-	# sprite and stats based on type
-	var sprite
-	if type == "goblin":
-		sprite = goblin_sprite.instance()
+	# Set type and properties
+	set_type_and_properties(type)
+
 	
 	# Initialize self in world
 	add_child(sprite)
@@ -36,4 +37,11 @@ func update_pos(x_pos, y_pos):
 	self.y = y_pos
 	self.vec_pos = Vector2(x,y)
 	
+func set_type_and_properties(monster_type):
+	match monster_type:
+		"goblin":
+			sprite = goblin_sprite.instance()
+		_:
+			sprite = null	
 
+func get_class(): return CLASS_NAME
