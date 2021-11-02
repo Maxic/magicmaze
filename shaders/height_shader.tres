@@ -1,9 +1,7 @@
-[gd_resource type="VisualShader" load_steps=37 format=2]
-
-[ext_resource path="res://assets/texture-g6ac2e1c8e_1920.jpeg" type="Texture" id=1]
+[gd_resource type="VisualShader" load_steps=36 format=2]
 
 [sub_resource type="VisualShaderNodeScalarOp" id=1]
-default_input_values = [ 0, 0.0, 1, 0.25 ]
+default_input_values = [ 0, 0.0, 1, 0.2 ]
 
 [sub_resource type="OpenSimplexNoise" id=2]
 
@@ -61,7 +59,6 @@ texture = SubResource( 16 )
 default_input_values = [ 0, 0.0, 1, 0.3 ]
 
 [sub_resource type="VisualShaderNodeTexture" id=19]
-texture = ExtResource( 1 )
 
 [sub_resource type="VisualShaderNodeInput" id=20]
 input_name = "vertex"
@@ -112,7 +109,7 @@ output_port_for_preview = 0
 
 [resource]
 code = "shader_type spatial;
-render_mode specular_schlick_ggx;
+render_mode diffuse_lambert_wrap, specular_disabled;
 
 uniform sampler2D tex_frg_33;
 uniform sampler2D tex_frg_11;
@@ -223,7 +220,7 @@ void fragment() {
 	float n_out5p2 = n_out4p0.z;
 
 // ScalarOp:10
-	float n_in10p1 = 0.25000;
+	float n_in10p1 = 0.20000;
 	float n_out10p0 = n_out5p1 + n_in10p1;
 
 // ScalarOp:31
@@ -247,7 +244,9 @@ void light() {
 
 }
 "
-graph_offset = Vector2( 125.858, -596.869 )
+graph_offset = Vector2( -161.04, -263.475 )
+modes/diffuse = 1
+modes/specular = 4
 nodes/fragment/0/position = Vector2( 3000, -120 )
 nodes/fragment/2/node = SubResource( 6 )
 nodes/fragment/2/position = Vector2( -540, 120 )
@@ -258,7 +257,7 @@ nodes/fragment/4/position = Vector2( -180, 60 )
 nodes/fragment/5/node = SubResource( 31 )
 nodes/fragment/5/position = Vector2( 320, 80 )
 nodes/fragment/8/node = SubResource( 35 )
-nodes/fragment/8/position = Vector2( 2100, -120 )
+nodes/fragment/8/position = Vector2( 2480, 40 )
 nodes/fragment/10/node = SubResource( 1 )
 nodes/fragment/10/position = Vector2( 880, 60 )
 nodes/fragment/11/node = SubResource( 4 )
@@ -282,13 +281,13 @@ nodes/fragment/31/position = Vector2( 1420, 60 )
 nodes/fragment/33/node = SubResource( 17 )
 nodes/fragment/33/position = Vector2( -560, -1120 )
 nodes/fragment/34/node = SubResource( 18 )
-nodes/fragment/34/position = Vector2( 840, -440 )
+nodes/fragment/34/position = Vector2( 800, -320 )
 nodes/fragment/35/node = SubResource( 19 )
-nodes/fragment/35/position = Vector2( 1440, 500 )
+nodes/fragment/35/position = Vector2( 1100, 440 )
 nodes/fragment/36/node = SubResource( 20 )
 nodes/fragment/36/position = Vector2( 100, 960 )
 nodes/fragment/39/node = SubResource( 21 )
-nodes/fragment/39/position = Vector2( 2520, -40 )
+nodes/fragment/39/position = Vector2( 2600, -320 )
 nodes/fragment/41/node = SubResource( 23 )
 nodes/fragment/41/position = Vector2( 400, 600 )
 nodes/fragment/42/node = SubResource( 24 )
@@ -311,4 +310,4 @@ nodes/fragment/51/node = SubResource( 33 )
 nodes/fragment/51/position = Vector2( -2066.25, -1172.69 )
 nodes/fragment/52/node = SubResource( 34 )
 nodes/fragment/52/position = Vector2( -1820, -520 )
-nodes/fragment/connections = PoolIntArray( 3, 0, 4, 1, 4, 0, 5, 0, 3, 0, 4, 1, 4, 0, 5, 0, 5, 1, 10, 0, 24, 0, 11, 0, 25, 0, 24, 1, 2, 0, 4, 0, 29, 0, 26, 0, 30, 0, 26, 1, 26, 0, 8, 0, 23, 0, 24, 0, 31, 0, 8, 2, 10, 0, 31, 0, 8, 0, 39, 0, 39, 0, 0, 0, 35, 0, 8, 1, 36, 0, 41, 1, 41, 0, 35, 0, 42, 0, 41, 0, 33, 0, 43, 0, 11, 0, 43, 1, 43, 0, 34, 0, 34, 0, 26, 2, 3, 0, 4, 1, 4, 0, 5, 0, 3, 0, 4, 1, 4, 0, 5, 0, 24, 0, 11, 0, 2, 0, 4, 0, 26, 0, 8, 0, 31, 0, 8, 2, 8, 0, 39, 0, 39, 0, 0, 0, 42, 0, 41, 0, 33, 0, 43, 0, 43, 0, 34, 0, 48, 0, 47, 1, 47, 0, 33, 0, 50, 0, 51, 1, 50, 0, 51, 1, 49, 0, 51, 0, 50, 0, 51, 1, 50, 0, 51, 1, 49, 0, 51, 0, 51, 0, 47, 0, 45, 0, 52, 0, 52, 0, 48, 0, 19, 0, 44, 0, 44, 0, 25, 0 )
+nodes/fragment/connections = PoolIntArray( 3, 0, 4, 1, 4, 0, 5, 0, 3, 0, 4, 1, 4, 0, 5, 0, 5, 1, 10, 0, 24, 0, 11, 0, 25, 0, 24, 1, 2, 0, 4, 0, 29, 0, 26, 0, 30, 0, 26, 1, 26, 0, 8, 0, 23, 0, 24, 0, 10, 0, 31, 0, 8, 0, 39, 0, 39, 0, 0, 0, 35, 0, 8, 1, 36, 0, 41, 1, 42, 0, 41, 0, 33, 0, 43, 0, 11, 0, 43, 1, 43, 0, 34, 0, 34, 0, 26, 2, 3, 0, 4, 1, 4, 0, 5, 0, 3, 0, 4, 1, 4, 0, 5, 0, 24, 0, 11, 0, 2, 0, 4, 0, 26, 0, 8, 0, 8, 0, 39, 0, 39, 0, 0, 0, 42, 0, 41, 0, 33, 0, 43, 0, 43, 0, 34, 0, 48, 0, 47, 1, 47, 0, 33, 0, 50, 0, 51, 1, 50, 0, 51, 1, 49, 0, 51, 0, 50, 0, 51, 1, 50, 0, 51, 1, 49, 0, 51, 0, 51, 0, 47, 0, 45, 0, 52, 0, 52, 0, 48, 0, 19, 0, 44, 0, 44, 0, 25, 0, 31, 0, 8, 2, 41, 0, 35, 0 )
