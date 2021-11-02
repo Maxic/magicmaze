@@ -3,7 +3,7 @@ extends Node
 enum phase {HERO_INTENTION, PLAYER_PHASE, HERO_ACTION}
 
 # config
-var grid_dimension = 7
+var grid_dimension = 5
 var hero_amount = 2
 var treasure_amount = 2
 var monster_amount = 2
@@ -122,12 +122,11 @@ func get_and_set_seed():
 	# Long path, treasures not on path: 4029905039
 	# fun get 3 treasures: 2486799252
 	# Both Heroes die on a single goblin: 183702472 (5 tiles, 2 heroes 2 goblins)
-	# Buggy seed: 2080584425 (7tiles, 2 heroes, 2 goblins, 2 treasures) FIXED
 	randomize()
 	var rng = RandomNumberGenerator.new()
 	var seed_int = randi()
 	print("Seed: " + str(seed_int))
-	seed(2080584425)
+	#seed(2151069878)
 	seed(seed_int)
 
 func check_for_player_death():
@@ -144,7 +143,6 @@ func spawn_heroes():
 	# Generate array of tiles on the edge of the grid
 	var edge_arr = []
 	for i in range(grid_dimension):
-		# TODO: Check if tiles have an entrance toward the edge
 		edge_arr.append(Vector2(0,i))
 		edge_arr.append(Vector2(grid_dimension-1,i))
 		edge_arr.append(Vector2(i,0))
@@ -153,6 +151,7 @@ func spawn_heroes():
 	# spawn hero in one the remaining tiles
 	for i in hero_amount:
 		edge_arr.shuffle()
+		var tile = edge_arr[0]
 		var hero = Hero.new(edge_arr[0].x,edge_arr[0].y)
 		edge_arr.remove(0)
 		hero_array.append(hero)

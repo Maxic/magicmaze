@@ -5,6 +5,54 @@ var paths_arr = []
 var visited_tiles = {}
 var junction_dict = {}
 
+func find_shortest_paths():
+	pass
+
+func find_shortest_treasure_path(paths):
+	var shortest_path
+	var treasure_paths = find_all_treasure_paths(paths)
+	var shortest_path_size = Grid.GRID_DIMENSION * Grid.GRID_DIMENSION
+	if treasure_paths:
+		for path in treasure_paths:
+			if path.size() < shortest_path_size:
+				shortest_path = path	
+				shortest_path_size = path.size()
+		return shortest_path
+	else:
+		return []
+	
+func find_all_treasure_paths(paths):
+	var treasure_paths = []
+	var treasure_pos_arr = []
+	for treasure in GameLogic.treasure_array:
+		treasure_pos_arr.append(treasure.vec_pos)
+	for path in paths:
+		for pos in path:
+			var obtainable_treasure_index = treasure_pos_arr.find(pos)
+			if obtainable_treasure_index >= 0:
+				var end_path_index = path.find(treasure_pos_arr[obtainable_treasure_index])
+				for _i in range(end_path_index+1, path.size()):
+					path.remove(end_path_index+1)
+				treasure_paths.append(path)
+	return treasure_paths
+
+func find_shortest_goblin_path(paths):
+	return []
+	
+func find_all_goblin_paths(paths):
+	var goblin_paths = []
+	var goblin_pos_arr = []
+	for goblin in GameLogic.goblin_array:
+		goblin_pos_arr.append(goblin.vec_pos)
+	for path in paths:
+		for pos in path:
+			var obtainable_goblin_index = goblin_pos_arr.find(pos)
+			if obtainable_goblin_index >= 0:
+				var end_path_index = path.find(goblin_pos_arr[obtainable_goblin_index])
+				for _i in range(end_path_index+1, path.size()):
+					path.remove(end_path_index+1)
+				goblin_paths.append(path)
+	return goblin_paths
 
 func find_all_paths(start_pos, grid):
 	reset()

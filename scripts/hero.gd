@@ -73,39 +73,12 @@ func move_along_path(path_arr):
 			remaining_path.pop_front()
 	
 func pick_best_path(paths):
-	var best_path = find_best_treasure_path(paths)
+	#var best_path = find_best_treasure_path(paths)
 	# TODO: Find goblins, set path and set state to attack
-	self.remaining_path = best_path
+	#self.remaining_path = best_path
 	
-func find_all_treasure_paths(paths):
-	var treasure_paths = []
-	var treasure_pos_arr = []
-	for treasure in GameLogic.treasure_array:
-		treasure_pos_arr.append(treasure.vec_pos)
-	for path in paths:
-		for pos in path:
-			var obtainable_treasure_index = treasure_pos_arr.find(pos)
-			if obtainable_treasure_index >= 0:
-				var end_path_index = path.find(treasure_pos_arr[obtainable_treasure_index])
-				for _i in range(end_path_index+1, path.size()):
-					path.remove(end_path_index+1)
-				treasure_paths.append(path)
-	return treasure_paths
-	
-func find_best_treasure_path(paths):
-	var best_path
-	var treasure_paths = find_all_treasure_paths(paths)
-	var shortest_path_size = Grid.GRID_DIMENSION * Grid.GRID_DIMENSION
-	if treasure_paths:
-		for path in treasure_paths:
-			if path.size() < shortest_path_size:
-				best_path = path	
-				shortest_path_size = path.size()
-		return best_path
-	elif paths:
-		return paths[0]
-	else:
-		return []
+	return paths[0]
+
 	
 func recalculate_best_path(paths):
 	var possible_path = []
