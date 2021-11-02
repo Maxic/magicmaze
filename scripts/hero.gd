@@ -135,7 +135,8 @@ func display_path():
 			move_indicator.translation.x = remaining_path[i].x*2
 			move_indicator.translation.z = remaining_path[i].y*2
 
-			# TODO: When current intent is ATTACKING, change material on these objects
+			if current_intent == intent.ATTACKING:
+				move_indicator.set_color_red()
 			move_indicator.add_to_group("move_indicators")
 			get_parent().add_child(move_indicator)
 
