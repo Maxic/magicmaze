@@ -47,7 +47,6 @@ __meta__ = {
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CenterWideContainer"]
 margin_right = 1024.0
-margin_bottom = 45.0
 
 [node name="victory_text" type="Label" parent="CenterWideContainer/VBoxContainer"]
 visible = false
