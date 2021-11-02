@@ -17,6 +17,7 @@ var new_pos
 var hero_sprite = preload("res://scenes/hero_sprite.tscn")
 var move_indicator_scene = preload("res://scenes/move_indicator.tscn")
 var move_indicator_static_scene = preload("res://scenes/move_indicator_static.tscn")
+var hero_stats = preload("res://scenes/hero_stats.tscn")
 
 func _init(x_pos, y_pos):
 	# Move to correct position and set position params
@@ -32,6 +33,9 @@ func _init(x_pos, y_pos):
 	var sprite = hero_sprite.instance()
 	add_child(sprite)
 	GameLogic.add_object_to_tile(self, x, y)
+	
+	var hero_stats_inst = hero_stats.instance()
+	add_child(hero_stats_inst)
 
 func _physics_process(_delta):
 	if GameLogic.current_phase == GameLogic.phase.HERO_ACTION:
