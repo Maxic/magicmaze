@@ -33,15 +33,13 @@ func _physics_process(delta):
 			if active_element.modulate.a >= 1:
 				active_element.modulate.a = 1
 				fade_in = false
-		if t >= show_for_time && show_for_time != -1:
-			if fade_out:
-				active_element.modulate.a -= fade_out_time
-				if active_element.modulate.a <= 0:
-						active_element.modulate.a = 0
-						active_element.visible = false
-			else:
-				if show_for_time == -1:
-					ui_action = false
+		if show_for_time != -1:
+			if t >= show_for_time:
+				if fade_out:
+					active_element.modulate.a -= fade_out_time
+					if active_element.modulate.a <= 0:
+							active_element.modulate.a = 0
+							active_element.visible = false
 				else:		
 					active_element.visible = false
 						
@@ -75,6 +73,6 @@ func find_ui_element(ui_element_name):
 		"result_text":
 			match_element = result_text_label
 		"turn_text":
-			match_element = result_text_label
+			match_element = turn_text_label
 			
 	return match_element

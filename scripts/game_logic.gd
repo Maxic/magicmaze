@@ -43,8 +43,6 @@ func _ready():
 func _physics_process(_delta):
 	
 #####~~  UNRELATED TO PHASES, ACT IMMEDIATELY ~~#####
-	turn += 1
-	EventManager.set_turn_timer(turn)
 
 	check_for_player_death()
 	if dead:
@@ -55,7 +53,10 @@ func _physics_process(_delta):
 
 #####~~  FIRST PHASE, CALCULATE AND SHOW HERO INTENTION ~~#####
 	if current_phase == phase.HERO_INTENTION:
+		EventManager.hero_intention_phase_msg()
 		# calculate paths, and display intention
+		turn += 1
+		EventManager.set_turn_timer(turn)
 		for hero in hero_array:
 			var paths = Pathfinder.find_shortest_paths(hero.vec_pos, Grid.update_grid().duplicate())
 			hero.set_intent_and_path(paths)
@@ -84,6 +85,7 @@ func _physics_process(_delta):
 			
 #####~~  THIRD PHASE, ENEMY ACTION ~~#####	
 	if current_phase == phase.HERO_ACTION:
+		EventManager.hero_action_phase_msg()
 		# If there are no heroes, stop this phase.
 		if !hero_array:
 			end_hero_action_phase = true
