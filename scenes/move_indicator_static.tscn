@@ -1,9 +1,11 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://assets/models/move_indicator/move_indicator_static.glb" type="PackedScene" id=1]
 [ext_resource path="res://assets/models/move_indicator/move_indicator.material" type="Material" id=2]
+[ext_resource path="res://scripts/move_indicator.gd" type="Script" id=3]
 
 [node name="move_indicator_static" instance=ExtResource( 1 )]
+script = ExtResource( 3 )
 
 [node name="move_indicator_old" parent="." index="0"]
 material/0 = ExtResource( 2 )
