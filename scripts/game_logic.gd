@@ -162,6 +162,7 @@ func spawn_heroes():
 		var hero = Hero.new(edge_arr[0].x,edge_arr[0].y)
 		edge_arr.remove(0)
 		hero_array.append(hero)
+		hero.turn_order = (i+1)
 		main.add_child(hero)
 	
 func spawn_maze_objects():

@@ -13,6 +13,7 @@ enum intent {NOTHING, PICK_UP, ATTACKING}
 var current_intent
 var current_pos
 var new_pos
+var turn_order
 
 var hero_sprite = preload("res://scenes/hero_sprite.tscn")
 var move_indicator_scene = preload("res://scenes/move_indicator.tscn")
