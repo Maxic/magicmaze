@@ -9,6 +9,8 @@ var type
 var remaining_path
 enum phase {WAITING, MOVING, DONE}
 var current_phase
+enum intent {NOTHING, PICK_UP, ATTACKING}
+var current_intent
 var current_pos
 var new_pos
 
@@ -54,7 +56,10 @@ func check_for_objects():
 		if object_class == "Treasure":
 			object.picked_up()
 		if object_class == "Monster":
-			die()
+			if current_intent == intent.ATTACKING:
+				object.die()
+			else:
+				die()
 	
 func update_pos(x_pos, y_pos):
 	translation = Vector3(x_pos*2, translation.y, y_pos*2)
@@ -72,13 +77,18 @@ func move_along_path(path_arr):
 			move_to_pos(pos.x,pos.y)
 			remaining_path.pop_front()
 	
-func pick_best_path(paths):
-	#var best_path = find_best_treasure_path(paths)
-	# TODO: Find goblins, set path and set state to attack
-	#self.remaining_path = best_path
-	
-	return paths[0]
-
+func set_intent_and_path(paths):
+	# TODO: Fix bug here, 
+	# if the order between monster and treasure is swapped, it does not work
+	if paths.has("monster"):
+		self.remaining_path = paths["monster"]
+		self.current_intent = intent.ATTACKING
+	elif paths.has("treasure"):
+		self.remaining_path = paths["treasure"]
+		self.current_intent = intent.PICK_UP
+	else:
+		self.remaining_path = [Vector2(self.x, self.y)]
+		self.current_intent = intent.NOTHING
 	
 func recalculate_best_path(paths):
 	var possible_path = []
@@ -120,6 +130,7 @@ func display_path():
 			move_indicator.translation.x = remaining_path[i].x*2
 			move_indicator.translation.z = remaining_path[i].y*2
 
+			# TODO: When current intent is ATTACKING, change material on these objects
 			move_indicator.add_to_group("move_indicators")
 			get_parent().add_child(move_indicator)
 

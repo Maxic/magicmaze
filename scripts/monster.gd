@@ -43,5 +43,12 @@ func set_type_and_properties(monster_type):
 			sprite = goblin_sprite.instance()
 		_:
 			sprite = null	
+func die():
+	var objects = Grid.grid[y][x].objects
+	for object in objects:
+		if object.get_class() == CLASS_NAME:
+			Grid.grid[y][x].remove_object(object)
+	GameLogic.remove_monster(self)
+	queue_free()
 
 func get_class(): return CLASS_NAME

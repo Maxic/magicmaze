@@ -5,9 +5,19 @@ var paths_arr = []
 var visited_tiles = {}
 var junction_dict = {}
 
-func find_shortest_paths():
-	pass
-
+func find_shortest_paths(start_pos, grid):
+	var shortest_paths = {}
+	var possible_paths = find_all_paths(start_pos, grid)
+	var treasure_path = find_shortest_treasure_path(possible_paths)
+	var monster_path = find_shortest_monster_path(possible_paths)
+	
+	if treasure_path != []:
+		shortest_paths["treasure"] = treasure_path
+	if monster_path != []:
+		shortest_paths["monster"] = monster_path
+		
+	return shortest_paths
+	
 func find_shortest_treasure_path(paths):
 	var shortest_path
 	var treasure_paths = find_all_treasure_paths(paths)
@@ -36,23 +46,33 @@ func find_all_treasure_paths(paths):
 				treasure_paths.append(path)
 	return treasure_paths
 
-func find_shortest_goblin_path(paths):
-	return []
+func find_shortest_monster_path(paths):
+	var shortest_path
+	var monster_paths = find_all_monster_paths(paths)
+	var shortest_path_size = Grid.GRID_DIMENSION * Grid.GRID_DIMENSION
+	if monster_paths:
+		for path in monster_paths:
+			if path.size() < shortest_path_size:
+				shortest_path = path	
+				shortest_path_size = path.size()
+		return shortest_path
+	else:
+		return []
 	
-func find_all_goblin_paths(paths):
-	var goblin_paths = []
-	var goblin_pos_arr = []
-	for goblin in GameLogic.goblin_array:
-		goblin_pos_arr.append(goblin.vec_pos)
+func find_all_monster_paths(paths):
+	var monster_paths = []
+	var monster_pos_arr = []
+	for monster in GameLogic.monster_array:
+		monster_pos_arr.append(monster.vec_pos)
 	for path in paths:
 		for pos in path:
-			var obtainable_goblin_index = goblin_pos_arr.find(pos)
-			if obtainable_goblin_index >= 0:
-				var end_path_index = path.find(goblin_pos_arr[obtainable_goblin_index])
+			var obtainable_monster_index = monster_pos_arr.find(pos)
+			if obtainable_monster_index >= 0:
+				var end_path_index = path.find(monster_pos_arr[obtainable_monster_index])
 				for _i in range(end_path_index+1, path.size()):
 					path.remove(end_path_index+1)
-				goblin_paths.append(path)
-	return goblin_paths
+				monster_paths.append(path)
+	return monster_paths
 
 func find_all_paths(start_pos, grid):
 	reset()

@@ -51,8 +51,9 @@ func _physics_process(_delta):
 	if current_phase == phase.HERO_INTENTION:
 		# calculate paths, and display intention
 		for hero in hero_array:
-			var paths = Pathfinder.find_all_paths(hero.vec_pos, Grid.update_grid().duplicate())
-			hero.pick_best_path(paths)
+			var paths = Pathfinder.find_shortest_paths(hero.vec_pos, Grid.update_grid().duplicate())
+			print(paths)
+			hero.set_intent_and_path(paths)
 			hero.display_path()
 			hero.current_phase = hero.phase.WAITING
 		# No end condition needed here
@@ -117,17 +118,23 @@ func remove_treasure(treasure):
 func remove_hero(hero):
 	var index = hero_array.find(hero)
 	hero_array.remove(index)
+
+func remove_monster(monster):
+	var index = monster_array.find(monster)
+	monster_array.remove(index)
 	
 func get_and_set_seed():
 	# Long path, treasures not on path: 4029905039
 	# fun get 3 treasures: 2486799252
 	# Both Heroes die on a single goblin: 183702472 (5 tiles, 2 heroes 2 goblins)
+	# BUGGED: Two heroes on single goblin, goblin won;t die: 3409368046
+	# Try to win this one 321444751
 	randomize()
 	var rng = RandomNumberGenerator.new()
 	var seed_int = randi()
 	print("Seed: " + str(seed_int))
-	#seed(2151069878)
-	seed(seed_int)
+	seed(321444751)
+	#seed(seed_int)
 
 func check_for_player_death():
 	if hp == 0 and not dead:
