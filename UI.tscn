@@ -16,18 +16,40 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="TopWideContainer" type="MarginContainer" parent="."]
+[node name="TopRightContainer" type="MarginContainer" parent="."]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -1024.0
+margin_bottom = 45.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TopRightContainer"]
+margin_right = 1024.0
+margin_bottom = 45.0
+
+[node name="turn_text" type="Label" parent="TopRightContainer/VBoxContainer"]
+visible = false
+margin_right = 1024.0
+margin_bottom = 45.0
+custom_fonts/font = SubResource( 1 )
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+align = 2
+
+[node name="TopWideContainer2" type="MarginContainer" parent="."]
 anchor_right = 1.0
 margin_bottom = 14.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="VBoxContainer" type="VBoxContainer" parent="TopWideContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="TopWideContainer2"]
 margin_right = 1024.0
 margin_bottom = 14.0
 
-[node name="phase_text" type="Label" parent="TopWideContainer/VBoxContainer"]
+[node name="phase_text" type="Label" parent="TopWideContainer2/VBoxContainer"]
 visible = false
 margin_right = 1024.0
 margin_bottom = 45.0

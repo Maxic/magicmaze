@@ -15,6 +15,7 @@ var ui_action
 
 onready var phase_text_label = $TopWideContainer/VBoxContainer/phase_text
 onready var result_text_label = $CenterWideContainer/VBoxContainer/victory_text
+onready var turn_text_label = $TopRightContainer/VBoxContainer/turn_text
 
 func _ready():
 	pass
@@ -32,14 +33,17 @@ func _physics_process(delta):
 			if active_element.modulate.a >= 1:
 				active_element.modulate.a = 1
 				fade_in = false
-		if t >= show_for_time:
+		if t >= show_for_time && show_for_time != -1:
 			if fade_out:
 				active_element.modulate.a -= fade_out_time
 				if active_element.modulate.a <= 0:
 						active_element.modulate.a = 0
 						active_element.visible = false
-			else:		
-				active_element.visible = false
+			else:
+				if show_for_time == -1:
+					ui_action = false
+				else:		
+					active_element.visible = false
 						
 
 func set_ui_text(ui_element_name, ui_element_text):
@@ -70,4 +74,7 @@ func find_ui_element(ui_element_name):
 			match_element = phase_text_label
 		"result_text":
 			match_element = result_text_label
+		"turn_text":
+			match_element = result_text_label
+			
 	return match_element

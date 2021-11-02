@@ -21,15 +21,17 @@ func _ready():
 
 func victory_msg():
 	UI.set_ui_text("result_text","Victory!")
-	UI.fade_in_and_show_ui("result_text",0.01,3)
-	UI.fade_out_and_hide_ui("result_text",0.00005)
+	UI.fade_in_and_show_ui("result_text",0.01,-1)
 
 func your_are_dead_msg():
 	UI.set_ui_text("result_text","You are dead")
-	UI.fade_in_and_show_ui("result_text",0.01,3)
-	UI.fade_out_and_hide_ui("result_text",0.00005)
+	UI.fade_in_and_show_ui("result_text",0.01,-1)
 
 func hero_intention_phase_msg():
 	UI.set_ui_text("phase_text","The Heroes move!")
 	UI.fade_in_and_show_ui("phase_text",0.01,3)
 	UI.fade_out_and_hide_ui("phase_text",0.05)
+	
+func set_turn_timer(turn):
+	UI.set_ui_text("turn_text",turn)
+	UI.fade_in_and_show_ui("phase_text",0,01,-1)
