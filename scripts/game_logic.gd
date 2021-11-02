@@ -15,6 +15,7 @@ var end_player_phase = false
 var end_hero_action_phase = false
 var dead = false
 var victory = false
+var turn = 0
 
 # Keep track arrays
 var hero_array = []
@@ -38,8 +39,13 @@ func _ready():
 	# Start phase loop with hero intention phase
 	current_phase = phase.HERO_INTENTION
 	
+	
 func _physics_process(_delta):
+	
 #####~~  UNRELATED TO PHASES, ACT IMMEDIATELY ~~#####
+	turn += 1
+	EventManager.set_turn_timer(turn)
+
 	check_for_player_death()
 	if dead:
 		return
@@ -52,7 +58,6 @@ func _physics_process(_delta):
 		# calculate paths, and display intention
 		for hero in hero_array:
 			var paths = Pathfinder.find_shortest_paths(hero.vec_pos, Grid.update_grid().duplicate())
-			print(paths)
 			hero.set_intent_and_path(paths)
 			hero.display_path()
 			hero.current_phase = hero.phase.WAITING

@@ -23,7 +23,7 @@ func _init(x_pos, y_pos, path_type):
 	self.y = y_pos
 	self.vec_pos = Vector2(x,y)
 	self.type = set_type_and_properties(path_type)
-	self.scale = Vector3(.97,.97,.97)
+	#self.scale = Vector3(.97,.97,.97)
 	self.facing = 0
 	
 	# Add to correct group

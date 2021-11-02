@@ -33,5 +33,5 @@ func hero_intention_phase_msg():
 	UI.fade_out_and_hide_ui("phase_text",0.05)
 	
 func set_turn_timer(turn):
-	UI.set_ui_text("turn_text",turn)
-	UI.fade_in_and_show_ui("phase_text",0,01,-1)
+	UI.set_ui_text("turn_text",str(turn))
+	UI.fade_in_and_show_ui("turn_text",0.01,-1)
