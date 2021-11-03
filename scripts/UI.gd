@@ -23,11 +23,8 @@ func _ready():
 func _physics_process(delta):
 	
 	if ui_action:
-		
 		active_element = match_element
-
 		t += delta
-
 		if fade_in == true:
 			active_element.modulate.a += fade_in_time
 			if active_element.modulate.a >= 1:

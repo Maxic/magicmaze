@@ -28,6 +28,7 @@ func _init(x_pos, y_pos):
 	update_pos(x_pos, y_pos)
 		
 	# Add to correct group
+	name = "hero"
 	add_to_group("heroes")
 	
 	# Initialize self in world

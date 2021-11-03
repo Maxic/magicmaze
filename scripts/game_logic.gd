@@ -1,33 +1,63 @@
+tool
 extends Node
 
 enum phase {HERO_INTENTION, PLAYER_PHASE, HERO_ACTION}
 
 # config
-var grid_dimension = 5
-var hero_amount = 2
-var treasure_amount = 2
-var monster_amount = 2
-var hp = 1
+var grid_dimension
+var hero_amount
+var treasure_amount
+var monster_amount
+var hp
 
 # State vars
 var current_phase
-var end_player_phase = false
-var end_hero_action_phase = false
-var dead = false
-var victory = false
-var turn = 0
+var end_player_phase
+var end_hero_action_phase
+var dead
+var victory
+var reset
+var turn
 
 # Keep track arrays
-var hero_array = []
-var treasure_array = []
-var monster_array = []
+var hero_array
+var treasure_array
+var monster_array
 
 # Nodes
 onready var main = get_node("/root/main")
 
+func reset():
+	# Reset all our vars
+	grid_dimension = 5
+	hero_amount = 2
+	treasure_amount = 2
+	monster_amount = 2
+	hp = 1
+
+	end_player_phase = false
+	end_hero_action_phase = false
+	dead = false
+	victory = false
+	reset = false
+	turn = 0
+	
+	hero_array = []
+	treasure_array = []
+	monster_array = []
+	
+	# Call reset for all other singletons
+	
+
 func _ready():
+	# Set all vars
+	reset()
+	
 	# Randomize with specfic seed (found in output)
 	get_and_set_seed()
+	
+	# Reset singletons
+	EventManager.reset()
 	
 	# Create initial grid
 	Grid.create_grid(grid_dimension)
@@ -41,8 +71,11 @@ func _ready():
 	
 	
 func _physics_process(_delta):
-	
 #####~~  UNRELATED TO PHASES, ACT IMMEDIATELY ~~#####
+	if reset:
+		_ready()
+	
+	get_input()
 
 	check_for_player_death()
 	if dead:
@@ -134,14 +167,14 @@ func get_and_set_seed():
 	# Long path, treasures not on path: 4029905039
 	# fun get 3 treasures: 2486799252
 	# Both Heroes die on a single goblin: 183702472 (5 tiles, 2 heroes 2 goblins)
-	# BUGGED: Two heroes on single goblin, goblin won;t die: 3409368046
+	# BUGGED: Two heroes on single goblin, goblin won;t die: 3409368046 (if heroes target treaures first)
 	# Try to win this one 321444751
 	randomize()
 	var rng = RandomNumberGenerator.new()
 	var seed_int = randi()
 	print("Seed: " + str(seed_int))
-	seed(321444751)
-	#seed(seed_int)
+	#seed(321444751)
+	seed(seed_int)
 
 func check_for_player_death():
 	if hp == 0 and not dead:
@@ -193,3 +226,8 @@ func spawn_maze_objects():
 		treasure_array.append(treasure)
 		main.add_child(treasure)
 
+func get_input():
+	if Input.is_action_just_pressed("reset"):
+		Grid.reset()
+		get_tree().reload_current_scene()
+		reset = true

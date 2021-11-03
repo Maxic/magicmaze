@@ -23,6 +23,10 @@ var type_arr = [
 var static_pos_arr = []
 var indicator_index = 0
 
+func reset():
+	for tile in get_tree().get_nodes_in_group("tiles"):
+		tile.queue_free()
+
 func create_grid(dimension):
 	GRID_DIMENSION = dimension
 	GRID_HEIGHT = GRID_DIMENSION

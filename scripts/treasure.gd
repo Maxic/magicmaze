@@ -15,6 +15,7 @@ func _init(x_pos, y_pos):
 	self.vec_pos = Vector2(x,y)
 	
 	# Add to correct group
+	name = "treasure"
 	add_to_group("treasures")
 	
 	# Move to correct position

@@ -25,8 +25,9 @@ func _init(x_pos, y_pos, path_type):
 	self.type = set_type_and_properties(path_type)
 	#self.scale = Vector3(.97,.97,.97)
 	self.facing = 0
-	
+
 	# Add to correct group
+	name = "tile"
 	add_to_group("tiles")
 	
 	# Move to correct position
