@@ -16,7 +16,7 @@ var end_player_phase
 var end_hero_action_phase
 var dead
 var victory
-var reset
+var reset_game
 var turn
 
 # Keep track arrays
@@ -39,7 +39,7 @@ func reset():
 	end_hero_action_phase = false
 	dead = false
 	victory = false
-	reset = false
+	reset_game = false
 	turn = 0
 	
 	hero_array = []
@@ -72,7 +72,7 @@ func _ready():
 	
 func _physics_process(_delta):
 #####~~  UNRELATED TO PHASES, ACT IMMEDIATELY ~~#####
-	if reset:
+	if reset_game:
 		_ready()
 	
 	get_input()
@@ -170,11 +170,12 @@ func get_and_set_seed():
 	# BUGGED: Two heroes on single goblin, goblin won;t die: 3409368046 (if heroes target treaures first)
 	# Try to win this one 321444751
 	randomize()
-	var rng = RandomNumberGenerator.new()
 	var seed_int = randi()
 	print("Seed: " + str(seed_int))
 	#seed(321444751)
 	seed(seed_int)
+
+
 
 func check_for_player_death():
 	if hp == 0 and not dead:
@@ -198,7 +199,6 @@ func spawn_heroes():
 	# spawn hero in one the remaining tiles
 	for i in hero_amount:
 		edge_arr.shuffle()
-		var tile = edge_arr[0]
 		var hero = Hero.new(edge_arr[0].x,edge_arr[0].y)
 		edge_arr.remove(0)
 		hero_array.append(hero)
@@ -229,5 +229,5 @@ func spawn_maze_objects():
 func get_input():
 	if Input.is_action_just_pressed("reset"):
 		Grid.reset()
-		get_tree().reload_current_scene()
-		reset = true
+		var _result = get_tree().reload_current_scene()
+		reset_game = true
