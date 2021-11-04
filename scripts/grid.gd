@@ -22,6 +22,7 @@ var type_arr = [
 
 var static_pos_arr = []
 var indicator_index = 0
+var highlighted_tile = null
 
 func reset():
 	for tile in get_tree().get_nodes_in_group("tiles"):

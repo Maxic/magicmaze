@@ -1,4 +1,3 @@
-tool
 extends Node
 
 enum phase {HERO_INTENTION, PLAYER_PHASE, HERO_ACTION}
@@ -231,3 +230,14 @@ func get_input():
 		Grid.reset()
 		var _result = get_tree().reload_current_scene()
 		reset_game = true
+
+func highlight_tile(pos):
+	var tile = Grid.grid[pos.y][pos.x]
+	if Grid.highlighted_tile != tile:
+		if Grid.highlighted_tile:
+			Grid.highlighted_tile.scale = Vector3.ONE
+		tile.scale = Vector3.ONE * .90
+#			Grid.highlighted_tile.translation = Vector3(Grid.highlighted_tile.translation.x, 0, Grid.highlighted_tile.translation.z)
+#		tile.translation = Vector3(tile.translation.x, tile.translation.y+.1, tile.translation.z)
+		Grid.highlighted_tile = tile
+	
