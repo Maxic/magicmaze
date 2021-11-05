@@ -93,7 +93,6 @@ func _physics_process(_delta):
 			current_phase = phase.HERO_INTENTION
 #####~~  FIRST PHASE, CALCULATE AND SHOW HERO INTENTION ~~#####
 	if current_phase == phase.HERO_INTENTION:
-		EventManager.hero_intention_phase_msg()
 		# calculate paths, and display intention
 		turn += 1
 		EventManager.set_turn_timer(turn)
@@ -104,6 +103,7 @@ func _physics_process(_delta):
 			hero.current_phase = hero.phase.WAITING
 		# No end condition needed here
 		# Just calculate, show paths and move on
+		EventManager.player_phase_msg()
 		end_player_phase = false
 		current_phase = phase.PLAYER_PHASE
 		return
@@ -112,6 +112,8 @@ func _physics_process(_delta):
 	if current_phase == phase.PLAYER_PHASE:
 		# movement is handled in grid code
 		if end_player_phase:
+			EventManager.hero_action_phase_msg()
+			
 			# Calculate new paths again with new grid
 			remove_move_indicator_paths()
 			for hero in hero_array:
@@ -125,7 +127,6 @@ func _physics_process(_delta):
 			
 #####~~  THIRD PHASE, ENEMY ACTION ~~#####	
 	if current_phase == phase.HERO_ACTION:
-		EventManager.hero_action_phase_msg()
 		# If there are no heroes, stop this phase.
 		if !hero_array:
 			end_hero_action_phase = true

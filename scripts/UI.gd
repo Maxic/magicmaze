@@ -49,8 +49,6 @@ func fade_in_and_show_ui(ui_element_name, fade_time, show_time):
 	fade_in = true
 	fade_in_time = fade_time
 	show_for_time = show_time
-	match_element = find_ui_element(ui_element_name)
-	active_element = match_element
 	match_element.modulate.a = 0
 	match_element.visible = true
 	ui_action = true
@@ -59,10 +57,9 @@ func fade_in_and_show_ui(ui_element_name, fade_time, show_time):
 func fade_out_and_hide_ui(ui_element_name, fade_time):
 	fade_out = true
 	fade_out_time = fade_time
-	match_element = find_ui_element(ui_element_name)
-
 	
 func find_ui_element(ui_element_name):
+	t = 0.0
 	match ui_element_name:
 		
 		"phase_text":

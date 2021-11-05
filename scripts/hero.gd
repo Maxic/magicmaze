@@ -77,7 +77,7 @@ func move_along_path(path_arr):
 		remaining_path = path_arr
 		var pos = remaining_path[0]
 		new_pos = Vector3(pos.x*2,translation.y,pos.y*2)
-		self.translation = lerp(self.translation, new_pos, 0.3)
+		self.translation = lerp(self.translation, new_pos, 0.1)
 		if self.translation.x > new_pos.x-0.1 && self.translation.x < new_pos.x + 0.1 && \
 		self.translation.z > new_pos.z-0.1 && self.translation.z < new_pos.z + 0.1:
 			move_to_pos(pos.x,pos.y)

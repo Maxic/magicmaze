@@ -22,12 +22,17 @@ func your_are_dead_msg():
 
 func hero_intention_phase_msg():
 	UI.set_ui_text("phase_text","The Heroes plan..")
-	UI.fade_in_and_show_ui("phase_text",0.01,3)
+	UI.fade_in_and_show_ui("phase_text",0.1,3)
+	UI.fade_out_and_hide_ui("phase_text",0.05)
+
+func player_phase_msg():
+	UI.set_ui_text("phase_text","It's your turn")
+	UI.fade_in_and_show_ui("phase_text",0.1,2)
 	UI.fade_out_and_hide_ui("phase_text",0.05)
 	
 func hero_action_phase_msg():
 	UI.set_ui_text("phase_text","The Heroes move!")
-	UI.fade_in_and_show_ui("phase_text",0.01,3)
+	UI.fade_in_and_show_ui("phase_text",0.1,2)
 	UI.fade_out_and_hide_ui("phase_text",0.05)
 	
 func set_turn_timer(turn):
