@@ -27,6 +27,8 @@ var highlighted_tile = null
 func reset():
 	for tile in get_tree().get_nodes_in_group("tiles"):
 		tile.queue_free()
+	indicator_index = 0
+	highlighted_tile = null
 
 func create_grid(dimension):
 	GRID_DIMENSION = dimension

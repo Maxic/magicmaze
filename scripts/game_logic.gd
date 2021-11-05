@@ -1,6 +1,6 @@
 extends Node
 
-enum phase {HERO_INTENTION, PLAYER_PHASE, HERO_ACTION}
+enum phase {INITIAL, HERO_INTENTION, PLAYER_PHASE, HERO_ACTION}
 
 # config
 var grid_dimension
@@ -13,10 +13,12 @@ var hp
 var current_phase
 var end_player_phase
 var end_hero_action_phase
+var end_initial_phase
 var dead
 var victory
 var reset_game
 var turn
+var spawn_goblin
 
 # Keep track arrays
 var hero_array
@@ -36,18 +38,17 @@ func reset():
 
 	end_player_phase = false
 	end_hero_action_phase = false
+	end_initial_phase = false
 	dead = false
 	victory = false
 	reset_game = false
+	spawn_goblin = false
 	turn = 0
 	
 	hero_array = []
 	treasure_array = []
 	monster_array = []
 	
-	# Call reset for all other singletons
-	
-
 func _ready():
 	# Set all vars
 	reset()
@@ -62,12 +63,10 @@ func _ready():
 	Grid.create_grid(grid_dimension)
 	
 	# Populate grid with objects
-	spawn_heroes()
-	spawn_maze_objects()
+	spawn_treasures()
 	
 	# Start phase loop with hero intention phase
-	current_phase = phase.HERO_INTENTION
-	
+	current_phase = phase.INITIAL
 	
 func _physics_process(_delta):
 #####~~  UNRELATED TO PHASES, ACT IMMEDIATELY ~~#####
@@ -79,10 +78,19 @@ func _physics_process(_delta):
 	check_for_player_death()
 	if dead:
 		return
-	check_for_player_victory()
-	if victory:
-		return
-
+	if current_phase != phase.INITIAL:
+		check_for_player_victory()
+		if victory:
+			return
+#####~~  INITIAL PHASE, SPAWN TREASURES, PLACE GOBLINS, SPAWN HEROES ~~#####
+	if current_phase == phase.INITIAL:
+		spawn_goblins()
+		if monster_array.size() == monster_amount:
+			end_initial_phase = true
+		if end_initial_phase:
+			spawn_heroes()
+			
+			current_phase = phase.HERO_INTENTION
 #####~~  FIRST PHASE, CALCULATE AND SHOW HERO INTENTION ~~#####
 	if current_phase == phase.HERO_INTENTION:
 		EventManager.hero_intention_phase_msg()
@@ -167,14 +175,11 @@ func get_and_set_seed():
 	# fun get 3 treasures: 2486799252
 	# Both Heroes die on a single goblin: 183702472 (5 tiles, 2 heroes 2 goblins)
 	# BUGGED: Two heroes on single goblin, goblin won;t die: 3409368046 (if heroes target treaures first)
-	# Try to win this one 321444751
 	randomize()
 	var seed_int = randi()
 	print("Seed: " + str(seed_int))
 	#seed(321444751)
 	seed(seed_int)
-
-
 
 func check_for_player_death():
 	if hp == 0 and not dead:
@@ -204,40 +209,58 @@ func spawn_heroes():
 		hero.turn_order = (i+1)
 		main.add_child(hero)
 	
-func spawn_maze_objects():
+func spawn_treasures():
 	# Generate array of tiles _not_ on edge of grid
 	var inner_arr = []
 	for y in range(1, grid_dimension-1):
 		for x in range(1, grid_dimension-1):
 			inner_arr.append(Vector2(x,y))
-		
-	# for treasures and monsters
+	
 	# spawn object on tile, and romove tile from array
 	inner_arr.shuffle()	
-	for i in monster_amount:
-		var monster = Monster.new(inner_arr[0].x,inner_arr[0].y, "goblin")
-		inner_arr.remove(0)
-		monster_array.append(monster)
-		main.add_child(monster)
 	for i in treasure_amount:
 		var treasure = Treasure.new(inner_arr[0].x,inner_arr[0].y)
 		inner_arr.remove(0)
 		treasure_array.append(treasure)
 		main.add_child(treasure)
 
+func spawn_goblins():
+	if spawn_goblin:
+		if Grid.highlighted_tile != null:
+			var monster = Monster.new(Grid.highlighted_tile.x,Grid.highlighted_tile.y, "goblin")
+			monster_array.append(monster)
+			main.add_child(monster)
+	spawn_goblin = false
+
 func get_input():
+	if Input.is_mouse_button_pressed(1):
+		spawn_goblin = true
 	if Input.is_action_just_pressed("reset"):
 		Grid.reset()
 		var _result = get_tree().reload_current_scene()
 		reset_game = true
 
 func highlight_tile(pos):
-	var tile = Grid.grid[pos.y][pos.x]
-	if Grid.highlighted_tile != tile:
-		if Grid.highlighted_tile:
+	if current_phase == phase.INITIAL:
+		if pos.y >= 0 and pos.y < Grid.GRID_DIMENSION and \
+			pos.x >= 0 and pos.x < Grid.GRID_DIMENSION:
+			var tile = Grid.grid[pos.y][pos.x]
+			if Grid.highlighted_tile != tile:
+				if Grid.highlighted_tile:
+					Grid.highlighted_tile.scale = Vector3.ONE
+				tile.scale = Vector3.ONE * .90
+				Grid.highlighted_tile = tile
+		elif not Grid.highlighted_tile == null:
 			Grid.highlighted_tile.scale = Vector3.ONE
-		tile.scale = Vector3.ONE * .90
-#			Grid.highlighted_tile.translation = Vector3(Grid.highlighted_tile.translation.x, 0, Grid.highlighted_tile.translation.z)
-#		tile.translation = Vector3(tile.translation.x, tile.translation.y+.1, tile.translation.z)
-		Grid.highlighted_tile = tile
-	
+			Grid.highlighted_tile = null		
+	else:
+		if not Grid.highlighted_tile == null:
+			Grid.highlighted_tile.scale = Vector3.ONE
+			Grid.highlighted_tile = null		
+
+
+#for i in monster_amount:
+#		var monster = Monster.new(inner_arr[0].x,inner_arr[0].y, "goblin")
+#		inner_arr.remove(0)
+#		monster_array.append(monster)
+#		main.add_child(monster)
