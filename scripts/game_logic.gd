@@ -179,8 +179,8 @@ func get_and_set_seed():
 	randomize()
 	var seed_int = randi()
 	print("Seed: " + str(seed_int))
-	#seed(321444751)
-	seed(seed_int)
+	seed(3409368046)
+	#seed(seed_int)
 
 func check_for_player_death():
 	if hp == 0 and not dead:
@@ -234,7 +234,7 @@ func spawn_goblins():
 	spawn_goblin = false
 
 func get_input():
-	if Input.is_mouse_button_pressed(1):
+	if Input.is_action_just_pressed("mouse_1"):
 		spawn_goblin = true
 	if Input.is_action_just_pressed("reset"):
 		Grid.reset()

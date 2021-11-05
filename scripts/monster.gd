@@ -16,7 +16,6 @@ func _init(x_pos, y_pos, monster_type):
 	self.vec_pos = Vector2(x,y)
 	self.type = monster_type
 
-	
 	# Add to correct group
 	name = "monster"
 	add_to_group("monsters")

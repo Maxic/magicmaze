@@ -25,7 +25,7 @@ func find_shortest_treasure_path(paths):
 	if treasure_paths:
 		for path in treasure_paths:
 			if path.size() < shortest_path_size:
-				shortest_path = path	
+				shortest_path = path.duplicate()
 				shortest_path_size = path.size()
 		return shortest_path
 	else:
@@ -53,7 +53,7 @@ func find_shortest_monster_path(paths):
 	if monster_paths:
 		for path in monster_paths:
 			if path.size() < shortest_path_size:
-				shortest_path = path	
+				shortest_path = path.duplicate()
 				shortest_path_size = path.size()
 		return shortest_path
 	else:

@@ -84,14 +84,12 @@ func move_along_path(path_arr):
 			remaining_path.pop_front()
 	
 func set_intent_and_path(paths):
-	# TODO: Fix bug here, 
-	# if the order between monster and treasure is swapped, it does not work
-	if paths.has("monster"):
-		self.remaining_path = paths["monster"]
-		self.current_intent = intent.ATTACKING
-	elif paths.has("treasure"):
+	if paths.has("treasure"):
 		self.remaining_path = paths["treasure"]
 		self.current_intent = intent.PICK_UP
+	elif paths.has("monster"):
+		self.remaining_path = paths["monster"]
+		self.current_intent = intent.ATTACKING
 	else:
 		self.remaining_path = [Vector2(self.x, self.y)]
 		self.current_intent = intent.NOTHING
