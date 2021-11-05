@@ -160,14 +160,17 @@ func remove_move_indicator_paths():
 		move_indicator.queue_free()
 
 func remove_treasure(treasure):
+	remove_object_from_tile(treasure, treasure.x, treasure.y)
 	var index = treasure_array.find(treasure)
 	treasure_array.remove(index)
 
 func remove_hero(hero):
+	remove_object_from_tile(hero, hero.x, hero.y)
 	var index = hero_array.find(hero)
 	hero_array.remove(index)
 
 func remove_monster(monster):
+	remove_object_from_tile(monster, monster.x, monster.y)
 	var index = monster_array.find(monster)
 	monster_array.remove(index)
 	
@@ -175,12 +178,11 @@ func get_and_set_seed():
 	# Long path, treasures not on path: 4029905039
 	# fun get 3 treasures: 2486799252
 	# Both Heroes die on a single goblin: 183702472 (5 tiles, 2 heroes 2 goblins)
-	# BUGGED: Two heroes on single goblin, goblin won;t die: 3409368046 (if heroes target treaures first)
 	randomize()
 	var seed_int = randi()
 	print("Seed: " + str(seed_int))
-	seed(3409368046)
-	#seed(seed_int)
+	#seed(3409368046)
+	seed(seed_int)
 
 func check_for_player_death():
 	if hp == 0 and not dead:

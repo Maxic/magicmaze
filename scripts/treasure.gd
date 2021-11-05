@@ -33,9 +33,6 @@ func update_pos(x_pos, y_pos):
 	self.vec_pos = Vector2(x,y)
 
 func picked_up():
-	for object in Grid.grid[y][x].objects:
-		if object.get_class() == CLASS_NAME:
-			Grid.grid[y][x].remove_object(object)
 	GameLogic.remove_treasure(self)
 	GameLogic.hp -= 1
 	queue_free()

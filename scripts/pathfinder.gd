@@ -15,7 +15,6 @@ func find_shortest_paths(start_pos, grid):
 		shortest_paths["treasure"] = treasure_path
 	if monster_path != []:
 		shortest_paths["monster"] = monster_path
-		
 	return shortest_paths
 	
 func find_shortest_treasure_path(paths):

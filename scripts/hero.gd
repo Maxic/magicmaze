@@ -6,7 +6,7 @@ var x
 var y
 var vec_pos
 var type
-var remaining_path
+var remaining_path : Array
 enum phase {WAITING, MOVING, DONE}
 var current_phase
 enum intent {NOTHING, PICK_UP, ATTACKING}
@@ -57,15 +57,20 @@ func move_to_pos(x_pos, y_pos):
 	check_for_objects()
 	
 func check_for_objects():
-	for object in Grid.grid[y][x].objects:
-		var object_class = object.get_class()
-		if object_class == "Treasure":
-			object.picked_up()
-		if object_class == "Monster":
-			if current_intent == intent.ATTACKING:
-				object.die()
-			else:
-				die()
+	var tile = Grid.grid[y][x]
+	# If there is a treasure on the tile
+	# Pick it up
+	var treasure = tile.get_treasure()
+	if treasure and current_intent == intent.PICK_UP:
+		treasure.picked_up()
+	# If there is a treasure on the tile
+	# Kill it when attacking, otherwise, die.
+	var monster = tile.get_monster()
+	if monster:
+		if current_intent == intent.ATTACKING:
+			monster.die()
+		else:
+			die()
 	
 func update_pos(x_pos, y_pos):
 	translation = Vector3(x_pos*2, translation.y, y_pos*2)
@@ -87,6 +92,15 @@ func set_intent_and_path(paths):
 	if paths.has("treasure"):
 		self.remaining_path = paths["treasure"]
 		self.current_intent = intent.PICK_UP
+		# If there is a monster in the path, 
+		# attack that monster instead of going for the treasure
+		if paths.has("monster"):
+			for step in self.remaining_path:
+				if Grid.grid[step.y][step.x].get_monster():
+					self.current_intent = intent.ATTACKING
+					var monster_index = self.remaining_path.find(step)
+					self.remaining_path = self.remaining_path.slice(0, monster_index)
+		
 	elif paths.has("monster"):
 		self.remaining_path = paths["monster"]
 		self.current_intent = intent.ATTACKING
@@ -140,10 +154,6 @@ func display_path():
 			get_parent().add_child(move_indicator)
 
 func die():
-	var objects = Grid.grid[y][x].objects
-	for object in objects:
-		if object.get_class() == CLASS_NAME:
-			Grid.grid[y][x].remove_object(object)
 	GameLogic.remove_hero(self)
 	queue_free()
 

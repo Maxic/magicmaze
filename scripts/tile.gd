@@ -160,3 +160,21 @@ func update_object_positions():
 	if objects:
 		for object in objects:
 			object.update_pos(x, y)
+
+func get_treasure():
+	for object in objects:
+		if object.get_class() == "Treasure":
+			return object
+	return null
+	
+func get_monster():
+	for object in objects:
+		if object.get_class() == "Monster":
+			return object
+	return null
+
+func has_hero():
+	for object in objects:
+		if object.get_class() == "Hero":
+			return true
+	return false
