@@ -72,7 +72,6 @@ func _physics_process(_delta):
 #####~~  UNRELATED TO PHASES, ACT IMMEDIATELY ~~#####
 	if reset_game:
 		_ready()
-	
 	get_input()
 
 	check_for_player_death()
