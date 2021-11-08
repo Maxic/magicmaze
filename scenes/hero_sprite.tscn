@@ -1,7 +1,8 @@
 [gd_scene load_steps=2 format=2]
 
-[ext_resource path="res://assets/hero_sprite_bof.png" type="Texture" id=1]
+[ext_resource path="res://assets/footman.png" type="Texture" id=1]
 
 [node name="hero" type="Sprite3D"]
-transform = Transform( 0.707107, -0.5, 0.5, 0, 0.707107, 0.707107, -0.707107, -0.5, 0.5, 0, 1, 0 )
+transform = Transform( 2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 1, 0 )
+billboard = 1
 texture = ExtResource( 1 )
