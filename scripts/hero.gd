@@ -108,7 +108,19 @@ func set_intent_and_path(paths):
 		self.remaining_path = [Vector2(self.x, self.y)]
 		self.current_intent = intent.NOTHING
 	
-func recalculate_best_path(paths):
+func recalculate_best_path():
+	var possible_path = []
+	
+	for step_i in remaining_path.size()-1:
+		var current_step = remaining_path[step_i]
+		var next_step = remaining_path[step_i+1]
+		if Pathfinder.tiles_are_connected(current_step, next_step, Grid.update_grid()):
+			possible_path.append(remaining_path[step_i])
+		else:
+			remaining_path = possible_path.duplicate()
+			return
+
+func recalculate_best_path_old(paths):
 	var possible_path = []
 	var step_index = 0
 	var step_possible

@@ -116,9 +116,9 @@ func _physics_process(_delta):
 			# Calculate new paths again with new grid
 			remove_move_indicator_paths()
 			for hero in hero_array:
-				var paths = Pathfinder.find_all_paths(hero.vec_pos, Grid.update_grid()).duplicate()
+				#var paths = Pathfinder.find_all_paths(hero.vec_pos, Grid.update_grid()).duplicate()
 				#hero.pick_best_path(paths)
-				hero.recalculate_best_path(paths)
+				hero.recalculate_best_path()
 				hero.display_path()
 			end_hero_action_phase = false
 			current_phase = phase.HERO_ACTION
@@ -180,8 +180,8 @@ func get_and_set_seed():
 	randomize()
 	var seed_int = randi()
 	print("Seed: " + str(seed_int))
-	#seed(3409368046)
-	seed(seed_int)
+	seed(1584114861)
+	#seed(seed_int)
 
 func check_for_player_death():
 	if hp == 0 and not dead:

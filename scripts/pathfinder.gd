@@ -84,9 +84,7 @@ func find_all_paths(start_pos, grid):
 			return []
 	
 	# initial fill of the dict
-	for row in grid:
-		for tile in row:
-			visited_tiles[tile.vec_pos] = false
+	initialize_visited_tiles(grid)
 	
 	while current_tile != null or junction_dict.size() > 0:
 		var neighbour_arr = []
@@ -108,7 +106,7 @@ func find_all_paths(start_pos, grid):
 		
 		# Find all tiles we can move towards
 		if neighbour_arr == []:
-			neighbour_arr = find_all_neighbours(current_tile.x, current_tile.y, grid)
+			neighbour_arr = find_all_neighbours(Vector2(current_tile.x, current_tile.y), grid)
 		
 		# With 0 neighbours stop and save current path
 		if neighbour_arr.size() == 0:
@@ -142,7 +140,9 @@ func find_all_paths(start_pos, grid):
 			current_tile = next_tile
 	return paths_arr
 		
-func find_all_neighbours(x, y, grid):
+func find_all_neighbours(pos, grid):
+	var x = pos.x
+	var y = pos.y
 	var valid_neighbour_arr = []
 	var tile = grid[y][x]
 	
@@ -168,6 +168,20 @@ func find_all_neighbours(x, y, grid):
 			valid_neighbour_arr.append(Vector2(neighbour_tile.x, neighbour_tile.y))
 	
 	return valid_neighbour_arr
+
+func tiles_are_connected(tile_1, tile_2, grid):
+	initialize_visited_tiles(grid)
+	var open_tiles = find_all_neighbours(tile_1, grid)
+	for tile in open_tiles:
+		if tile_2 == tile:
+			return true
+	return false
+		
+func initialize_visited_tiles(grid):
+	# initial fill of the dict
+	for row in grid:
+		for tile in row:
+			visited_tiles[tile.vec_pos] = false
 
 func reset():
 	current_path = []
