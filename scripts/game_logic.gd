@@ -174,13 +174,11 @@ func remove_monster(monster):
 	monster_array.remove(index)
 	
 func get_and_set_seed():
-	# Long path, treasures not on path: 4029905039
-	# fun get 3 treasures: 2486799252
-	# Both Heroes die on a single goblin: 183702472 (5 tiles, 2 heroes 2 goblins)
+	# Can you even win this one? 3585261507
 	randomize()
 	var seed_int = randi()
 	print("Seed: " + str(seed_int))
-	seed(1584114861)
+	seed(3585261507)
 	#seed(seed_int)
 
 func check_for_player_death():
