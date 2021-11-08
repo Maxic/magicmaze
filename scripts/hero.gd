@@ -111,11 +111,17 @@ func set_intent_and_path(paths):
 func recalculate_best_path():
 	var possible_path = []
 	
+	#if moved, cancel path
+	if x != remaining_path[0].x or y != remaining_path[0].y:
+		remaining_path = []
+	else:
+		possible_path.append(remaining_path[0])
+			
 	for step_i in remaining_path.size()-1:
 		var current_step = remaining_path[step_i]
 		var next_step = remaining_path[step_i+1]
 		if Pathfinder.tiles_are_connected(current_step, next_step, Grid.update_grid()):
-			possible_path.append(remaining_path[step_i])
+			possible_path.append(remaining_path[step_i+1])
 		else:
 			remaining_path = possible_path.duplicate()
 			return
