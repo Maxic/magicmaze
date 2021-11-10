@@ -19,6 +19,7 @@ var hero_sprite = preload("res://scenes/hero_sprite.tscn")
 var move_indicator_scene = preload("res://scenes/move_indicator.tscn")
 var move_indicator_static_scene = preload("res://scenes/move_indicator_static.tscn")
 var hero_stats = preload("res://scenes/hero_stats.tscn")
+var spawn_indicator_scene = preload("res://scenes/spawn_indicator.tscn")
 
 func _init(x_pos, y_pos):
 	# Move to correct position and set position params
@@ -33,8 +34,15 @@ func _init(x_pos, y_pos):
 	
 	# Initialize self in world
 	var sprite = hero_sprite.instance()
+	sprite.visible = false
 	add_child(sprite)
 	GameLogic.add_object_to_tile(self, x, y)
+	
+	# When just spawned, show indicator, but not hero itself
+
+	var spawn_indicator = spawn_indicator_scene.instance()
+	spawn_indicator.name = "spawn_indicator"
+	add_child(spawn_indicator)
 	
 	var hero_stats_inst = hero_stats.instance()
 	add_child(hero_stats_inst)
@@ -170,6 +178,11 @@ func display_path():
 				move_indicator.set_color_red()
 			move_indicator.add_to_group("move_indicators")
 			get_parent().add_child(move_indicator)
+
+func show_hero():
+	$hero.visible = true
+	$spawn_indicator.queue_free()
+	
 
 func die():
 	GameLogic.remove_hero(self)

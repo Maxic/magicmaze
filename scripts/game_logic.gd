@@ -34,7 +34,7 @@ func reset():
 	hero_amount = 2
 	treasure_amount = 2
 	monster_amount = 2
-	hp = 1
+	hp = 2
 
 	end_player_phase = false
 	end_hero_action_phase = false
@@ -64,6 +64,7 @@ func _ready():
 	
 	# Populate grid with objects
 	spawn_treasures()
+	spawn_heroes()
 	
 	# Start phase loop with hero intention phase
 	current_phase = phase.INITIAL
@@ -87,7 +88,7 @@ func _physics_process(_delta):
 		if monster_array.size() == monster_amount:
 			end_initial_phase = true
 		if end_initial_phase:
-			spawn_heroes()
+			show_heroes()
 			
 			current_phase = phase.HERO_INTENTION
 #####~~  FIRST PHASE, CALCULATE AND SHOW HERO INTENTION ~~#####
@@ -178,8 +179,8 @@ func get_and_set_seed():
 	randomize()
 	var seed_int = randi()
 	print("Seed: " + str(seed_int))
-	seed(3585261507)
-	#seed(seed_int)
+	#seed(3585261507)
+	seed(seed_int)
 
 func check_for_player_death():
 	if hp == 0 and not dead:
@@ -208,6 +209,11 @@ func spawn_heroes():
 		hero_array.append(hero)
 		hero.turn_order = (i+1)
 		main.add_child(hero)
+		
+	
+func show_heroes():
+	for hero in hero_array:
+		hero.show_hero()
 	
 func spawn_treasures():
 	# Generate array of tiles _not_ on edge of grid
