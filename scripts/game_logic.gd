@@ -7,6 +7,7 @@ var grid_dimension
 var hero_amount
 var treasure_amount
 var monster_amount
+var turn_amount
 var hp
 
 # State vars
@@ -34,7 +35,8 @@ func reset():
 	hero_amount = 2
 	treasure_amount = 2
 	monster_amount = 2
-	hp = 2
+	turn_amount = 6
+	hp = treasure_amount
 
 	end_player_phase = false
 	end_hero_action_phase = false
@@ -43,7 +45,7 @@ func reset():
 	victory = false
 	reset_game = false
 	spawn_goblin = false
-	turn = 0
+	turn = turn_amount
 	
 	hero_array = []
 	treasure_array = []
@@ -94,7 +96,7 @@ func _physics_process(_delta):
 #####~~  FIRST PHASE, CALCULATE AND SHOW HERO INTENTION ~~#####
 	if current_phase == phase.HERO_INTENTION:
 		# calculate paths, and display intention
-		turn += 1
+		turn -= 1
 		EventManager.set_turn_timer(turn)
 		for hero in hero_array:
 			var paths = Pathfinder.find_shortest_paths(hero.vec_pos, Grid.update_grid().duplicate())
@@ -144,8 +146,11 @@ func _physics_process(_delta):
 		# Phase is over, setup stuff for next phase
 		if end_hero_action_phase:
 			remove_move_indicator_paths()
-			current_phase = phase.HERO_INTENTION
-			return
+			if turn != turn_amount:
+				current_phase = phase.HERO_INTENTION
+				return
+			else:
+				victory = true
 			
 func remove_object_from_tile(object,object_x,object_y):
 	var tile = Grid.grid[object_y][object_x]
