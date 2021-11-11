@@ -5,6 +5,9 @@ enum phase {INITIAL, HERO_INTENTION, PLAYER_PHASE, HERO_ACTION}
 # config
 var grid_dimension
 var hero_amount
+var max_total_hero_amount
+var min_hero_on_grid_amount
+var 	max_hero_on_grid_amount
 var treasure_amount
 var monster_amount
 var turn_amount
@@ -36,7 +39,9 @@ var hightlight_cube_inst
 func reset():
 	# Reset all our vars
 	grid_dimension = 5
-	hero_amount = 2
+	min_hero_on_grid_amount =  3
+	max_hero_on_grid_amount = 6
+	max_total_hero_amount = 7
 	treasure_amount = 2
 	monster_amount = 2
 	turn_amount = 6
@@ -75,7 +80,7 @@ func _ready():
 	
 	# Populate grid with objects
 	spawn_treasures()
-	spawn_heroes(hero_amount)
+	spawn_heroes()
 	
 	# Start phase loop with hero intention phase
 	current_phase = phase.INITIAL
@@ -108,10 +113,11 @@ func _physics_process(_delta):
 		turn -= 1
 		EventManager.set_turn_timer(turn)
 		for hero in hero_array:
-			var paths = Pathfinder.find_shortest_paths(hero.vec_pos, Grid.update_grid().duplicate())
-			hero.set_intent_and_path(paths)
-			hero.display_path()
-			hero.current_phase = hero.phase.WAITING
+			if hero.current_phase != hero.phase.SPAWNING:
+				var paths = Pathfinder.find_shortest_paths(hero.vec_pos, Grid.update_grid().duplicate())
+				hero.set_intent_and_path(paths)
+				hero.display_path()
+				hero.current_phase = hero.phase.WAITING
 		# No end condition needed here
 		# Just calculate, show paths and move on
 		EventManager.player_phase_msg()
@@ -157,7 +163,7 @@ func _physics_process(_delta):
 		# Phase is over, setup stuff for next phase
 		if end_hero_action_phase:
 			remove_move_indicator_paths()
-			spawn_heroes((randi() % 1)+1)
+			spawn_heroes()	
 			if turn != 1:
 				current_phase = phase.HERO_INTENTION
 				return
@@ -210,7 +216,7 @@ func check_for_player_victory():
 		EventManager.victory_msg()
 		victory = true
 
-func spawn_heroes(amount):
+func spawn_heroes():
 	# Generate array of tiles on the edge of the grid
 	var edge_arr = []
 	for i in range(grid_dimension):
@@ -219,19 +225,27 @@ func spawn_heroes(amount):
 		edge_arr.append(Vector2(i,0))
 		edge_arr.append(Vector2(i,grid_dimension-1))
 
-	# spawn hero in one the remaining tiles
-	for i in amount:
-		edge_arr.shuffle()
-		var hero = Hero.new(edge_arr[0].x,edge_arr[0].y)
-		edge_arr.remove(0)
-		hero_array.append(hero)
-		hero.turn_order = hero_array.find(hero)
-		main.add_child(hero)
-		
+	# spawn heroes in the remaining tiles, amount based on config
+	var heroes_added = 0
+	if hero_array.size() < min_hero_on_grid_amount:
+		heroes_added = min_hero_on_grid_amount
+	elif hero_array.size() <= max_hero_on_grid_amount:
+		heroes_added = (randi() % 1)+1
 	
+	max_total_hero_amount -= heroes_added
+
+	if max_total_hero_amount > 0: 
+		for i in heroes_added:
+			edge_arr.shuffle()
+			var hero = Hero.new(edge_arr[0].x,edge_arr[0].y)
+			edge_arr.remove(0)
+			hero_array.append(hero)
+			hero.turn_order = hero_array.find(hero)
+			main.add_child(hero)
+
 func show_heroes():
 	for hero in hero_array:
-		if hero != hero.visible:	
+		if hero.current_phase == hero.phase.SPAWNING:
 			hero.show_hero()
 	
 func spawn_treasures():

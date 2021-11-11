@@ -7,7 +7,7 @@ var y
 var vec_pos
 var type
 var remaining_path : Array
-enum phase {WAITING, MOVING, DONE}
+enum phase {WAITING, MOVING, DONE, SPAWNING}
 var current_phase
 enum intent {WANDERING, PILLAGING, ATTACKING}
 var current_intent
@@ -43,6 +43,7 @@ func _init(x_pos, y_pos):
 	var spawn_indicator = spawn_indicator_scene.instance()
 	spawn_indicator.name = "spawn_indicator"
 	add_child(spawn_indicator)
+	current_phase = phase.SPAWNING
 	
 	var hero_stats_inst = hero_stats.instance()
 	add_child(hero_stats_inst)
@@ -119,8 +120,10 @@ func set_intent_and_path(paths):
 func recalculate_best_path():
 	var possible_path = []
 	
+	if remaining_path == []:
+		return
 	#if moved, cancel path
-	if x != remaining_path[0].x or y != remaining_path[0].y:
+	if x != remaining_path[0].x || y != remaining_path[0].y:
 		remaining_path = []
 	else:
 		possible_path.append(remaining_path[0])
@@ -134,24 +137,6 @@ func recalculate_best_path():
 			remaining_path = possible_path.duplicate()
 			return
 
-func recalculate_best_path_old(paths):
-	var possible_path = []
-	var step_index = 0
-	var step_possible
-	
-	for _index in range(remaining_path.size()):
-		step_possible = false
-		for i in range(paths.size()):
-			if step_index < paths[i].size() &&  step_index < remaining_path.size() && \
-			  paths[i][step_index] == remaining_path[step_index]:
-				step_possible = true
-		if step_possible:
-			possible_path.append(remaining_path[step_index])
-			step_index += 1
-		else:
-			remaining_path = possible_path.duplicate()
-			return
-	
 func display_path():
 	if remaining_path:
 		for i in remaining_path.size():
@@ -181,6 +166,7 @@ func display_path():
 
 func show_hero():
 	$hero.visible = true
+	current_phase = phase.WAITING
 	$spawn_indicator.queue_free()
 	
 

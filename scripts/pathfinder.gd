@@ -10,14 +10,16 @@ func find_shortest_paths(start_pos, grid):
 	var possible_paths = find_all_paths(start_pos, grid)
 	var treasure_path = find_shortest_treasure_path(possible_paths)
 	var monster_path = find_shortest_monster_path(possible_paths)
-	var random_path = possible_paths[randi() % possible_paths.size()]
+	if possible_paths:
+		var random_path = possible_paths[randi() % possible_paths.size()]
+		shortest_paths["random"] = random_path
+	else:
+		shortest_paths["random"] = []
 	
 	if treasure_path != []:
 		shortest_paths["treasure"] = treasure_path
 	if monster_path != []:
 		shortest_paths["monster"] = monster_path
-		
-	shortest_paths["random"] = random_path
 	
 	return shortest_paths
 	
