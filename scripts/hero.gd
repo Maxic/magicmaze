@@ -9,7 +9,7 @@ var type
 var remaining_path : Array
 enum phase {WAITING, MOVING, DONE}
 var current_phase
-enum intent {NOTHING, PICK_UP, ATTACKING}
+enum intent {WANDERING, PILLAGING, ATTACKING}
 var current_intent
 var current_pos
 var new_pos
@@ -69,7 +69,7 @@ func check_for_objects():
 	# If there is a treasure on the tile
 	# Pick it up
 	var treasure = tile.get_treasure()
-	if treasure and current_intent == intent.PICK_UP:
+	if treasure and current_intent == intent.PILLAGING:
 		treasure.picked_up()
 	# If there is a treasure on the tile
 	# Kill it when attacking, otherwise, die.
@@ -99,7 +99,7 @@ func move_along_path(path_arr):
 func set_intent_and_path(paths):
 	if paths.has("treasure"):
 		self.remaining_path = paths["treasure"]
-		self.current_intent = intent.PICK_UP
+		self.current_intent = intent.PILLAGING
 		# If there is a monster in the path, 
 		# attack that monster instead of going for the treasure
 		if paths.has("monster"):
@@ -113,8 +113,8 @@ func set_intent_and_path(paths):
 		self.remaining_path = paths["monster"]
 		self.current_intent = intent.ATTACKING
 	else:
-		self.remaining_path = [Vector2(self.x, self.y)]
-		self.current_intent = intent.NOTHING
+		self.remaining_path = paths["random"]
+		self.current_intent = intent.WANDERING
 	
 func recalculate_best_path():
 	var possible_path = []

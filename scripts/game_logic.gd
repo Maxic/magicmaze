@@ -29,6 +29,10 @@ var monster_array
 # Nodes
 onready var main = get_node("/root/main")
 
+#scenes
+var hightlight_cube = load("res://scenes/highlight_cube.tscn")
+var hightlight_cube_inst
+
 func reset():
 	# Reset all our vars
 	grid_dimension = 5
@@ -63,10 +67,15 @@ func _ready():
 	
 	# Create initial grid
 	Grid.create_grid(grid_dimension)
+	hightlight_cube_inst = hightlight_cube.instance()
+	main.add_child(hightlight_cube_inst)
+	hightlight_cube_inst.visible = false
+	
+	
 	
 	# Populate grid with objects
 	spawn_treasures()
-	spawn_heroes()
+	spawn_heroes(hero_amount)
 	
 	# Start phase loop with hero intention phase
 	current_phase = phase.INITIAL
@@ -115,6 +124,7 @@ func _physics_process(_delta):
 		# movement is handled in grid code
 		if end_player_phase:
 			EventManager.hero_action_phase_msg()
+			show_heroes()
 			
 			# Calculate new paths again with new grid
 			remove_move_indicator_paths()
@@ -127,7 +137,8 @@ func _physics_process(_delta):
 			current_phase = phase.HERO_ACTION
 			return
 			
-#####~~  THIRD PHASE, ENEMY ACTION ~~#####	
+#####~~  THIRD PHASE, ENEMY ACTION ~~#####
+	
 	if current_phase == phase.HERO_ACTION:
 		# If there are no heroes, stop this phase.
 		if !hero_array:
@@ -146,11 +157,13 @@ func _physics_process(_delta):
 		# Phase is over, setup stuff for next phase
 		if end_hero_action_phase:
 			remove_move_indicator_paths()
-			if turn != turn_amount:
+			spawn_heroes((randi() % 1)+1)
+			if turn != 1:
 				current_phase = phase.HERO_INTENTION
 				return
 			else:
 				victory = true
+				EventManager.victory_msg()
 			
 func remove_object_from_tile(object,object_x,object_y):
 	var tile = Grid.grid[object_y][object_x]
@@ -197,7 +210,7 @@ func check_for_player_victory():
 		EventManager.victory_msg()
 		victory = true
 
-func spawn_heroes():
+func spawn_heroes(amount):
 	# Generate array of tiles on the edge of the grid
 	var edge_arr = []
 	for i in range(grid_dimension):
@@ -207,18 +220,19 @@ func spawn_heroes():
 		edge_arr.append(Vector2(i,grid_dimension-1))
 
 	# spawn hero in one the remaining tiles
-	for i in hero_amount:
+	for i in amount:
 		edge_arr.shuffle()
 		var hero = Hero.new(edge_arr[0].x,edge_arr[0].y)
 		edge_arr.remove(0)
 		hero_array.append(hero)
-		hero.turn_order = (i+1)
+		hero.turn_order = hero_array.find(hero)
 		main.add_child(hero)
 		
 	
 func show_heroes():
 	for hero in hero_array:
-		hero.show_hero()
+		if hero != hero.visible:	
+			hero.show_hero()
 	
 func spawn_treasures():
 	# Generate array of tiles _not_ on edge of grid
@@ -258,16 +272,16 @@ func highlight_tile(pos):
 			var tile = Grid.grid[pos.y][pos.x]
 			if Grid.highlighted_tile != tile:
 				if Grid.highlighted_tile:
-					Grid.highlighted_tile.scale = Vector3.ONE
-				tile.scale = Vector3.ONE * .90
+					hightlight_cube_inst.visible = true
+					hightlight_cube_inst.translation = Vector3(pos.x*2,1,pos.y*2)
 				Grid.highlighted_tile = tile
 		elif not Grid.highlighted_tile == null:
-			Grid.highlighted_tile.scale = Vector3.ONE
+			hightlight_cube_inst.visible = false
 			Grid.highlighted_tile = null		
 	else:
 		if not Grid.highlighted_tile == null:
-			Grid.highlighted_tile.scale = Vector3.ONE
-			Grid.highlighted_tile = null		
+			hightlight_cube_inst.visible = false
+			Grid.highlighted_tile = null	
 
 
 #for i in monster_amount:
