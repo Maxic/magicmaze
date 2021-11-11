@@ -1,0 +1,36 @@
+solidgoldideas.txt
+
+- Meta:
+	- Je bouwt door de hele run, aan je doolhof.
+	- Meer altars is meer enemies, bepaalde altars spawnen bepaalde enemies
+	- Je kunt meer bouwen, door meer heroes te slayen
+
+- Player phase uitbreiden:
+	- Goblins toevoegen aan het bord
+	- Extra skills voor goblin king, voor de default move:
+		- Turn outer rows clockwise
+		- Turn tile into lava tile
+		- Swap bonus tile instead of inserting 
+		- Rotate tile, of set of tiles
+		- Trap tile, heroes kun je trappen
+	- Meerdere movements van tile inserts
+	- Maze manipulation uitbreiden.
+	- Goblin king zelf op het bord (misschien na aantal turns)
+
+- Heroes:
+	- Meerdere typen heroes
+		- Thief, gaat altijd voor treasure, ook als omweg nodig is.
+		- Barb, gaat altijd voor fight, ook als omweg nodig is
+		- Ranger, kan goblins van afstand schieten maar pillaged niet (?)
+		- Builder, kan bruggen maken
+	- 'Lord' hero type (?) 
+	- 'Chosen one' hero type
+	- Fame increased door veel heroes te slayen
+
+- Treasures: 
+	- Is HP
+	- Kan heroes powers geven
+	- Kan jou powers ontnemen
+	- Bepaald goblin quota
+	- Bepaald hero spawn rate
+	- Verschillende types treasure, skills, altars, etc
