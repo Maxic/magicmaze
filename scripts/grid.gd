@@ -1,7 +1,7 @@
 extends Node
 
 # Grid must be square
-var GRID_DIMENSION
+var GRID_DIMENSION 
 var GRID_HEIGHT = GRID_DIMENSION
 var GRID_WIDTH = GRID_DIMENSION
 

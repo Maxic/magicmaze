@@ -8,7 +8,7 @@ var fade_out_time
 var show_for_time
 var active_element
 
-var match_element
+var ui_element
 var match_element_text
 
 var ui_action
@@ -19,54 +19,47 @@ onready var turn_text_label = $TopRightContainer/VBoxContainer/turn_text
 
 func _ready():
 	pass
-
-func _physics_process(delta):
 	
-	if ui_action:
-		active_element = match_element
-		t += delta
-		if fade_in == true:
-			active_element.modulate.a += fade_in_time
-			if active_element.modulate.a >= 1:
-				active_element.modulate.a = 1
-				fade_in = false
-		if show_for_time != -1:
-			if t >= show_for_time:
-				if fade_out:
-					active_element.modulate.a -= fade_out_time
-					if active_element.modulate.a <= 0:
-							active_element.modulate.a = 0
-							active_element.visible = false
-				else:		
-					active_element.visible = false
-						
-
-func set_ui_text(ui_element_name, ui_element_text):
-	match_element = find_ui_element(ui_element_name)
-	match_element.text = ui_element_text
-
-func fade_in_and_show_ui(ui_element_name, fade_time, show_time):
-	fade_in = true
-	fade_in_time = fade_time
-	show_for_time = show_time
-	match_element.modulate.a = 0
-	match_element.visible = true
-	ui_action = true
-
-
-func fade_out_and_hide_ui(ui_element_name, fade_time):
-	fade_out = true
-	fade_out_time = fade_time
 	
-func find_ui_element(ui_element_name):
-	t = 0.0
-	match ui_element_name:
-		
-		"phase_text":
-			match_element = phase_text_label
-		"result_text":
-			match_element = result_text_label
-		"turn_text":
-			match_element = turn_text_label
-			
-	return match_element
+# 	UI.set_ui_text("name of UI node","text to be displayed")
+#	UI.fade_in_and_show_ui("name of UI node",alpha added per frame until the value is 1, total display time)
+#	UI.fade_out_and_hide_ui("name of UI node",alpha substracted per frame until value is 0)
+
+	
+func victory_msg():
+	result_text_label.set_ui_text("Victory!")
+	result_text_label.fade_in_and_show_ui(0.01,-1)
+	result_text_label.ui_action = true
+
+func your_are_dead_msg():
+	result_text_label.set_ui_text("You are dead")
+	result_text_label.fade_in_and_show_ui(0.01,-1)
+	result_text_label.ui_action = true
+
+func hero_intention_phase_msg():
+	phase_text_label.set_ui_text("The Heroes plan..")
+	phase_text_label.fade_in_and_show_ui(0.1,3)
+	phase_text_label.fade_out_and_hide_ui(0.05)
+	phase_text_label.ui_action = true
+
+func player_phase_msg():
+	phase_text_label.set_ui_text("It's your turn")
+	phase_text_label.fade_in_and_show_ui(0.1,2)
+	phase_text_label.fade_out_and_hide_ui(0.05)
+	phase_text_label.ui_action = true
+	
+func hero_action_phase_msg():
+	phase_text_label.set_ui_text("The Heroes move!")
+	phase_text_label.fade_in_and_show_ui(0.1,2)
+	phase_text_label.fade_out_and_hide_ui(0.05)
+	phase_text_label.ui_action = true
+	
+func set_turn_timer(turn):
+	turn_text_label.set_ui_text(("Turn: " + str(turn)))
+	turn_text_label.fade_in_and_show_ui(0.01,-1)
+	turn_text_label.ui_action = true
+
+
+	
+
+

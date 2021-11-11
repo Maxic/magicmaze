@@ -8,33 +8,22 @@ func _ready():
 func reset():
 	UI = get_node("/root/main/UI")
 
-# 	UI.set_ui_text("name of UI node","text to be displayed")
-#	UI.fade_in_and_show_ui("name of UI node",alpha added per frame until the value is 1, total display time)
-#	UI.fade_out_and_hide_ui("name of UI node",alpha substracted per frame until value is 0)
 
 func victory_msg():
-	UI.set_ui_text("result_text","Victory!")
-	UI.fade_in_and_show_ui("result_text",0.01,-1)
+	UI.victory_msg()
 
 func your_are_dead_msg():
-	UI.set_ui_text("result_text","You are dead")
-	UI.fade_in_and_show_ui("result_text",0.01,-1)
+	UI.your_are_dead_msg()
 
 func hero_intention_phase_msg():
-	UI.set_ui_text("phase_text","The Heroes plan..")
-	UI.fade_in_and_show_ui("phase_text",0.1,3)
-	UI.fade_out_and_hide_ui("phase_text",0.05)
+	UI.hero_intention_phase_msg()
 
 func player_phase_msg():
-	UI.set_ui_text("phase_text","It's your turn")
-	UI.fade_in_and_show_ui("phase_text",0.1,2)
-	UI.fade_out_and_hide_ui("phase_text",0.05)
+	UI.player_phase_msg()
 	
 func hero_action_phase_msg():
-	UI.set_ui_text("phase_text","The Heroes move!")
-	UI.fade_in_and_show_ui("phase_text",0.1,2)
-	UI.fade_out_and_hide_ui("phase_text",0.05)
+	UI.hero_action_phase_msg()
 	
 func set_turn_timer(turn):
-	UI.set_ui_text("turn_text",("Turn: " + str(turn)))
-	UI.fade_in_and_show_ui("turn_text",0.01,-1)
+	UI.set_turn_timer(turn)
+

@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://assets/fonts/devilsummonerexpand.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://scripts/UI.gd" type="Script" id=2]
+[ext_resource path="res://scripts/ui_element.gd" type="Script" id=3]
 
 [sub_resource type="DynamicFont" id=1]
 size = 48
@@ -31,16 +32,17 @@ __meta__ = {
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="TopRightContainer"]
-margin_bottom = 580.0
+margin_bottom = 460.0
 
 [node name="turn_text" type="Label" parent="TopRightContainer/VBoxContainer"]
 visible = false
-margin_right = 98.0
+margin_right = 58.0
 margin_bottom = 45.0
 custom_fonts/font = SubResource( 1 )
 custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 text = "test"
+script = ExtResource( 3 )
 
 [node name="TopWideContainer" type="MarginContainer" parent="."]
 anchor_right = 1.0
@@ -50,7 +52,7 @@ __meta__ = {
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="TopWideContainer"]
-margin_right = 1004.0
+margin_right = 620.0
 margin_bottom = 14.0
 
 [node name="phase_text" type="Label" parent="TopWideContainer/VBoxContainer"]
@@ -62,6 +64,7 @@ custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 text = "test"
 align = 1
+script = ExtResource( 3 )
 
 [node name="CenterWideContainer" type="MarginContainer" parent="."]
 anchor_top = 0.5
@@ -72,7 +75,7 @@ __meta__ = {
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CenterWideContainer"]
-margin_right = 1004.0
+margin_right = 620.0
 
 [node name="victory_text" type="Label" parent="CenterWideContainer/VBoxContainer"]
 visible = false
@@ -83,3 +86,4 @@ custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 text = "Victory!"
 align = 1
+script = ExtResource( 3 )
