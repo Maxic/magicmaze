@@ -7,7 +7,7 @@ var grid_dimension
 var hero_amount
 var max_total_hero_amount
 var min_hero_on_grid_amount
-var 	max_hero_on_grid_amount
+var max_hero_on_grid_amount
 var treasure_amount
 var monster_amount
 var turn_amount
@@ -230,7 +230,7 @@ func spawn_heroes():
 	if hero_array.size() < min_hero_on_grid_amount:
 		heroes_added = min_hero_on_grid_amount - hero_array.size()
 	elif hero_array.size() <= max_hero_on_grid_amount:
-		heroes_added = (randi() % 1)+1
+		heroes_added = (randi() % 1)
 	
 	max_total_hero_amount -= heroes_added
 
@@ -296,10 +296,3 @@ func highlight_tile(pos):
 		if not Grid.highlighted_tile == null:
 			hightlight_cube_inst.visible = false
 			Grid.highlighted_tile = null	
-
-
-#for i in monster_amount:
-#		var monster = Monster.new(inner_arr[0].x,inner_arr[0].y, "goblin")
-#		inner_arr.remove(0)
-#		monster_array.append(monster)
-#		main.add_child(monster)
