@@ -39,7 +39,7 @@ var hightlight_cube_inst
 func reset():
 	# Reset all our vars
 	grid_dimension = 5
-	min_hero_on_grid_amount =  3
+	min_hero_on_grid_amount =  2
 	max_hero_on_grid_amount = 6
 	max_total_hero_amount = 7
 	treasure_amount = 2
@@ -228,7 +228,7 @@ func spawn_heroes():
 	# spawn heroes in the remaining tiles, amount based on config
 	var heroes_added = 0
 	if hero_array.size() < min_hero_on_grid_amount:
-		heroes_added = min_hero_on_grid_amount
+		heroes_added = min_hero_on_grid_amount - hero_array.size()
 	elif hero_array.size() <= max_hero_on_grid_amount:
 		heroes_added = (randi() % 1)+1
 	
