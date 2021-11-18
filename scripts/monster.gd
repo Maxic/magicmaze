@@ -8,7 +8,7 @@ var vec_pos
 var type
 var sprite
 
-var goblin_sprite = preload("res://scenes/goblin_sprite.tscn")
+var goblin_model = preload("res://scenes/goblin_model.tscn")
 
 func _init(x_pos, y_pos, monster_type):
 	self.x = x_pos
@@ -40,7 +40,7 @@ func update_pos(x_pos, y_pos):
 func set_type_and_properties(monster_type):
 	match monster_type:
 		"goblin":
-			sprite = goblin_sprite.instance()
+			sprite = goblin_model.instance()
 		_:
 			sprite = null	
 func die():

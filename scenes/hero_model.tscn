@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://scenes/goblin_elite.tscn" type="PackedScene" id=1]
+
+[node name="hero" type="Spatial"]
+
+[node name="model" parent="." instance=ExtResource( 1 )]
+transform = Transform( -0.4, 0, -3.49691e-08, 0, 0.4, 0, 3.49691e-08, 0, -0.4, 0, 0.5, 0 )

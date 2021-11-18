@@ -14,8 +14,9 @@ var current_intent
 var current_pos
 var new_pos
 var turn_order
+var sprite
 
-var hero_sprite = preload("res://scenes/hero_sprite.tscn")
+var hero_model = preload("res://scenes/hero_model.tscn")
 var move_indicator_scene = preload("res://scenes/move_indicator.tscn")
 var move_indicator_static_scene = preload("res://scenes/move_indicator_static.tscn")
 var hero_stats = preload("res://scenes/hero_stats.tscn")
@@ -33,7 +34,7 @@ func _init(x_pos, y_pos):
 	add_to_group("heroes")
 	
 	# Initialize self in world
-	var sprite = hero_sprite.instance()
+	var sprite = hero_model.instance()
 	sprite.visible = false
 	add_child(sprite)
 	GameLogic.add_object_to_tile(self, x, y)

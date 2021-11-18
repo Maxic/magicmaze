@@ -2,12 +2,12 @@
 
 importer="scene"
 type="PackedScene"
-path="res://.import/brick_cube.glb-813e67b85cb2748999d2fcfce43d159a.scn"
+path="res://.import/goblin_elite.glb-2e9a5f68b7e72275ed59ad15064fb612.scn"
 
 [deps]
 
-source_file="res://assets/blend_files/brick_cube.glb"
-dest_files=[ "res://.import/brick_cube.glb-813e67b85cb2748999d2fcfce43d159a.scn" ]
+source_file="res://assets/blend_files/goblin_elite.glb"
+dest_files=[ "res://.import/goblin_elite.glb-2e9a5f68b7e72275ed59ad15064fb612.scn" ]
 
 [params]
 
@@ -20,7 +20,6 @@ nodes/use_legacy_names=false
 materials/location=1
 materials/storage=1
 materials/keep_on_reimport=true
-meshes/octahedral_compression=true
 meshes/compress=true
 meshes/ensure_tangents=true
 meshes/storage=0
