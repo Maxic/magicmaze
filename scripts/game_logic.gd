@@ -39,7 +39,7 @@ var hightlight_cube_inst
 func reset():
 	# Reset all our vars
 	grid_dimension = 5
-	min_hero_on_grid_amount =  2
+	min_hero_on_grid_amount =  4
 	max_hero_on_grid_amount = 6
 	max_total_hero_amount = 7
 	treasure_amount = 2
