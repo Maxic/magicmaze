@@ -27,3 +27,5 @@ func hero_action_phase_msg():
 func set_turn_timer(turn):
 	UI.set_turn_timer(turn)
 
+func update_gold_amount():
+	UI.update_gold_amount()

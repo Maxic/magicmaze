@@ -15,12 +15,14 @@ var current_pos
 var new_pos
 var turn_order
 var sprite
+var gold_worth
 
 var hero_model = preload("res://scenes/hero_model.tscn")
 var move_indicator_scene = preload("res://scenes/move_indicator.tscn")
 var move_indicator_static_scene = preload("res://scenes/move_indicator_static.tscn")
 var hero_stats = preload("res://scenes/hero_stats.tscn")
 var spawn_indicator_scene = preload("res://scenes/spawn_indicator.tscn")
+var spawn_effect_particles = preload("res://scenes/spawn_effect_particles2.tscn")
 
 func _init(x_pos, y_pos):
 	# Move to correct position and set position params
@@ -38,6 +40,7 @@ func _init(x_pos, y_pos):
 	sprite.visible = false
 	add_child(sprite)
 	GameLogic.add_object_to_tile(self, x, y)
+	gold_worth = 200
 	
 	# When just spawned, show indicator, but not hero itself
 
@@ -162,17 +165,24 @@ func display_path():
 
 			if current_intent == intent.ATTACKING:
 				move_indicator.set_color_red()
+			if current_intent == intent.WANDERING:
+				move_indicator.set_color_green()
 			move_indicator.add_to_group("move_indicators")
 			get_parent().add_child(move_indicator)
 
 func show_hero():
 	$hero.visible = true
 	current_phase = phase.WAITING
+	var spawn_effect_particles_inst = spawn_effect_particles.instance()
+	$hero.add_child(spawn_effect_particles_inst)
+	spawn_effect_particles_inst.emitting = true
 	$spawn_indicator.queue_free()
 	
 
 func die():
 	GameLogic.remove_hero(self)
+	GameLogic.gold += gold_worth
+	EventManager.update_gold_amount()
 	queue_free()
 
 func get_class(): return CLASS_NAME

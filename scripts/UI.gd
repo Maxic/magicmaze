@@ -16,6 +16,7 @@ var ui_action
 onready var phase_text_label = $TopWideContainer/VBoxContainer/phase_text
 onready var result_text_label = $CenterWideContainer/VBoxContainer/victory_text
 onready var turn_text_label = $TopRightContainer/VBoxContainer/turn_text
+onready var gold_text_label = $TopLeftContainer/VBoxContainer/gold_text
 
 func _ready():
 	pass
@@ -59,7 +60,10 @@ func set_turn_timer(turn):
 	turn_text_label.fade_in_and_show_ui(0.01,-1)
 	turn_text_label.ui_action = true
 
-
+func update_gold_amount():
+	gold_text_label.set_ui_text(("Gold: " + str(GameLogic.gold)))
+	gold_text_label.fade_in_and_show_ui(0.01,-1)
+	gold_text_label.ui_action = true
 	
 
 

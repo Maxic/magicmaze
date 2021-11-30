@@ -14,6 +14,7 @@ var turn_amount
 var hp
 
 # State vars
+var gold
 var current_phase
 var end_player_phase
 var end_hero_action_phase
@@ -39,13 +40,14 @@ var hightlight_cube_inst
 func reset():
 	# Reset all our vars
 	grid_dimension = 5
-	min_hero_on_grid_amount =  4
+	min_hero_on_grid_amount =  2
 	max_hero_on_grid_amount = 6
 	max_total_hero_amount = 7
 	treasure_amount = 2
 	monster_amount = 2
 	turn_amount = 6
 	hp = treasure_amount
+	gold = 100 * treasure_amount
 
 	end_player_phase = false
 	end_hero_action_phase = false
@@ -101,6 +103,7 @@ func _physics_process(_delta):
 #####~~  INITIAL PHASE, SPAWN TREASURES, PLACE GOBLINS, SPAWN HEROES ~~#####
 	if current_phase == phase.INITIAL:
 		spawn_goblins()
+		EventManager.update_gold_amount()
 		if monster_array.size() == monster_amount:
 			end_initial_phase = true
 		if end_initial_phase:
@@ -230,7 +233,9 @@ func spawn_heroes():
 	if hero_array.size() < min_hero_on_grid_amount:
 		heroes_added = min_hero_on_grid_amount - hero_array.size()
 	elif hero_array.size() <= max_hero_on_grid_amount:
-		heroes_added = (randi() % 1)
+		heroes_added = ((randi() % 2)+1)
+	
+	print(heroes_added)
 	
 	max_total_hero_amount -= heroes_added
 
