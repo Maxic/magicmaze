@@ -5,8 +5,10 @@
 
 [sub_resource type="Environment" id=1]
 background_mode = 1
-background_color = Color( 0.247059, 0.184314, 0.247059, 1 )
-ambient_light_color = Color( 0.0862745, 0.0745098, 0.027451, 1 )
+background_color = Color( 0.52549, 0.341176, 0.52549, 1 )
+background_energy = 0.1
+ambient_light_color = Color( 1, 1, 1, 1 )
+ambient_light_energy = 0.2
 auto_exposure_scale = 0.3
 auto_exposure_max_luma = 1.0
 glow_enabled = true
