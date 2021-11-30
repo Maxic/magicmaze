@@ -20,9 +20,14 @@ var type_arr = [
 	"t_path"
 	]
 
+# variables for the random distribution of tiles
+var total_weight
+var types_dict = {}
+
 var static_pos_arr = []
 var indicator_index = 0
 var highlighted_tile = null
+
 
 func reset():
 	for tile in get_tree().get_nodes_in_group("tiles"):
@@ -38,17 +43,22 @@ func create_grid(dimension):
 	# Initialize grid with 0's
 	initialize_grid()
 	
+	# Initialize types dictionary
+	types_dict["cross"] = 		[0.5, 0.0]
+	types_dict["straight"] = 	[0.2, 0.0]
+	types_dict["corner"] = 		[0.0, 0.0]
+	types_dict["t_path"] = 		[0.2, 0.0]
+	init_probabilities(types_dict)
+	
 	# Fill grid with actual tiles
 	for y in range(GRID_HEIGHT):
 		for x in range(GRID_WIDTH):
-			type_arr.shuffle()
-			var tile = Tile.new(x,y, type_arr[0])
+			var tile = Tile.new(x,y, pick_some_object(types_dict))
 			# apply random rotation to tiles
 			for i in randi()%4:
 				tile.rotate_clockwise()
 			add_child(tile)
 			grid[y][x] = tile
-		# TODO: Yoink weight system from seagull to distribute tiles
 	
 	# Create static position array for indicator block
 	static_pos_arr = create_indicator_pos_arr()
@@ -148,3 +158,21 @@ func create_indicator_pos_arr():
 	for i in range(GRID_WIDTH-1,-1,-1):
 		pos_arr.append(Vector2(i, GRID_WIDTH))
 	return pos_arr
+
+func init_probabilities(object_types) -> void:
+	# Reset total_weight to make sure it holds the correct value after initialization
+	total_weight = 0.0
+	# Iterate through the objects
+	for obj_type in object_types.values():
+		# Take current object weight and accumulate it
+		total_weight += obj_type[0]
+		# Take current sum and assign to the object.
+		obj_type[1] = total_weight
+
+func pick_some_object(object_types):
+	# Roll the number
+	var roll: float = rand_range(0.0, total_weight)
+	# Now search for the first with acc_weight > roll
+	for obj_type in object_types:
+		if (object_types[obj_type][1] > roll):
+			return obj_type
