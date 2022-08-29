@@ -2,40 +2,40 @@
 
 [ext_resource path="res://assets/cstone2.jpeg" type="Texture" id=1]
 
-[sub_resource type="VisualShaderNodeTexture" id=36]
+[sub_resource type="VisualShaderNodeTexture" id=1]
 texture = ExtResource( 1 )
 
-[sub_resource type="VisualShaderNodeInput" id=37]
+[sub_resource type="VisualShaderNodeInput" id=2]
 input_name = "vertex"
 
-[sub_resource type="VisualShaderNodeTransformVecMult" id=38]
+[sub_resource type="VisualShaderNodeTransformVecMult" id=3]
 
-[sub_resource type="VisualShaderNodeTransformConstant" id=39]
+[sub_resource type="VisualShaderNodeTransformConstant" id=4]
 constant = Transform( 1, 0.707, 0, -0.707, 1, 0, 0, 0, 0, 0, 0, 0 )
 
-[sub_resource type="VisualShaderNodeVectorInterp" id=40]
+[sub_resource type="VisualShaderNodeVectorInterp" id=5]
 
-[sub_resource type="VisualShaderNodeVectorDecompose" id=41]
+[sub_resource type="VisualShaderNodeVectorDecompose" id=6]
 
-[sub_resource type="VisualShaderNodeInput" id=44]
+[sub_resource type="VisualShaderNodeInput" id=7]
 input_name = "vertex"
 
-[sub_resource type="VisualShaderNodeTransformVecMult" id=45]
+[sub_resource type="VisualShaderNodeTransformVecMult" id=8]
 
-[sub_resource type="VisualShaderNodeInput" id=46]
+[sub_resource type="VisualShaderNodeInput" id=9]
 input_name = "camera"
 
-[sub_resource type="VisualShaderNodeScalarOp" id=47]
+[sub_resource type="VisualShaderNodeScalarOp" id=10]
 default_input_values = [ 0, 0.0, 1, 4.0 ]
 operator = 2
 
-[sub_resource type="VisualShaderNodeInput" id=49]
+[sub_resource type="VisualShaderNodeInput" id=11]
 input_name = "time"
 
-[sub_resource type="VisualShaderNodeScalarFunc" id=53]
+[sub_resource type="VisualShaderNodeScalarFunc" id=12]
 function = 0
 
-[sub_resource type="VisualShaderNodeColorConstant" id=54]
+[sub_resource type="VisualShaderNodeColorConstant" id=13]
 constant = Color( 0.32549, 0.0745374, 0, 1 )
 
 [resource]
@@ -104,30 +104,30 @@ void light() {
 graph_offset = Vector2( 350.324, 85.7707 )
 modes/specular = 4
 nodes/fragment/0/position = Vector2( 1460, 380 )
-nodes/fragment/53/node = SubResource( 36 )
+nodes/fragment/53/node = SubResource( 1 )
 nodes/fragment/53/position = Vector2( 786.304, 797.024 )
-nodes/fragment/54/node = SubResource( 37 )
+nodes/fragment/54/node = SubResource( 2 )
 nodes/fragment/54/position = Vector2( 340, 1100 )
-nodes/fragment/55/node = SubResource( 38 )
+nodes/fragment/55/node = SubResource( 3 )
 nodes/fragment/55/position = Vector2( 466.304, 857.024 )
-nodes/fragment/56/node = SubResource( 39 )
+nodes/fragment/56/node = SubResource( 4 )
 nodes/fragment/56/position = Vector2( 106.304, 817.024 )
-nodes/fragment/57/node = SubResource( 40 )
+nodes/fragment/57/node = SubResource( 5 )
 nodes/fragment/57/position = Vector2( 1260, 380 )
-nodes/fragment/58/node = SubResource( 41 )
+nodes/fragment/58/node = SubResource( 6 )
 nodes/fragment/58/position = Vector2( 440, 480 )
-nodes/fragment/61/node = SubResource( 44 )
+nodes/fragment/61/node = SubResource( 7 )
 nodes/fragment/61/position = Vector2( 120, 560 )
-nodes/fragment/62/node = SubResource( 45 )
+nodes/fragment/62/node = SubResource( 8 )
 nodes/fragment/62/position = Vector2( 260, 300 )
-nodes/fragment/64/node = SubResource( 46 )
+nodes/fragment/64/node = SubResource( 9 )
 nodes/fragment/64/position = Vector2( -60, 280 )
-nodes/fragment/65/node = SubResource( 47 )
+nodes/fragment/65/node = SubResource( 10 )
 nodes/fragment/65/position = Vector2( 800, 480 )
-nodes/fragment/67/node = SubResource( 49 )
+nodes/fragment/67/node = SubResource( 11 )
 nodes/fragment/67/position = Vector2( 20, 140 )
-nodes/fragment/69/node = SubResource( 53 )
+nodes/fragment/69/node = SubResource( 12 )
 nodes/fragment/69/position = Vector2( 200, 140 )
-nodes/fragment/72/node = SubResource( 54 )
+nodes/fragment/72/node = SubResource( 13 )
 nodes/fragment/72/position = Vector2( 960, 260 )
 nodes/fragment/connections = PoolIntArray( 55, 0, 53, 0, 54, 0, 55, 1, 56, 0, 55, 0, 57, 0, 0, 0, 61, 0, 62, 1, 62, 0, 58, 0, 64, 0, 62, 0, 58, 1, 65, 0, 65, 0, 57, 2, 53, 0, 57, 1, 67, 0, 69, 0, 72, 0, 57, 0 )
