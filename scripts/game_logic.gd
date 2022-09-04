@@ -40,11 +40,11 @@ var hightlight_cube_inst
 func reset():
 	# Reset all our vars
 	grid_dimension = 5
-	min_hero_on_grid_amount =  2
-	max_hero_on_grid_amount = 6
-	max_total_hero_amount = 7
-	treasure_amount = 2
-	monster_amount = 2
+	min_hero_on_grid_amount =  1
+	max_hero_on_grid_amount = 1
+	max_total_hero_amount = 1
+	treasure_amount = 1
+	monster_amount = 1
 	turn_amount = 6
 	hp = treasure_amount
 	gold = 100 * treasure_amount
@@ -128,15 +128,15 @@ func _physics_process(_delta):
 		current_phase = phase.PLAYER_PHASE
 		return
 			
-#####~~  SECOND PHASE, PLAYER MOVEMENT ~~#####
+#####~~  SECOND PHASE, PLAYER MANIPULATES GRID ~~#####
 	if current_phase == phase.PLAYER_PHASE:
 		# movement is handled in grid code
 		if end_player_phase:
 			EventManager.hero_action_phase_msg()
 			show_heroes()
 			
-			# Calculate new paths again with new grid
 			remove_move_indicator_paths()
+			
 			for hero in hero_array:
 				#var paths = Pathfinder.find_all_paths(hero.vec_pos, Grid.update_grid()).duplicate()
 				#hero.pick_best_path(paths)
@@ -231,13 +231,14 @@ func spawn_heroes():
 	# spawn heroes in the remaining tiles, amount based on config
 	var heroes_added = 0
 	if hero_array.size() < min_hero_on_grid_amount:
+		print("hero array size",hero_array.size())
 		heroes_added = min_hero_on_grid_amount - hero_array.size()
 	elif hero_array.size() <= max_hero_on_grid_amount:
 		heroes_added = ((randi() % 2)+1)
 	
 	print(heroes_added)
 	
-	max_total_hero_amount -= heroes_added
+	
 
 	if max_total_hero_amount > 0: 
 		for i in heroes_added:
@@ -247,6 +248,7 @@ func spawn_heroes():
 			hero_array.append(hero)
 			hero.turn_order = hero_array.find(hero)
 			main.add_child(hero)
+			max_total_hero_amount -= heroes_added
 
 func show_heroes():
 	for hero in hero_array:

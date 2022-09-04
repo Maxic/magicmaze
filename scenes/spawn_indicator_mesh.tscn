@@ -2,7 +2,7 @@
 
 [ext_resource path="res://assets/spawn_indicator_mesh.tres" type="ArrayMesh" id=1]
 
-[sub_resource type="Shader" id=3]
+[sub_resource type="Shader" id=1]
 code = "shader_type spatial;
 
 float pulse(float x){
@@ -22,7 +22,7 @@ void fragment() {
 "
 
 [sub_resource type="ShaderMaterial" id=2]
-shader = SubResource( 3 )
+shader = SubResource( 1 )
 
 [node name="spawn_indicator" type="MeshInstance"]
 mesh = ExtResource( 1 )

@@ -7,7 +7,7 @@ var y
 var vec_pos
 var type
 
-var treasure_sprite = preload("res://scenes/treasure_sprite.tscn")
+var treasure_sprite = preload("res://scenes/chest.tscn")
 
 func _init(x_pos, y_pos):
 	self.x = x_pos

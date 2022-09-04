@@ -11,6 +11,7 @@ var indicator_tile
 
 # We keep track of past grid states by saving hem in this array
 var grid_states = []
+var prev_grid = []
 
 # These are the types of tiles the grid consists of, in various rotations
 var type_arr = [
@@ -27,6 +28,7 @@ var types_dict = {}
 var static_pos_arr = []
 var indicator_index = 0
 var highlighted_tile = null
+var preview_grid = false
 
 
 func reset():
@@ -80,29 +82,45 @@ func initialize_grid():
 
 func _physics_process(_delta):
 	if GameLogic.current_phase == GameLogic.phase.PLAYER_PHASE:
-		if Input.is_action_just_pressed("accept_indicator"):
-			if indicator_tile.x == -1 || indicator_tile.x == GRID_WIDTH:
-				move_row_horizontal(indicator_tile.y, indicator_tile.x == -1)
-			if indicator_tile.y == -1 || indicator_tile.y == GRID_HEIGHT:
-				move_row_vertical(indicator_tile.x, indicator_tile.y == GRID_HEIGHT)
-			GameLogic.end_player_phase = true
-			return
-		if Input.is_action_just_pressed("move_indicator_right"):
-			indicator_index += 1
-			var indicator_pos = static_pos_arr[indicator_index % (GRID_WIDTH*4)]
-			indicator_tile.move_to_pos(indicator_pos.x, indicator_pos.y)
-			indicator_tile.update_object_positions()
-		if Input.is_action_just_pressed("move_indicator_left"):
-			indicator_index -= 1
-			var indicator_pos = static_pos_arr[indicator_index % (GRID_WIDTH*4)]
-			indicator_tile.move_to_pos(indicator_pos.x, indicator_pos.y)
-			indicator_tile.update_object_positions()
-		if Input.is_action_just_pressed("turn_indicator_clockwise"):
-			indicator_tile.rotate_clockwise()
-		if Input.is_action_just_pressed("turn_indicator_counterclockwise"):
-			indicator_tile.rotate_clockwise()
-			indicator_tile.rotate_clockwise()
-			indicator_tile.rotate_clockwise()
+		# see if a change to the grid was already made
+		if !preview_grid:
+			if Input.is_action_just_pressed("accept_indicator"):
+				
+				if indicator_tile.x == -1 || indicator_tile.x == GRID_WIDTH:
+					move_row_horizontal(indicator_tile.y, indicator_tile.x == -1)
+				if indicator_tile.y == -1 || indicator_tile.y == GRID_HEIGHT:
+					move_row_vertical(indicator_tile.x, indicator_tile.y == GRID_HEIGHT)
+				preview_grid = true
+		# a change was made to the grid
+		if preview_grid:
+			if Input.is_action_just_pressed("confirm_indicator"):
+				preview_grid = false
+				GameLogic.end_player_phase = true
+				return
+			if Input.is_action_just_pressed("cancel_indicator"):
+				if indicator_tile.x == -1 || indicator_tile.x == GRID_WIDTH:
+					move_row_horizontal(indicator_tile.y, indicator_tile.x == -1)
+				if indicator_tile.y == -1 || indicator_tile.y == GRID_HEIGHT:
+					move_row_vertical(indicator_tile.x, indicator_tile.y == GRID_HEIGHT)
+				preview_grid = false
+					
+		if !preview_grid:
+			if Input.is_action_just_pressed("move_indicator_right"):
+				indicator_index += 1
+				var indicator_pos = static_pos_arr[indicator_index % (GRID_WIDTH*4)]
+				indicator_tile.move_to_pos(indicator_pos.x, indicator_pos.y)
+				indicator_tile.update_object_positions()
+			if Input.is_action_just_pressed("move_indicator_left"):
+				indicator_index -= 1
+				var indicator_pos = static_pos_arr[indicator_index % (GRID_WIDTH*4)]
+				indicator_tile.move_to_pos(indicator_pos.x, indicator_pos.y)
+				indicator_tile.update_object_positions()
+			if Input.is_action_just_pressed("turn_indicator_clockwise"):
+				indicator_tile.rotate_clockwise()
+			if Input.is_action_just_pressed("turn_indicator_counterclockwise"):
+				indicator_tile.rotate_clockwise()
+				indicator_tile.rotate_clockwise()
+				indicator_tile.rotate_clockwise()
 
 func move_row_horizontal(row, right):
 	# move all tiles in row
@@ -146,6 +164,7 @@ func update_grid():
 			indicator_tile.update_object_positions()
 	grid_states.append([grid, indicator_tile])
 	return grid
+
 
 func create_indicator_pos_arr():
 	var pos_arr = []

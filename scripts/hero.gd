@@ -44,20 +44,19 @@ func _init(x_pos, y_pos):
 	
 	# When just spawned, show indicator, but not hero itself
 
-	var spawn_indicator = spawn_indicator_scene.instance()
-	spawn_indicator.name = "spawn_indicator"
-	add_child(spawn_indicator)
-	current_phase = phase.SPAWNING
-	
 	var hero_stats_inst = hero_stats.instance()
+	hero_stats_inst.name = "hero_stats_ui"
 	add_child(hero_stats_inst)
+	current_phase = phase.SPAWNING
 
 func _physics_process(_delta):
 	if GameLogic.current_phase == GameLogic.phase.HERO_ACTION:
 		if current_phase == phase.MOVING:
 			if remaining_path:
 				move_along_path(remaining_path)
+				check_for_objects()
 			else:
+				check_for_objects()
 				self.current_phase = phase.DONE
 	
 func move_to_pos(x_pos, y_pos):
@@ -67,22 +66,25 @@ func move_to_pos(x_pos, y_pos):
 	self.y = y_pos
 	self.vec_pos = Vector2(x,y)
 	GameLogic.add_object_to_tile(self,x,y)
-	check_for_objects()
+	
 	
 func check_for_objects():
 	var tile = Grid.grid[y][x]
 	# If there is a treasure on the tile
 	# Pick it up
 	var treasure = tile.get_treasure()
-	if treasure and current_intent == intent.PILLAGING:
+	if treasure:
 		treasure.picked_up()
+		self.current_phase = phase.DONE
 	# If there is a treasure on the tile
 	# Kill it when attacking, otherwise, die.
 	var monster = tile.get_monster()
 	if monster:
 		if current_intent == intent.ATTACKING:
 			monster.die()
+			self.current_phase = phase.DONE
 		else:
+			monster.die()
 			die()
 	
 func update_pos(x_pos, y_pos):
@@ -126,15 +128,21 @@ func recalculate_best_path():
 	
 	if remaining_path == []:
 		return
-	#if moved, cancel path
+	
+	possible_path.append(remaining_path[0])
+	#if hero was moved, see if intended path is still possible
 	if x != remaining_path[0].x || y != remaining_path[0].y:
-		remaining_path = []
-	else:
-		possible_path.append(remaining_path[0])
-			
+		print("moved")
+		if Pathfinder.tiles_are_connected(Vector2(x,y), remaining_path[0], Grid.update_grid()):
+			print("path open")
+		else:
+			remaining_path = []
+			return
+		
 	for step_i in remaining_path.size()-1:
 		var current_step = remaining_path[step_i]
 		var next_step = remaining_path[step_i+1]
+
 		if Pathfinder.tiles_are_connected(current_step, next_step, Grid.update_grid()):
 			possible_path.append(remaining_path[step_i+1])
 		else:
@@ -176,7 +184,8 @@ func show_hero():
 	var spawn_effect_particles_inst = spawn_effect_particles.instance()
 	$hero.add_child(spawn_effect_particles_inst)
 	spawn_effect_particles_inst.emitting = true
-	$spawn_indicator.queue_free()
+	$hero_stats_ui/spawn_icon.visible = false
+	
 	
 
 func die():
