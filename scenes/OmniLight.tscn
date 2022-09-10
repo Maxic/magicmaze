@@ -1,0 +1,7 @@
+[gd_scene format=2]
+
+[node name="OmniLight" type="OmniLight"]
+transform = Transform( -0.767109, -3.25778e-07, -0.641517, -0.216863, -0.941129, 0.25932, -0.60375, 0.338048, 0.721949, 4, 4, 4 )
+light_color = Color( 1, 0.878431, 0.65098, 1 )
+shadow_enabled = true
+omni_attenuation = 0.615572
